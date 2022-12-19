@@ -72,3 +72,5 @@ crashlytics-build.properties
 /SPforCollAR/[Aa]ssets/[Ss]treamingAssets/aa/*
 
 /SPforCollAR/Output/*
+
+/SPforCollAR_clone_0/*
