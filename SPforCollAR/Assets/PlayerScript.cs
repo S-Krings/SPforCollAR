@@ -30,11 +30,14 @@ public class PlayerScript : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        Camera.main.transform.SetParent(transform);
-        Camera.main.transform.localPosition = new Vector3(0, 0, 0);
+        //Camera.main.transform.SetParent(transform);
+        //Camera.main.transform.localPosition = new Vector3(0, 0, 0);
+        //GameObject mainCamera = GameObject.Find("Main Camera");
+        this.gameObject.transform.SetParent(Camera.main.transform);
 
-        floatingInfo.transform.localPosition = new Vector3(0, -0.3f, 0.6f);
-        floatingInfo.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        //floatingInfo.transform.localPosition = new Vector3(0, 0.5f, 0.6f);
+        //floatingInfo.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+        floatingInfo.active = false;
 
         string name = "Player" + Random.Range(100, 999);
         Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
@@ -58,10 +61,10 @@ public class PlayerScript : NetworkBehaviour
             return;
         }
 
-        float moveX = Input.GetAxis("Horizontal") * Time.deltaTime * 110.0f;
-        float moveZ = Input.GetAxis("Vertical") * Time.deltaTime * 4f;
+        //float moveX = Input.GetAxis("Horizontal") * Time.deltaTime * 110.0f;
+        //float moveZ = Input.GetAxis("Vertical") * Time.deltaTime * 4f;
 
-        transform.Rotate(0, moveX, 0);
-        transform.Translate(0, 0, moveZ);
+        //transform.Rotate(0, moveX, 0);
+        //transform.Translate(0, 0, moveZ);
     }
 }
