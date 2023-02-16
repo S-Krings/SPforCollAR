@@ -33,11 +33,11 @@ public class PlayerScript : NetworkBehaviour
         //Camera.main.transform.SetParent(transform);
         //Camera.main.transform.localPosition = new Vector3(0, 0, 0);
         //GameObject mainCamera = GameObject.Find("Main Camera");
-        this.gameObject.transform.SetParent(Camera.main.transform);
+        //this.gameObject.transform.SetParent(Camera.main.transform);
 
         //floatingInfo.transform.localPosition = new Vector3(0, 0.5f, 0.6f);
         //floatingInfo.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-        floatingInfo.active = false;
+        floatingInfo.SetActive(false);
 
         string name = "Player" + Random.Range(100, 999);
         Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
@@ -66,5 +66,8 @@ public class PlayerScript : NetworkBehaviour
 
         //transform.Rotate(0, moveX, 0);
         //transform.Translate(0, 0, moveZ);
+        transform.rotation = Camera.main.transform.rotation;
+        transform.position = Camera.main.transform.position;
+
     }
 }
