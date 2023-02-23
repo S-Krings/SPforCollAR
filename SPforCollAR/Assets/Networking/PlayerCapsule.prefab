@@ -428,6 +428,7 @@ GameObject:
   - component: {fileID: 6779859942171307425}
   - component: {fileID: 6553645320200018159}
   - component: {fileID: 9041532920642607128}
+  - component: {fileID: 8146979859086771476}
   m_Layer: 0
   m_Name: PlayerCapsule
   m_TagString: Untagged
@@ -671,6 +672,22 @@ MonoBehaviour:
   hands:
   - {fileID: 3783785636194465096}
   - {fileID: 6166584453554527282}
+--- !u!114 &8146979859086771476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4853257705480999893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7a51b354b3bbccc4db89285b2ade34b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  objNetID: {fileID: 0}
 --- !u!1 &6166584453554527282
 GameObject:
   m_ObjectHideFlags: 0
