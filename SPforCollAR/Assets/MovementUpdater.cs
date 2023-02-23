@@ -5,61 +5,64 @@ using Mirror;
 
 public class MovementUpdater : NetworkBehaviour
 {
-    //[SyncVar(hook = nameof(TransformModified))]
-    //Transform transform;
 
-    public bool isMoved = false;
-    int counter = 0;
+    public bool isManipulated = false;
+    public PlayerScript player;
 
-    void TransformModified()
+    /*private void Start()
     {
-
-    }
+        if (!isServer)
+        {
+            this.GetComponent<NetworkTransform>().enabled = false;
+        }
+    }*/
 
     void Update()
     {
-        if (isMoved)
+        if (isManipulated)
         {
-            if (counter % 1 == 0)
-            {
-                counter = 0;
-                Debug.Log("Update: Moving, transform x:" + this.gameObject.transform.position.x + " y " + this.gameObject.transform.position.y + " z " + this.gameObject.transform.position.z);
-                CmdUpdatePosition(this.gameObject.transform.position, this.netIdentity);
-            }
+            //Debug.Log("Update: Moving, transform x:" + this.gameObject.transform.position.x + " y " + this.gameObject.transform.position.y + " z " + this.gameObject.transform.position.z);
+            CmdUpdatePosition(this.gameObject.transform.position, this.gameObject.transform.rotation, this.gameObject.transform.localScale, this.netIdentity, player);
         }
     }
     public void runUpdates()
     {
-        isMoved = true;
+        isManipulated = true;
     }
 
-    [Command (requiresAuthority = false)]
-    void CmdUpdatePosition(Vector3 t, NetworkIdentity id)
+    [Command(requiresAuthority = false)]
+    void CmdUpdatePosition(Vector3 position, Quaternion rotation, Vector3 scale, NetworkIdentity id, PlayerScript player)
     {
-        Debug.Log("CmdUpdatePosition, vector:" + t +
-            "Coords: x="+ t.x+ " y: "+ t.y+ " z: "+ t.z);
+        //TODO: here, we can check if client is allowed to do the change!!!
+        //Debug.Log("CmdUpdatePosition, vector:" + t + "Coords: x="+ position.x+ " y: "+ position.y+ " z: "+ position.z);
         GameObject g = id.gameObject;
-        g.transform.position = new Vector3(t.x,t.y,t.z);// t.x;
-        //g.transform.rotation = t.y;
-        //g.transform.localScale = t.z;
-        //g.transform.localScale = t.z;
-        Debug.Log("CmdUpdatePosition, new transform:" + g +
-            "Coords: x=" + g.transform.position.x + " y: " + g.transform.position.y + " z: " + g.transform.position.z);
-        RPCUpdateClientPos(t, id);
+        g.transform.position = position;
+        g.transform.rotation = rotation;
+        g.transform.localScale = scale;
+        //Debug.Log("CmdUpdatePosition, new transform:" + g + "Coords: x=" + g.transform.position.x + " y: " + g.transform.position.y + " z: " + g.transform.position.z);
+        RPCUpdateClientPos(position, rotation,scale, id, player);
     }
 
     [ClientRpc]
-    void RPCUpdateClientPos(Vector3 t, NetworkIdentity id)
+    void RPCUpdateClientPos(Vector3 position, Quaternion rotation, Vector3 scale, NetworkIdentity id, PlayerScript player)
     {
         GameObject g = id.gameObject;
-        Debug.Log("RPC, new vector:" + g +
-            "Coords: x=" + g.transform.position.x + " y: " + g.transform.position.y + " z: " + g.transform.position.z);
-        g.transform.position = new Vector3(t.x, t.y, t.z);
+        //Debug.Log("RPC, new vector:" + g + "Coords: x=" + g.transform.position.x + " y: " + g.transform.position.y + " z: " + g.transform.position.z);
+        //if (!this.player.Equals(player))
+        //{
+            g.transform.position = position;
+            g.transform.rotation = rotation;
+            g.transform.localScale = scale;
+        //}
+        /*else
+        {
+            Debug.Log("Do not correct position on player again");
+        }*/
     }
 
     public void stopUpdates()
     {
-        isMoved = false;
+        isManipulated = false;
     }
 
 }
