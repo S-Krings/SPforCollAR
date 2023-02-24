@@ -1,11 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public class DrawingScript : MonoBehaviour
+public class DrawingScript : NetworkBehaviour
 {
     public TrailRenderer trail;
     public SpawnNetworkedMRTKObject spawner;
+
+    public void convertToMesh()
+    {
+        Mesh mesh = trailToMesh();
+        spawner.CmdSpawnObject(3);
+        Debug.Log("LastSpawned in : "+ spawner.lastSpawned);
+        Debug.Log("LastSpawned in rawingScript: "+ spawner.lastSpawned);
+        CmdAddDrawing(mesh);
+    }
 
     public Mesh trailToMesh()
     {
@@ -14,14 +24,16 @@ public class DrawingScript : MonoBehaviour
         return mesh;
     }
 
-    public void AddDrawing(Mesh mesh)
+
+    public void CmdAddDrawing(Mesh mesh)
     {
-        spawner.CmdSpawnObject(4);
-        /*MeshFilter mf = go.GetComponent<MeshFilter>();
-        Debug.Log("Added Meshfilter");
+        GameObject go = spawner.lastSpawned;
+        MeshFilter mf = go.GetComponent<MeshFilter>();
         //gObject.renderer trailRenderer.colorGradient
         mf.mesh = mesh;
+        Debug.Log("Added Meshfilter");
+
         MeshCollider mc = go.GetComponent<MeshCollider>();
-        mc.sharedMesh = mesh;*/
+        mc.sharedMesh = mesh;
     }
 }

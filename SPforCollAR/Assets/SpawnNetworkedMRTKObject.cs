@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class SpawnNetworkedMRTKObject : NetworkBehaviour
 {
+    public GameObject lastSpawned = null;
     //public Object obj;
     // Start is called before the first frame update
     void Start()
@@ -23,12 +24,24 @@ public class SpawnNetworkedMRTKObject : NetworkBehaviour
     {
         GameObject networkManager = GameObject.Find("NetworkManager");
         Debug.Log("NetworkManager by name: " + networkManager);
+        Debug.Log("NetworkManager component: " + networkManager.GetComponent<NetworkManager>());
+        Debug.Log("NetworkManager spawnprefabs: " + networkManager.GetComponent<NetworkManager>().spawnPrefabs[index]);
         GameObject obj = networkManager.GetComponent<NetworkManager>().spawnPrefabs[index];
         Debug.Log("NetworkManager component: " + obj);
         Debug.Log("Spawning Object Cmd obj is " + obj);
         GameObject objToSpawn = (GameObject)Instantiate(obj);
         NetworkServer.Spawn(objToSpawn);
         Debug.Log("Spawning Object Cmd End");
+        lastSpawned = objToSpawn;
+        RPCUpdateLastSpawned(objToSpawn);
+        Debug.Log("LastSpawned in cmd: " + lastSpawned);
+    }
+
+    [ClientRpc]
+    public void RPCUpdateLastSpawned(GameObject g)
+    {
+        lastSpawned = g;
+        Debug.Log("LastSpawned in RPC: " + lastSpawned);
     }
 
 
