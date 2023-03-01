@@ -15,6 +15,9 @@ public class PlayerScript : NetworkBehaviour
     [SyncVar(hook = nameof(OnColorChanged))]
     public Color playerColor = Color.white;
 
+    public GameObject handL;
+    public GameObject handR;
+
     void OnNameChanged(string _Old, string _New)
     {
         playerNameText.text = playerName;
@@ -42,6 +45,9 @@ public class PlayerScript : NetworkBehaviour
         string name = "Player" + Random.Range(100, 999);
         Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         CmdSetupPlayer(name, color);
+
+        handL.SetActive(false);
+        handR.SetActive(false);
     }
 
     [Command]
