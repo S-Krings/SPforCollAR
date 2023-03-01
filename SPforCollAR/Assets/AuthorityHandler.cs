@@ -10,16 +10,8 @@ public class AuthorityHandler : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdGetAuthority(NetworkConnectionToClient conn)
     {
-        if (true)
-        {
-            Debug.Log(conn.ToString() + ": " + conn);
-            objNetID.AssignClientAuthority(conn);
-
-        }
-        else
-        {
-            Debug.Log("This is the server");
-        }
+        Debug.Log(conn.ToString() + ": " + conn);
+        objNetID.AssignClientAuthority(conn);
     }
 
     public void AskForAuthority()
