@@ -9,13 +9,22 @@ public class DrawingScript : NetworkBehaviour
     public TrailRenderer trail;
     public SpawningControl spawningControl;
     public GameObject go;
-    private int i = 0;
+
+    public void startMakingDrawing()
+    {
+        Debug.Log("In drawing-start making Drawing: spawningControl is " + spawningControl);
+    }
+
+    public void SpawnDrawing()
+    {
+        spawningControl.CmdSpawnObject(3); //3 = drawing
+    }
+
     public void convertToMesh()
     {
+        Debug.Log("convertToMesh called in Drawing Script");
         Mesh mesh = trailToMesh();
-        spawningControl.CmdSpawnObject(3);
         CmdAddDrawing(SerializeMesh(mesh));
-        //StartCoroutine(WaitThenAddDrawing(SerializeMesh(mesh)));
     }
 
     IEnumerator WaitThenAddDrawing(SerializedMesh s)
@@ -41,9 +50,10 @@ public class DrawingScript : NetworkBehaviour
     [Command (requiresAuthority = false)]
     public void CmdAddDrawing(SerializedMesh s)
     {
+        Debug.Log("CmdAddDrawing called in Drawing Script");
         Mesh mesh = DeserializeMesh(s);
 
-        go = spawningControl.lastSpawned;
+        go = spawningControl.lastDrawingSpawned;
         Debug.Log("CMD: drawing go is: " + go + ", Mesh is: " + mesh);
         MeshFilter mf = go.GetComponent<MeshFilter>();
         Debug.Log("CMD: Mesh filter is: " + mf + ", has mesh: " + mf.mesh);
@@ -59,11 +69,13 @@ public class DrawingScript : NetworkBehaviour
     [ClientRpc]
     public void RPCAddDrawing(SerializedMesh s)
     {
+        Debug.Log("RPCAddDrawing called in Drawing Script");
         Mesh mesh = DeserializeMesh(s);
-        GameObject go = spawningControl.lastSpawned;
+
+        go = spawningControl.lastDrawingSpawned;
         Debug.Log("RPC: drawing go is: " + go + ", Mesh is: " + mesh);
         MeshFilter mf = go.GetComponent<MeshFilter>();
-        Debug.Log("RPC: Mesh filter is: " + mf+", has mesh: "+mf.mesh);
+        Debug.Log("RPC: Mesh filter is: " + mf + ", has mesh: " + mf.mesh);
         mf.mesh = mesh;
         Debug.Log("RPC: Mesh filter new mesh is: " + mf.mesh);
 
@@ -80,13 +92,6 @@ public class DrawingScript : NetworkBehaviour
         catch (NullReferenceException e)
         {
             Debug.LogError("DrawingScript could not find Spawning control");
-        }
-    }
-    private void Update()
-    {
-        if(i%1000 == 0 && spawningControl.lastSpawned != go)
-        {
-            go = spawningControl.lastSpawned;
         }
     }
 
