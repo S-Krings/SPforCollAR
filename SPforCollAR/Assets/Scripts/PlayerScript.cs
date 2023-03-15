@@ -15,8 +15,8 @@ public class PlayerScript : NetworkBehaviour
     [SyncVar(hook = nameof(OnColorChanged))]
     public Color playerColor = Color.white;
 
-    public GameObject handL;
-    public GameObject handR;
+    //public GameObject handL;
+    //public GameObject handR;
 
     void OnNameChanged(string _Old, string _New)
     {
@@ -46,8 +46,8 @@ public class PlayerScript : NetworkBehaviour
         Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         CmdSetupPlayer(name, color);
 
-        handL.SetActive(false);
-        handR.SetActive(false);
+        //handL.SetActive(false);
+        //handR.SetActive(false);
     }
 
     [Command]
@@ -72,8 +72,8 @@ public class PlayerScript : NetworkBehaviour
 
         //transform.Rotate(0, moveX, 0);
         //transform.Translate(0, 0, moveZ);
-        transform.rotation = Camera.main.transform.rotation;
-        transform.position = Camera.main.transform.position;
+        //transform.rotation = Camera.main.transform.rotation;
+        //transform.position = Camera.main.transform.position;
 
     }
 }

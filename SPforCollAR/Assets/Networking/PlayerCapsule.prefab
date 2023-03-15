@@ -583,8 +583,6 @@ MonoBehaviour:
   floatingInfo: {fileID: 3941777792177382633}
   playerName: 
   playerColor: {r: 1, g: 1, b: 1, a: 1}
-  handL: {fileID: 6812133244983102091}
-  handR: {fileID: 8493784769423242962}
 --- !u!114 &3540501525930215542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -600,8 +598,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  lastSpawned: {fileID: 0}
+  lastDrawingSpawned: {fileID: 0}
   lastSphereSpawned: {fileID: 0}
+  lastSpawned: {fileID: 0}
+  drawing: {fileID: 0}
 --- !u!114 &6779859942171307425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,7 +673,10 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  hands:
+  objectsToDeactivateIfLocal:
+  - {fileID: 6812133244983102091}
+  - {fileID: 8493784769423242962}
+  objectsToDeactivateIfNotLocal:
   - {fileID: 3783785636194465096}
   - {fileID: 6166584453554527282}
 --- !u!114 &8146979859086771476
