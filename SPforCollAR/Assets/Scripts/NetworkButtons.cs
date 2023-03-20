@@ -2,6 +2,7 @@ using Mirror;
 using Mirror.Discovery;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,6 +16,7 @@ public class NetworkButtons : MonoBehaviour
     {
         discoveredServers.Clear();
         networkDiscovery.StartDiscovery();
+        UpdateDiscoveredServers();
     }
 
     public void StartHost()
@@ -40,6 +42,19 @@ public class NetworkButtons : MonoBehaviour
             if (GUILayout.Button(info.EndPoint.Address.ToString()))
                 Connect(info);
     }
+    public void UpdateDiscoveredServers()
+    {
+        foreach (ServerResponse info in discoveredServers.Values)
+        {
+            GameObject button = Instantiate(buttonPrefab, buttonContainer.transform);
+            button.GetComponent<Button>().onClick.AddListener(() => { 
+                Debug.Log("Clicked Button t Connect");
+                NetworkManager.singleton.networkAddress = info.EndPoint.Address.ToString();
+                NetworkManager.singleton.StartClient(); //Connect(info);
+                 });
+            button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Join Server " + info.EndPoint.Address.ToString();
+        }
+    }
 
     public void ServerDiscTest()
     {
@@ -47,7 +62,7 @@ public class NetworkButtons : MonoBehaviour
         {
             GameObject button = Instantiate(buttonPrefab, buttonContainer.transform);
             button.GetComponent<Button>().onClick.AddListener(() => { Debug.Log("Clicked Button #: " + i); });
-            button.transform.GetChild(0).GetComponent<Text>().text = "Button " + i;
+            button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Button " + i;
         }
 
     }

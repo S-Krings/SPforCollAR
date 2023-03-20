@@ -24,7 +24,15 @@ public class DrawingScript : NetworkBehaviour
     {
         Debug.Log("convertToMesh called in Drawing Script");
         Mesh mesh = trailToMesh();
-        CmdAddDrawing(SerializeMesh(mesh));
+        if (mesh.vertices.Length > 4)
+        {
+            CmdAddDrawing(SerializeMesh(mesh));
+        }
+        else
+        {
+            spawningControl.Despawn(spawningControl.lastDrawingSpawned);
+        }
+        trail.Clear();
     }
 
     IEnumerator WaitThenAddDrawing(SerializedMesh s)
