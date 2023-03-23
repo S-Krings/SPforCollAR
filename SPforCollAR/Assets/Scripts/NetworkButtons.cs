@@ -16,6 +16,7 @@ public class NetworkButtons : MonoBehaviour
     {
         discoveredServers.Clear();
         networkDiscovery.StartDiscovery();
+        Debug.Log("In findseervers: started network discovery");
         UpdateDiscoveredServers();
     }
 
@@ -33,7 +34,17 @@ public class NetworkButtons : MonoBehaviour
         networkDiscovery.AdvertiseServer();
     }
 
-    public void DiscoveredServers()
+    public void OnServerFound(ServerResponse info)
+    {
+        Debug.Log("Found Server, info id: " + info.serverId);
+        discoveredServers[info.serverId] = info;
+        foreach (ServerResponse i in discoveredServers.Values)
+            Debug.Log("In list: Server, info id: " + i.serverId);
+        UpdateDiscoveredServers();
+        networkDiscovery.StopDiscovery();
+    }
+
+    /*public void DiscoveredServers()
     {
         GUILayout.Label($"Discovered Servers [{discoveredServers.Count}]:");
 
@@ -41,7 +52,7 @@ public class NetworkButtons : MonoBehaviour
         foreach (ServerResponse info in discoveredServers.Values)
             if (GUILayout.Button(info.EndPoint.Address.ToString()))
                 Connect(info);
-    }
+    }*/
     public void UpdateDiscoveredServers()
     {
         foreach (ServerResponse info in discoveredServers.Values)
