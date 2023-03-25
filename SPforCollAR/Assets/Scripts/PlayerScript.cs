@@ -15,6 +15,9 @@ public class PlayerScript : NetworkBehaviour
     [SyncVar(hook = nameof(OnColorChanged))]
     public Color playerColor = Color.white;
 
+    const string playerPrefsNameKey = "PlayerName";
+    const string playerPrefsColourKey = "PlayerColour";
+
     //public GameObject handL;
     //public GameObject handR;
 
@@ -42,9 +45,13 @@ public class PlayerScript : NetworkBehaviour
         //floatingInfo.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         floatingInfo.SetActive(false);
 
-        string name = "Player" + Random.Range(100, 999);
-        Color color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-        CmdSetupPlayer(name, color);
+        if (PlayerPrefs.HasKey(playerPrefsNameKey)) playerName = PlayerPrefs.GetString(playerPrefsNameKey);
+        else playerName = "Player" + Random.Range(100, 999);
+
+        if (PlayerPrefs.HasKey(playerPrefsColourKey)) Debug.Log("Still need to implement color setting");//playerColor = PlayerPrefs.GetInt(playerPrefsColourKey);
+        else playerColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        
+        CmdSetupPlayer(playerName, playerColor);
 
         //handL.SetActive(false);
         //handR.SetActive(false);

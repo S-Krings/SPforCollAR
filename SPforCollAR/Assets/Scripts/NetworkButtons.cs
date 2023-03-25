@@ -1,3 +1,4 @@
+using Microsoft.MixedReality.Toolkit.Experimental.UI;
 using Mirror;
 using Mirror.Discovery;
 using System.Collections;
@@ -10,7 +11,25 @@ public class NetworkButtons : MonoBehaviour
 {
     readonly Dictionary<long, ServerResponse> discoveredServers = new Dictionary<long, ServerResponse>();
     [SerializeField] private GameObject buttonPrefab, buttonContainer;
-    public NetworkDiscovery networkDiscovery;
+    [SerializeField] private NetworkDiscovery networkDiscovery;
+    [SerializeField] private MRTKUGUIInputField playernameInputField;
+    [SerializeField] private TMP_Dropdown colourDropdown;
+
+    const string playerPrefsNameKey = "PlayerName";
+    const string playerPrefsColourKey = "PlayerColour";
+
+    private void Start()
+    {
+        //set player prefs
+        if (PlayerPrefs.HasKey(playerPrefsNameKey))
+        {
+            playernameInputField.text = PlayerPrefs.GetString(playerPrefsNameKey);
+        }
+        if (PlayerPrefs.HasKey(playerPrefsColourKey))
+        {
+            colourDropdown.value = PlayerPrefs.GetInt(playerPrefsColourKey);
+        }
+    }
 
     public void FindServers()
     {
@@ -23,6 +42,7 @@ public class NetworkButtons : MonoBehaviour
     public void StartHost()
     {
         discoveredServers.Clear();
+        setValues();
         NetworkManager.singleton.StartHost();
         networkDiscovery.AdvertiseServer();
     }
@@ -40,42 +60,48 @@ public class NetworkButtons : MonoBehaviour
         discoveredServers[info.serverId] = info;
         foreach (ServerResponse i in discoveredServers.Values)
             Debug.Log("In list: Server, info id: " + i.serverId);
+        networkDiscovery.StopDiscovery();//TODO: what if multiple servers?
         UpdateDiscoveredServers();
-        networkDiscovery.StopDiscovery();
     }
 
-    /*public void DiscoveredServers()
-    {
-        GUILayout.Label($"Discovered Servers [{discoveredServers.Count}]:");
-
-        // servers
-        foreach (ServerResponse info in discoveredServers.Values)
-            if (GUILayout.Button(info.EndPoint.Address.ToString()))
-                Connect(info);
-    }*/
     public void UpdateDiscoveredServers()
     {
+        Debug.Log("in updateDiscoveredServers: buttonContainer: " + buttonContainer);// + " buttonc.transform: " + buttonContainer.transform);
+        if (buttonContainer.transform.childCount > 0)
+        {
+            foreach (Transform childTransform in buttonContainer.GetComponentsInChildren<Transform>())
+            {
+                if (childTransform.gameObject.Equals(buttonContainer)) continue;
+                Destroy(childTransform.gameObject);
+            }
+        }
+        else
+        {
+            Debug.Log("No children in Serverlist");
+        }
         foreach (ServerResponse info in discoveredServers.Values)
         {
             GameObject button = Instantiate(buttonPrefab, buttonContainer.transform);
             button.GetComponent<Button>().onClick.AddListener(() => { 
                 Debug.Log("Clicked Button t Connect");
                 NetworkManager.singleton.networkAddress = info.EndPoint.Address.ToString();
+                setValues();
                 NetworkManager.singleton.StartClient(); //Connect(info);
                  });
             button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Join Server " + info.EndPoint.Address.ToString();
         }
     }
 
-    public void ServerDiscTest()
+    private void setValues()
     {
-        for (int i = 0; i < 5; i++)
+        if (!string.IsNullOrEmpty(playernameInputField.text))
         {
-            GameObject button = Instantiate(buttonPrefab, buttonContainer.transform);
-            button.GetComponent<Button>().onClick.AddListener(() => { Debug.Log("Clicked Button #: " + i); });
-            button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Button " + i;
+            PlayerPrefs.SetString(playerPrefsNameKey, playernameInputField.text);
         }
-
+        if(colourDropdown.value != 0)//random colour
+        {
+            PlayerPrefs.SetInt(playerPrefsColourKey, colourDropdown.value);
+        }
     }
 
     void Connect(ServerResponse info)
