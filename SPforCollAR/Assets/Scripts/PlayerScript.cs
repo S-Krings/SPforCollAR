@@ -48,7 +48,7 @@ public class PlayerScript : NetworkBehaviour
         if (PlayerPrefs.HasKey(playerPrefsNameKey)) playerName = PlayerPrefs.GetString(playerPrefsNameKey);
         else playerName = "Player" + Random.Range(100, 999);
 
-        if (PlayerPrefs.HasKey(playerPrefsColourKey)) Debug.Log("Still need to implement color setting");//playerColor = PlayerPrefs.GetInt(playerPrefsColourKey);
+        if (PlayerPrefs.HasKey(playerPrefsColourKey)) playerColor = new ColourEnum().GetColour(PlayerPrefs.GetInt(playerPrefsColourKey));
         else playerColor = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         
         CmdSetupPlayer(playerName, playerColor);
