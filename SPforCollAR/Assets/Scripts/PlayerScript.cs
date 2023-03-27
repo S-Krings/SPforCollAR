@@ -18,8 +18,7 @@ public class PlayerScript : NetworkBehaviour
     const string playerPrefsNameKey = "PlayerName";
     const string playerPrefsColourKey = "PlayerColour";
 
-    //public GameObject handL;
-    //public GameObject handR;
+    [SerializeField] Material playerMaterial;
 
     void OnNameChanged(string _Old, string _New)
     {
@@ -29,9 +28,10 @@ public class PlayerScript : NetworkBehaviour
     void OnColorChanged(Color _Old, Color _New)
     {
         playerNameText.color = _New;
-        playerMaterialClone = new Material(GetComponent<Renderer>().material);
-        playerMaterialClone.color = _New;
-        GetComponent<Renderer>().material = playerMaterialClone;
+        //playerMaterialClone = new Material(GetComponent<Renderer>().material);
+        //playerMaterialClone.color = _New;
+        //GetComponent<Renderer>().material = playerMaterialClone;
+        playerMaterial.color = _New;
     }
 
     public override void OnStartLocalPlayer()
@@ -81,6 +81,10 @@ public class PlayerScript : NetworkBehaviour
         //transform.Translate(0, 0, moveZ);
         //transform.rotation = Camera.main.transform.rotation;
         //transform.position = Camera.main.transform.position;
+    }
 
+    public void setPlayerColour(Color colour)
+    {
+        playerMaterial.color = colour;
     }
 }
