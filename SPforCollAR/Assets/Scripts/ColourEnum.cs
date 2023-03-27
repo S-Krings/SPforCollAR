@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ColourEnum : MonoBehaviour
+public class ColourEnum
 {
     public enum PlayerColorEnum
     {
