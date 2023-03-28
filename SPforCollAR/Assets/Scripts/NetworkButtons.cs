@@ -30,6 +30,7 @@ public class NetworkButtons : MonoBehaviour
         {
             colourDropdown.value = PlayerPrefs.GetInt(playerPrefsColourKey);
         }
+        networkDiscovery = NetworkManager.singleton.gameObject.GetComponent<NetworkDiscovery>();
     }
 
     public void FindServers()
@@ -37,7 +38,7 @@ public class NetworkButtons : MonoBehaviour
         discoveredServers.Clear();
         networkDiscovery.StartDiscovery();
         Debug.Log("In findseervers: started network discovery");
-        UpdateDiscoveredServers();
+        //UpdateDiscoveredServers();
     }
 
     public void StartHost()
@@ -112,6 +113,21 @@ public class NetworkButtons : MonoBehaviour
         {
             PlayerPrefs.SetInt(playerPrefsColourKey, colourDropdown.value);
         }
+    }
+
+    public void SetPlayerNameInput(MRTKUGUIInputField playernameInputField)
+    {
+        this.playernameInputField = playernameInputField;
+    }
+
+    public void SetColourDropdown(TMP_Dropdown colourDropdown)
+    {
+        this.colourDropdown = colourDropdown;
+    }
+
+    public void SetButtonContainer(GameObject buttonContainer)
+    {
+        this.buttonContainer = buttonContainer;
     }
 
     void Connect(ServerResponse info)

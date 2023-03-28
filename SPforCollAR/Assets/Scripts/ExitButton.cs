@@ -22,6 +22,6 @@ public class ExitButton : NetworkBehaviour
         }
         else return;
         SceneManager.LoadScene("MirrorLobby", LoadSceneMode.Additive);
-        SceneManager.UnloadSceneAsync("MirrorTest");
+        SceneManager.UnloadSceneAsync("MirrorTest", UnloadSceneOptions.UnloadAllEmbeddedSceneObjects);
     }
 }
