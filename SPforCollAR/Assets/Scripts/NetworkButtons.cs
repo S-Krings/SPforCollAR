@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class NetworkButtons : MonoBehaviour
@@ -45,6 +46,8 @@ public class NetworkButtons : MonoBehaviour
         setValues();
         NetworkManager.singleton.StartHost();
         networkDiscovery.AdvertiseServer();
+        SceneManager.LoadScene("MirrorTest", LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync("MirrorLobby");
     }
 
     public void StartServer()
@@ -52,6 +55,16 @@ public class NetworkButtons : MonoBehaviour
         discoveredServers.Clear();
         NetworkManager.singleton.StartServer();
         networkDiscovery.AdvertiseServer();
+    }
+
+    public void StartClient(ServerResponse info)
+    {
+        Debug.Log("Clicked Button t Connect");
+        NetworkManager.singleton.networkAddress = info.EndPoint.Address.ToString();
+        setValues();
+        NetworkManager.singleton.StartClient(); //Connect(info);
+        SceneManager.LoadScene("MirrorTest", LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync("MirrorLobby");
     }
 
     public void OnServerFound(ServerResponse info)
@@ -82,11 +95,8 @@ public class NetworkButtons : MonoBehaviour
         foreach (ServerResponse info in discoveredServers.Values)
         {
             GameObject button = Instantiate(buttonPrefab, buttonContainer.transform);
-            button.GetComponent<Button>().onClick.AddListener(() => { 
-                Debug.Log("Clicked Button t Connect");
-                NetworkManager.singleton.networkAddress = info.EndPoint.Address.ToString();
-                setValues();
-                NetworkManager.singleton.StartClient(); //Connect(info);
+            button.GetComponent<Button>().onClick.AddListener(() => {
+                StartClient(info);
                  });
             button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Join Server " + info.EndPoint.Address.ToString();
         }
