@@ -56,6 +56,8 @@ public class NetworkButtons : MonoBehaviour
         discoveredServers.Clear();
         NetworkManager.singleton.StartServer();
         networkDiscovery.AdvertiseServer();
+        SceneManager.LoadScene("MirrorTest", LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync("MirrorLobby");
     }
 
     public void StartClient(ServerResponse info)

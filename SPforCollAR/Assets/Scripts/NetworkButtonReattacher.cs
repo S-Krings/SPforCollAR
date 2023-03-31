@@ -14,9 +14,17 @@ public class NetworkButtonReattacher : MonoBehaviour
     [SerializeField] private MRTKUGUIInputField playernameInputField;
     [SerializeField] private TMP_Dropdown colourDropdown;
     [SerializeField] private GameObject buttonContainer;
-    void Update()
+
+    private void Start()
     {
-        if(networkButtons == null)
+        Debug.Log("Start called in reattacher, NetworkButtons Script is: "+networkButtons);
+        Invoke("ReattachButtons", 1.0f);
+    }
+
+    private void ReattachButtons()
+    {
+        Debug.Log("Invoked Reattach");
+        if (networkButtons == null)
         {
             Debug.Log("NetworkButtons lost, reconnecting");
             networkButtons = NetworkManager.singleton.GetComponent<NetworkButtons>();
@@ -33,10 +41,5 @@ public class NetworkButtonReattacher : MonoBehaviour
             networkButtons.SetColourDropdown(colourDropdown);
             networkButtons.SetButtonContainer(buttonContainer);
         }
-    }
-
-    private void Start()
-    {
-        Debug.Log("Start called in reattacher");
     }
 }
