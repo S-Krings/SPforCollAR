@@ -16,7 +16,7 @@ public class ToggleActivity : MonoBehaviour
         if(spawningControl.lastSphereSpawned == null)
         {
             Debug.Log("Spawningcontrol instance in toggler: " + spawningControl);
-            spawningControl.Spawn(prefabNumber);
+            spawningControl.SpawnInDistance(prefabNumber);
         }
         else
         {

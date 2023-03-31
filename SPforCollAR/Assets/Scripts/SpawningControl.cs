@@ -29,16 +29,25 @@ public class SpawningControl : NetworkBehaviour
 
     public void Spawn(int index)
     {
+        CmdSpawnObject(index, Vector3.zero, Vector3.zero);
+    }
+
+    public void SpawnInDistance(int index)
+    {
+        Vector3 position = Camera.main.transform.position + Camera.main.transform.forward * 0.6f;
+        Vector3 forwardDir = Camera.main.transform.forward;
         //Debug.Log("Authority: " + hasAuthority);
-        CmdSpawnObject(index);
+        CmdSpawnObject(index, position, forwardDir);
     }
 
     [Command(requiresAuthority = false)]
-    public void CmdSpawnObject(int index)
+    public void CmdSpawnObject(int index, Vector3 position, Vector3 forwardDir)
     {
         GameObject networkManager = GameObject.Find("NetworkManager");
         GameObject obj = networkManager.GetComponent<NetworkManager>().spawnPrefabs[index];
         GameObject objToSpawn = (GameObject)Instantiate(obj);
+        objToSpawn.transform.position = position;
+        objToSpawn.transform.forward = forwardDir;
         NetworkServer.Spawn(objToSpawn);
         if (index == 4)
         {

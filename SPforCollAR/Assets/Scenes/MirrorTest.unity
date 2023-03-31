@@ -7294,7 +7294,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &799986185
 Transform:
   m_ObjectHideFlags: 0
@@ -8528,7 +8528,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1020331324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19861,7 +19861,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 466355923}
         m_TargetAssemblyTypeName: SpawningControl, Assembly-CSharp
-        m_MethodName: Spawn
+        m_MethodName: SpawnInDistance
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21616,7 +21616,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!33 &3388018901586980058
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -23259,7 +23259,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 466355923}
         m_TargetAssemblyTypeName: SpawningControl, Assembly-CSharp
-        m_MethodName: Spawn
+        m_MethodName: SpawnInDistance
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -24296,8 +24296,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 466355923}
-        m_TargetAssemblyTypeName: SpawnNetworkedMRTKObject, Assembly-CSharp
-        m_MethodName: Spawn
+        m_TargetAssemblyTypeName: SpawningControl, Assembly-CSharp
+        m_MethodName: SpawnInDistance
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -28148,7 +28148,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 466355923}
         m_TargetAssemblyTypeName: SpawningControl, Assembly-CSharp
-        m_MethodName: Spawn
+        m_MethodName: SpawnInDistance
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

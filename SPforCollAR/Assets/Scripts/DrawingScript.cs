@@ -17,7 +17,7 @@ public class DrawingScript : NetworkBehaviour
 
     public void SpawnDrawing()
     {
-        spawningControl.CmdSpawnObject(3); //3 = drawing
+        spawningControl.Spawn(3); //3 = drawing
     }
 
     public void convertToMesh()
