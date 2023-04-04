@@ -4314,7 +4314,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   lastDrawingSpawned: {fileID: 0}
-  lastSphereSpawned: {fileID: 0}
+  myPen: {fileID: 0}
+  lastSpawnedPen: {fileID: 0}
   lastSpawned: {fileID: 0}
   drawing: {fileID: 0}
 --- !u!114 &466355924
@@ -7294,7 +7295,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &799986185
 Transform:
   m_ObjectHideFlags: 0
@@ -8528,7 +8529,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1020331324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21616,7 +21617,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!33 &3388018901586980058
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -28472,6 +28473,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 466355923}
+  objToToggle: {fileID: 0}
 --- !u!1 &6727468458503163002
 GameObject:
   m_ObjectHideFlags: 0
@@ -32002,6 +32004,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 466355923}
+  objToToggle: {fileID: 0}
 --- !u!4 &8872895805449546308
 Transform:
   m_ObjectHideFlags: 0
@@ -32399,6 +32402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 0}
+  objToToggle: {fileID: 0}
 --- !u!114 &8976338316465013318
 MonoBehaviour:
   m_ObjectHideFlags: 0

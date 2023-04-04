@@ -20,7 +20,9 @@ public class PenColourControl : NetworkBehaviour
     public int currentColour;
 
     private Color[] colours = new Color[] { Color.white, new Color32(24, 229, 0, 255), new Color32(255, 221, 0, 255), new Color32(255, 150, 0, 255), new Color32(255, 0, 8, 255) };
-    [SyncVar (hook = nameof(PenOnToggled))] public bool penOn = false;
+    
+    [SyncVar (hook = nameof(PenOnToggled))] 
+    public bool penOn = false;
 
     [Command(requiresAuthority = false)]
     public void CMDTogglePen()
@@ -64,35 +66,39 @@ public class PenColourControl : NetworkBehaviour
 
     public void SetTrailColour(int colour)
     {
-        CmdTrailColour(colour);
+        CmdTrailColour(colour, spawningControl.myPen.GetComponent<NetworkIdentity>());
     }
 
     [Command(requiresAuthority = false)]
-    public void CmdTrailColour(int colour)
+    public void CmdTrailColour(int colour, NetworkIdentity networkIdentity)
     {
-        spawningControl.lastSphereSpawned.GetComponent<PenColourControl>().SetColour(colour);
-        RPCTrailColour(colour);
+        networkIdentity.gameObject.GetComponent<PenColourControl>().SetColour(colour);
+        RPCTrailColour(colour, networkIdentity);
     }
 
     [ClientRpc]
-    public void RPCTrailColour(int colour)
+    public void RPCTrailColour(int colour, NetworkIdentity networkIdentity)
     {
-        spawningControl.lastSphereSpawned.GetComponent<PenColourControl>().SetColour(colour);
+        networkIdentity.gameObject.GetComponent<PenColourControl>().SetColour(colour);
     }
 
+    /*public void SetTrailOn(int colour)
+    {
+        CmdTrailColour(colour, spawningControl.myPen.GetComponent<NetworkIdentity>());
+    }
 
     [Command(requiresAuthority = false)]
-    public void CmdTrailOn(int colour)
+    public void CmdTrailOn(int colour, NetworkIdentity networkIdentity)
     {
-        spawningControl.lastSphereSpawned.GetComponent<PenColourControl>().SetColour(colour);
-        RPCTrailColour(colour);
+        networkIdentity.gameObject.GetComponent<PenColourControl>().SetColour(colour);
+        RPCTrailColour(colour, networkIdentity);
     }
 
     [ClientRpc]
-    public void RPCTrailOn(int colour)
+    public void RPCTrailOn(int colour, NetworkIdentity networkIdentity)
     {
-        spawningControl.lastSphereSpawned.GetComponent<PenColourControl>().SetColour(colour);
-    }
+        networkIdentity.gameObject.GetComponent<PenColourControl>().SetColour(colour);
+    }*/
 
     void Start()
     {

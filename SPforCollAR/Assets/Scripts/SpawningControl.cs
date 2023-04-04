@@ -7,21 +7,22 @@ public class SpawningControl : NetworkBehaviour
 {
     [SyncVar(hook = nameof(SetLastDrawingSpawned))]
     public GameObject lastDrawingSpawned = null;
-    [SyncVar (hook = nameof(SetLastSphereSpawned))]
-    public GameObject lastSphereSpawned = null;
+    //[SyncVar (hook = nameof(SetLastSphereSpawned))]
+    public GameObject myPen = null;
+    [SyncVar(hook = nameof(SetLastPenSpawned))]
+    public GameObject lastSpawnedPen;
     [SyncVar]
     public GameObject lastSpawned = null;
 
     public DrawingScript drawing;
 
-    void SetLastSphereSpawned(GameObject oldValue, GameObject newValue)
+    void SetLastPenSpawned(GameObject oldValue, GameObject newValue)
     {
-        drawing = newValue.GetComponent<DrawingScript>();
+        Debug.Log("Spawning Control: Last spawned pen changed");
     }
-
     void SetLastDrawingSpawned(GameObject oldValue, GameObject newValue)
     {
-        Debug.Log("Spawning Control: new Drawing Spawned");
+        Debug.Log("Spawning Control: Last spawned pen changed");
         //drawing = newValue.GetComponent<DrawingScript>();
         //Debug.Log("Calling drawing.convertToMesh from SpawningControl, drawing is: "+drawing);
         //drawing.convertToMesh();
@@ -30,6 +31,7 @@ public class SpawningControl : NetworkBehaviour
     public void Spawn(int index)
     {
         CmdSpawnObject(index, Vector3.zero, Vector3.zero);
+        if (index == 4) Invoke("SetMyPen", 0.2f);
     }
 
     public void SpawnInDistance(int index)
@@ -38,6 +40,12 @@ public class SpawningControl : NetworkBehaviour
         Vector3 forwardDir = Camera.main.transform.forward;
         //Debug.Log("Authority: " + hasAuthority);
         CmdSpawnObject(index, position, forwardDir);
+        if(index == 4) Invoke("SetMyPen", 0.2f);
+    }
+
+    private void SetMyPen()
+    {
+        myPen = lastSpawnedPen;
     }
 
     [Command(requiresAuthority = false)]
@@ -51,13 +59,14 @@ public class SpawningControl : NetworkBehaviour
         NetworkServer.Spawn(objToSpawn);
         if (index == 4)
         {
-            lastSphereSpawned = objToSpawn;
+            lastSpawnedPen = objToSpawn;
         }
         else if(index == 3)
         {
             lastDrawingSpawned = objToSpawn;
         }
-        Debug.Log("LastSpawned in cmd: " + lastDrawingSpawned);
+        lastSpawned = objToSpawn;
+        Debug.Log("LastSpawned in cmd: " + lastSpawned);
     }
 
     [Command(requiresAuthority = false)]

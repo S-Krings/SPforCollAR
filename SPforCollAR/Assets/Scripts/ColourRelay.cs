@@ -22,19 +22,25 @@ public class ColourRelay : NetworkBehaviour
 
     public void SetPenColour(int colour)
     {
-        CmdPenColour(colour);
+        CmdPenColour(colour, spawningControl.myPen.GetComponent<NetworkIdentity>());
     }
 
     [Command(requiresAuthority = false)]
-    public void CmdPenColour(int colour)
+    public void CmdPenColour(int colour, NetworkIdentity netID)
     {
-        spawningControl.lastSphereSpawned.GetComponent<PenColourControl>().SetColour(colour);
-        RPCPenColour(colour);
+
+        Debug.Log("netid: "+netID);
+        Debug.Log("netid: "+netID);
+        Debug.Log("netid go: "+netID.gameObject);
+        Debug.Log("pencolourcontrol: " + netID.gameObject.GetComponent<PenColourControl>());
+        Debug.Log("colour: "+colour);
+        netID.gameObject.GetComponent<PenColourControl>().SetColour(colour);
+        RPCPenColour(colour, netID);
     }
 
     [ClientRpc]
-    public void RPCPenColour(int colour)
+    public void RPCPenColour(int colour, NetworkIdentity netID)
     {
-        spawningControl.lastSphereSpawned.GetComponent<PenColourControl>().SetColour(colour);
+        netID.gameObject.GetComponent<PenColourControl>().SetColour(colour);
     }
 }

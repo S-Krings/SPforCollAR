@@ -9,15 +9,14 @@ public class DrawingScript : NetworkBehaviour
     public TrailRenderer trail;
     public SpawningControl spawningControl;
     public GameObject go;
-
-    public void startMakingDrawing()
-    {
-        Debug.Log("In drawing-start making Drawing: spawningControl is " + spawningControl);
-    }
+    [SerializeField] private GameObject drawing;
 
     public void SpawnDrawing()
     {
-        spawningControl.Spawn(3); //3 = drawing
+        spawningControl.Spawn(3);
+        drawing = spawningControl.lastDrawingSpawned;
+        //drawing = spawningControl.Spawn(3); //3 = drawing
+        Debug.Log("In drawingscript, spawndrawing result: " + drawing);
     }
 
     public void convertToMesh()
@@ -26,16 +25,18 @@ public class DrawingScript : NetworkBehaviour
         Mesh mesh = trailToMesh();
         if (mesh.vertices.Length > 4)
         {
-            CmdAddDrawing(SerializeMesh(mesh));
+            CmdAddDrawing(SerializeMesh(mesh), drawing.GetComponent<NetworkIdentity>());
         }
         else
         {
-            spawningControl.Despawn(spawningControl.lastDrawingSpawned);
+            //spawningControl.Despawn(spawningControl.lastDrawingSpawned);
+            Debug.Log("Despawn called in convert to mesh, despawning: " + drawing);
+            spawningControl.Despawn(drawing);
         }
         trail.Clear();
     }
 
-    IEnumerator WaitThenAddDrawing(SerializedMesh s)
+    /*IEnumerator WaitThenAddDrawing(SerializedMesh s)
     {
         //Print the time of when the function is first called.
         Debug.Log("Started Coroutine at timestamp : " + Time.time);
@@ -46,7 +47,7 @@ public class DrawingScript : NetworkBehaviour
         //After we have waited 5 seconds print the time again.
         Debug.Log("Finished Coroutine at timestamp : " + Time.time);
         CmdAddDrawing(s);
-    }
+    }*/
 
     public Mesh trailToMesh()
     {
@@ -56,12 +57,13 @@ public class DrawingScript : NetworkBehaviour
     }
 
     [Command (requiresAuthority = false)]
-    public void CmdAddDrawing(SerializedMesh s)
+    public void CmdAddDrawing(SerializedMesh s, NetworkIdentity networkIdentity)
     {
         Debug.Log("CmdAddDrawing called in Drawing Script");
         Mesh mesh = DeserializeMesh(s);
 
-        go = spawningControl.lastDrawingSpawned;
+        //go = spawningControl.lastDrawingSpawned;
+        go = networkIdentity.gameObject;
         Debug.Log("CMD: drawing go is: " + go + ", Mesh is: " + mesh);
         MeshFilter mf = go.GetComponent<MeshFilter>();
         Debug.Log("CMD: Mesh filter is: " + mf + ", has mesh: " + mf.mesh);
@@ -71,16 +73,17 @@ public class DrawingScript : NetworkBehaviour
         MeshCollider mc = go.GetComponent<MeshCollider>();
         mc.sharedMesh = mesh;
 
-        RPCAddDrawing(s);
+        RPCAddDrawing(s, networkIdentity);
     }
 
     [ClientRpc]
-    public void RPCAddDrawing(SerializedMesh s)
+    public void RPCAddDrawing(SerializedMesh s, NetworkIdentity networkIdentity)
     {
         Debug.Log("RPCAddDrawing called in Drawing Script");
         Mesh mesh = DeserializeMesh(s);
 
-        go = spawningControl.lastDrawingSpawned;
+        //go = spawningControl.lastDrawingSpawned;
+        go = networkIdentity.gameObject;
         Debug.Log("RPC: drawing go is: " + go + ", Mesh is: " + mesh);
         MeshFilter mf = go.GetComponent<MeshFilter>();
         Debug.Log("RPC: Mesh filter is: " + mf + ", has mesh: " + mf.mesh);
