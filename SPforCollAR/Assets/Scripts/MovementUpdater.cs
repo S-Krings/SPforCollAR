@@ -8,6 +8,7 @@ public class MovementUpdater : NetworkBehaviour
 
     [SerializeField] bool isManipulated = false;
     [SerializeField] Rigidbody targetRigidbody;
+    [SerializeField] private float velocityModification = 1.0f;
     //public PlayerScript player;
 
     private void Start()
@@ -105,7 +106,7 @@ public class MovementUpdater : NetworkBehaviour
 
         if (targetRigidbody != null)
         {
-            CmdUpdateVelocity(targetRigidbody.velocity, targetRigidbody.angularVelocity, this.netIdentity);
+            CmdUpdateVelocity(targetRigidbody.velocity*velocityModification, targetRigidbody.angularVelocity*velocityModification, this.netIdentity);
         }
     }
 
