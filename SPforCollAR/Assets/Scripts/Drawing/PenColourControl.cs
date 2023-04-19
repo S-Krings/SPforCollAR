@@ -53,7 +53,7 @@ public class PenColourControl : NetworkBehaviour
 
     public void SetColour(int colour)
     {
-        penRenderer.materials[0].SetColor("_Color", colours[colour]);
+        penRenderer.materials[0].SetColor("_Color", colours[colour]); // "_Color" is a property name, required by the method
         trailRenderer.startColor = colours[colour];
         trailRenderer.endColor = colours[colour];
         trailRenderer.Clear();
