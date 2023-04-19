@@ -133,7 +133,7 @@ MonoBehaviour:
   manipulationType: 3
   twoHandedManipulationType: 7
   allowFarManipulation: 1
-  useForcesForNearManipulation: 0
+  useForcesForNearManipulation: 1
   oneHandRotationModeNear: 1
   oneHandRotationModeFar: 1
   releaseBehavior: 3
@@ -231,7 +231,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   isManipulated: 0
-  syncVelocity: 0
   targetRigidbody: {fileID: -511314441157434982}
 --- !u!54 &-511314441157434982
 Rigidbody:

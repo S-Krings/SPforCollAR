@@ -18,6 +18,8 @@ public class PlanePlacer : MonoBehaviour
                 planeRigidbody.gameObject.transform.localScale *= 100;
                 planeRigidbody.isKinematic = true;
                 planeRigidbody.gameObject.transform.up = Vector3.up;
+                planeRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+                this.enabled = false;
             }
             lastPosition = planeRigidbody.position;
         }
