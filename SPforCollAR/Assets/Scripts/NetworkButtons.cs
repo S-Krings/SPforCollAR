@@ -31,6 +31,7 @@ public class NetworkButtons : MonoBehaviour
             colourDropdown.value = PlayerPrefs.GetInt(playerPrefsColourKey);
         }
         networkDiscovery = NetworkManager.singleton.gameObject.GetComponent<NetworkDiscovery>();
+        FindServers();
     }
 
     public void FindServers()
