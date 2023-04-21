@@ -20,6 +20,7 @@ public class ToggleActivity : MonoBehaviour
             spawningControl.SpawnInDistance(prefabNumber);
             Invoke("SetToggleObject", 0.2f);
             if (prefabNumber == 4) Invoke("SetTogglePen", 0.2f); 
+            if (prefabNumber == 6) Invoke("SetToggleFiller", 0.2f); 
             }
         else
         {
@@ -38,11 +39,23 @@ public class ToggleActivity : MonoBehaviour
         objToToggle = spawningControl.myPen;
     }
 
+    private void SetToggleFiller()
+    {
+        objToToggle = spawningControl.myFiller;
+    }
+
     private void Start()
     {
         if(spawningControl == null)
         {
-            Debug.LogWarning("Spawningcontrol is null in ToggleActivity");
+            try
+            {
+                spawningControl = GameObject.Find("NetworkRelay").GetComponent<SpawningControl>();
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("ToggleActivity could not find Spawning control");
+            }
         }
     }
 }

@@ -7,14 +7,25 @@ public class SpawningControl : NetworkBehaviour
 {
     [SyncVar(hook = nameof(SetLastDrawingSpawned))]
     public GameObject lastDrawingSpawned = null;
-    //[SyncVar (hook = nameof(SetLastSphereSpawned))]
-    public GameObject myPen = null;
+ 
     [SyncVar(hook = nameof(SetLastPenSpawned))]
     public GameObject lastSpawnedPen;
+    //[SyncVar (hook = nameof(SetLastSphereSpawned))]
+    public GameObject myPen = null;
+
+    [SyncVar(hook = nameof(SetLastFillerSpawned))]
+    public GameObject lastFillerSpawned = null;
+    public GameObject myFiller = null;
+
     [SyncVar]
     public GameObject lastSpawned = null;
 
     public DrawingScript drawing;
+
+    void SetLastFillerSpawned(GameObject oldValue, GameObject newValue)
+    {
+        Debug.Log("Spawning Control: Last spawned filler changed");
+    }
 
     void SetLastPenSpawned(GameObject oldValue, GameObject newValue)
     {
@@ -32,6 +43,7 @@ public class SpawningControl : NetworkBehaviour
     {
         CmdSpawnObject(index, Vector3.zero, Vector3.zero);
         if (index == 4) Invoke("SetMyPen", 0.2f);
+        if (index == 6) Invoke("SetMyFiller", 0.2f);
     }
 
     public void SpawnInDistance(int index)
@@ -41,11 +53,17 @@ public class SpawningControl : NetworkBehaviour
         //Debug.Log("Authority: " + hasAuthority);
         CmdSpawnObject(index, position, forwardDir);
         if(index == 4) Invoke("SetMyPen", 0.2f);
+        if(index == 6) Invoke("SetMyFiller", 0.2f);
     }
 
     private void SetMyPen()
     {
         myPen = lastSpawnedPen;
+    }
+
+    private void SetMyFiller()
+    {
+        myFiller = lastFillerSpawned;
     }
 
     [Command(requiresAuthority = false)]
@@ -57,13 +75,17 @@ public class SpawningControl : NetworkBehaviour
         objToSpawn.transform.position = position;
         objToSpawn.transform.forward = forwardDir;
         NetworkServer.Spawn(objToSpawn);
-        if (index == 4)
+        if (index == 3)
+        {
+             lastDrawingSpawned = objToSpawn;
+        }
+        else if(index == 4)
         {
             lastSpawnedPen = objToSpawn;
         }
-        else if(index == 3)
+        else if(index == 6)
         {
-            lastDrawingSpawned = objToSpawn;
+            lastFillerSpawned = objToSpawn;
         }
         lastSpawned = objToSpawn;
         Debug.Log("LastSpawned in cmd: " + lastSpawned);

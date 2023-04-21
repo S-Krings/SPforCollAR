@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColourTool : NetworkBehaviour
+public class ColourFillingTool : NetworkBehaviour
 {
     [SerializeField] private Color colour = Color.red;
     private void OnTriggerEnter(Collider other)
