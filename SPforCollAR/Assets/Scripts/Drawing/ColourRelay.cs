@@ -53,7 +53,7 @@ public class ColourRelay : NetworkBehaviour
     [Command(requiresAuthority = false)]
     public void CmdFillerColour(Color colour, NetworkIdentity netID)
     {
-        netID.gameObject.GetComponent<ColourTool>().SetColour(colour);
+        netID.gameObject.GetComponent<ColourFillingTool>().SetColour(colour);
         RPCFillerColour(colour, netID);
     }
 
@@ -64,6 +64,6 @@ public class ColourRelay : NetworkBehaviour
         Debug.Log("netID.gameObject: " + netID.gameObject);
         Debug.Log("netID.gameObject.GetComponent<PenColourControl>(): " + netID.gameObject.GetComponent<PenColourControl>());
         Debug.Log("Colour is: " + colour);
-        netID.gameObject.GetComponent<ColourTool>().SetColour(colour);
+        netID.gameObject.GetComponent<ColourFillingTool>().SetColour(colour);
     }
 }
