@@ -7832,7 +7832,6 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0.1
-  currentScene: TutorialScene
 --- !u!1 &471860249
 GameObject:
   m_ObjectHideFlags: 0
@@ -24741,8 +24740,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1914053203}
   - component: {fileID: 1914053207}
-  - component: {fileID: 1914053206}
   - component: {fileID: 1914053205}
+  - component: {fileID: 1914053206}
   - component: {fileID: 1914053204}
   - component: {fileID: 1914053208}
   m_Layer: 0
@@ -24782,7 +24781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   containerObject: {fileID: 0}
-  objectsToPlaceParent: {fileID: 215543823}
+  previousObjectContainerName: SceneObjects
   groundPlane: {fileID: 6229557386744886641, guid: 5c4fbbf0a52ca4d43826547d579b7e60, type: 3}
   sceneZeroName: SceneZero
   customSpawnContainer: 1

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5897100147333798922}
   - component: {fileID: 7448350065395186486}
   m_Layer: 0
-  m_Name: ARGroundPlane
+  m_Name: ARGroundPlanePrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

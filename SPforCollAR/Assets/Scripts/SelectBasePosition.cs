@@ -40,16 +40,35 @@ public class SelectBasePosition : MonoBehaviour
 
         if (groundPlane != null)
         {
-            Instantiate(groundPlane, containerObject.transform);
+            Instantiate(groundPlane, content.transform);
         }
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        Destroy(this.gameObject);
+        /*SceneManager.sceneLoaded += OnSceneLoaded;
+        containerObject = content;
+        this.transform.parent = content.transform;
+        for(int i = 0; i<transform.childCount; i++)
+        {
+            transform.GetChild(i).gameObject.SetActive(false);
+        }
+        Component[] components = this.gameObject.GetComponents(typeof(Component));
+        foreach(Component c in components)
+        {
+            if(!(c.GetType() == typeof(SelectBasePosition) || c.GetType() == typeof(Transform)))
+            {
+                Destroy(c);
+            }
+        }*/
     }
 
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    /*void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         Debug.Log("OnSceneLoaded: " + scene.name);
-
-    }
+        if (scene.name != "MirrorLobby" && GameObject.Find(groundPlane.name) == null)
+        {
+            Debug.Log("Spawning Plane");
+            Instantiate(groundPlane, containerObject.transform);
+        }
+    }*/
 
 }
