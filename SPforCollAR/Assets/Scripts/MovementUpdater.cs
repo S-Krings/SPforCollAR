@@ -83,7 +83,7 @@ public class MovementUpdater : NetworkBehaviour
         RPCUpdateClientPos(position, rotation, scale, id);//, player);
     }
 
-    [ClientRpc]
+    [ClientRpc(includeOwner = false)]
     void RPCUpdateClientPos(Vector3 position, Quaternion rotation, Vector3 scale, NetworkIdentity id)//, PlayerScript player)
     {
         if (isClientOnly)
@@ -119,7 +119,7 @@ public class MovementUpdater : NetworkBehaviour
         RPCUpdateClientVelocity(velocity, angularVelocity, id);//, player);
     }
 
-    [ClientRpc]
+    [ClientRpc(includeOwner = false)]
     void RPCUpdateClientVelocity(Vector3 velocity, Vector3 angularVelocity, NetworkIdentity id)//, PlayerScript player)
     {
         if (isClientOnly)
