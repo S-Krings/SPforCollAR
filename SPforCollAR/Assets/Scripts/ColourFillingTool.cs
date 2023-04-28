@@ -5,7 +5,16 @@ using UnityEngine;
 
 public class ColourFillingTool : NetworkBehaviour
 {
-    [SerializeField] private Color colour = Color.red;
+    [SerializeField] private Color colour = Color.white;
+    [SerializeField] private MeshRenderer meshRenderer;
+
+    private void Start()
+    {
+        if(meshRenderer == null)
+        {
+            meshRenderer = this.GetComponentInChildren<MeshRenderer>();
+        }
+    }
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("TriggerEnter");
@@ -30,7 +39,7 @@ public class ColourFillingTool : NetworkBehaviour
     [Command(requiresAuthority = false)]
     void CmdSetColour(Color colour)
     {
-        this.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", colour);
+        meshRenderer.materials[0].SetColor("_Color", colour);
         this.colour = colour;
         RPCSetColour(colour);
     }
@@ -38,20 +47,20 @@ public class ColourFillingTool : NetworkBehaviour
     [ClientRpc]
     public void RPCSetColour(Color colour)
     {
-        this.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", colour);
+        meshRenderer.materials[0].SetColor("_Color", colour);
         this.colour = colour;
     }
 
     [Command(requiresAuthority = false)]
     void CmdSetObjectColour(GameObject obj, Color colour)
     {
-        obj.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", colour);
+        obj.GetComponentInChildren<MeshRenderer>().materials[0].SetColor("_Color", colour);
         RPCSetObjectColour(obj, colour);
     }
 
     [ClientRpc]
     public void RPCSetObjectColour(GameObject obj, Color colour)
     {
-        obj.GetComponent<MeshRenderer>().materials[0].SetColor("_Color", colour);
+        obj.GetComponentInChildren<MeshRenderer>().materials[0].SetColor("_Color", colour);
     }
 }
