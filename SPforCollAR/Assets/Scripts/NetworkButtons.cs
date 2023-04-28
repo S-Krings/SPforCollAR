@@ -71,6 +71,16 @@ public class NetworkButtons : MonoBehaviour
         SceneManager.UnloadSceneAsync("MirrorLobby");
     }
 
+    public void StartTutorial()
+    {
+        discoveredServers.Clear();
+        setValues();
+        NetworkManager.singleton.StartHost();
+        networkDiscovery.AdvertiseServer();
+        SceneManager.LoadScene("TutorialScene", LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync("MirrorLobby");
+    }
+
     public void OnServerFound(ServerResponse info)
     {
         Debug.Log("Found Server, info id: " + info.serverId);
