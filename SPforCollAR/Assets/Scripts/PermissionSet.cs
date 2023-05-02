@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Permission : MonoBehaviour
+public class PermissionSet : MonoBehaviour
 {
     public GameObject go;
     public Dictionary<int, PermissionType> clientPermissionsDict = new Dictionary<int, PermissionType>();
 
-    public Permission(GameObject go)
+    public PermissionSet(GameObject go)
     {
         this.go = go;
     }

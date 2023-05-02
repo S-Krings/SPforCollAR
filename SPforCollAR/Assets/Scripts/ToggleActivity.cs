@@ -6,10 +6,28 @@ public class ToggleActivity : MonoBehaviour
 {
     public SpawningControl spawningControl;
     [SerializeField] private GameObject objToToggle;
+    private GameObject instantiatedPrefab;
 
     public void ToggleGOActivity(GameObject gameObject)
     {
         gameObject.SetActive(!gameObject.activeInHierarchy);
+    }
+
+    public void InstanciationToggle(GameObject prefabToInstanciate)
+    {
+        if (instantiatedPrefab == null)
+        {
+            instantiatedPrefab = Instantiate(prefabToInstanciate, this.transform);
+        }
+        else
+        {
+            Destroy(instantiatedPrefab);
+        }
+    }
+
+    public void DestroyInstance(GameObject instance)
+    {
+        Destroy(instance);
     }
 
     public void SpawnDespawnToggle(int prefabNumber)
@@ -54,7 +72,7 @@ public class ToggleActivity : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogError("ToggleActivity could not find Spawning control");
+                Debug.LogError("ToggleActivity could not find Spawning control. Error: "+e);
             }
         }
     }

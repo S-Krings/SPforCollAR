@@ -6,16 +6,59 @@ using Mirror;
 public class PermissionManager : MonoBehaviour
 {
     public static PermissionManager singleton { get; internal set; }
-    public bool dontDestroyOnLoad = true;
-    private Dictionary<int, Permission> permissionObjectsDict = new Dictionary<int, Permission>();
+    public bool dontDestroyOnLoad = false;
+    [SerializeField] private Dictionary<int, PermissionSet> permissionObjectsDict = new Dictionary<int, PermissionSet>();
+    [SerializeField] PermissionType preferredPermission;
+
+    [SerializeField] private Dictionary<int, PermissionType> permissionSettings = new Dictionary<int, PermissionType>();
+    [SerializeField] private PlayerScript[] playerList;
 
     public virtual void Awake()
     {
         // Don't allow collision-destroyed second instance to continue.
         if (!InitializeSingleton()) return;
+        playerList = FindObjectsOfType<PlayerScript>();
+        foreach(PlayerScript player in playerList)
+        {
+            permissionSettings.Add(player.netIdentity.connectionToServer.connectionId, PermissionType.None);
+        }
     }
 
-    public Permission getPermission(GameObject go)
+    private void UpdatePlayerList()
+    {
+        playerList = FindObjectsOfType<PlayerScript>();
+        List<int> playerNumbersList = new List<int>();
+        foreach (PlayerScript player in playerList)
+        {
+            int playerConnectionID = player.netIdentity.connectionToServer.connectionId;
+            if (!permissionSettings.ContainsKey(playerConnectionID))
+            {
+                permissionSettings.Add(playerConnectionID, PermissionType.None);
+            }
+            playerNumbersList.Add(playerConnectionID);
+        }
+        foreach(int key in permissionSettings.Keys)
+        {
+            if (!playerNumbersList.Contains(key))
+            {
+                permissionSettings.Remove(key);
+            }
+        }
+    }
+
+    public Dictionary<int, PermissionType> getPermissionSettings()
+    {
+        UpdatePlayerList();
+        return permissionSettings;
+    }
+
+    public void setPermissionSettings(Dictionary<int, PermissionType> newSettings)
+    {
+        permissionSettings = newSettings;
+        Debug.Log(newSettings.Keys.Count+" new settings: " + newSettings);
+    }
+
+    private PermissionSet getPermission(GameObject go)
     {
         NetworkIdentity networkIdentity = go.GetComponent<NetworkIdentity>();
         if (networkIdentity == null)
@@ -29,10 +72,16 @@ public class PermissionManager : MonoBehaviour
         Debug.Log("Warning: There are no permissions saved for Object");
         return null;
     }
-    public PermissionType getPermissionType(GameObject go, int clientID)
+    private PermissionType getPermissionType(GameObject go, int clientID)
     {
-        Permission permission = getPermission(go);
+        PermissionSet permission = getPermission(go);
         return permission.GetPermissionType(clientID);
+    }
+
+    public bool checkPermission(PermissionType neededType, GameObject go, int clientID)
+    {
+        PermissionType foundType = getPermissionType(go, clientID);
+        return foundType.Equals(neededType);
     }
 
     bool InitializeSingleton()
