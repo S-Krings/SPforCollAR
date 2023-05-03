@@ -72,6 +72,7 @@ public class PermissionManager : MonoBehaviour
         Debug.Log("Warning: There are no permissions saved for Object");
         return null;
     }
+
     private PermissionType getPermissionType(GameObject go, int clientID)
     {
         PermissionSet permission = getPermission(go);
