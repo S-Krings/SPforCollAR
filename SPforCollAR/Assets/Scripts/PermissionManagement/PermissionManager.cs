@@ -17,10 +17,13 @@ public class PermissionManager : MonoBehaviour
     {
         // Don't allow collision-destroyed second instance to continue.
         if (!InitializeSingleton()) return;
+        Debug.Log("PermissionManager singleton filled");
         playerList = FindObjectsOfType<PlayerScript>();
         foreach(PlayerScript player in playerList)
         {
-            permissionSettings.Add(player.netIdentity.connectionToServer.connectionId, PermissionType.None);
+            //set standard permissions to none as default
+            Debug.Log("Adding to standard permissions: clientid: " + player.netIdentity.connectionToServer.connectionId);
+            permissionSettings.Add(player.netIdentity.connectionToServer.connectionId, PermissionType.Read);
         }
     }
 
@@ -58,7 +61,35 @@ public class PermissionManager : MonoBehaviour
         Debug.Log(newSettings.Keys.Count+" new settings: " + newSettings);
     }
 
-    private PermissionSet getPermission(GameObject go)
+    public void AddStandardPermissions(GameObject gameObject)
+    {
+        Debug.Log("Adding Standard Permissions to " + gameObject + " with id " + gameObject.GetComponent<NetworkIdentity>().netId);
+        NetworkIdentity networkIdentity = gameObject.GetComponent<NetworkIdentity>();
+        if(networkIdentity != null)
+        {
+            if (!permissionObjectsDict.ContainsKey((int)networkIdentity.netId))
+            {
+                PermissionSet permission = new PermissionSet(gameObject);
+                Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
+                foreach(int key in standardPermissions.Keys)
+                {
+                    permission.AddPermission(key, standardPermissions[key]);
+                    Debug.Log("Adding permission to permission set for:"+ (int)networkIdentity.netId + " key: " + key + " value: " + standardPermissions[key]);
+                }
+                permissionObjectsDict.Add((int)networkIdentity.netId, permission);
+            }
+            else
+            {
+                Debug.LogError("The GameObject with networkIdentity " + (int)networkIdentity.netId + " already exists. Something went wrong.");
+            }
+        }
+        else
+        {
+            Debug.LogError("The GameObject does not contain a network identity, it cannot be networked");
+        }
+    }
+
+    private PermissionSet getPermissionSet(GameObject go)
     {
         NetworkIdentity networkIdentity = go.GetComponent<NetworkIdentity>();
         if (networkIdentity == null)
@@ -66,7 +97,8 @@ public class PermissionManager : MonoBehaviour
             Debug.Log("Warning: Object " + go + " does not have a network identity, so permissions do not apply here.");
             return null;
         }
-        if (permissionObjectsDict.ContainsKey((int)networkIdentity.netId)) {
+        if (permissionObjectsDict.ContainsKey((int)networkIdentity.netId))
+        {
             return permissionObjectsDict[(int)networkIdentity.netId];
         }
         Debug.Log("Warning: There are no permissions saved for Object");
@@ -75,14 +107,28 @@ public class PermissionManager : MonoBehaviour
 
     private PermissionType getPermissionType(GameObject go, int clientID)
     {
-        PermissionSet permission = getPermission(go);
+        Debug.Log("getpermissiontype for gameobject with id: " + go.GetComponent<NetworkIdentity>().netId + "and client id " + clientID);
+        PermissionSet permission = getPermissionSet(go);
+        if (permission == null)
+        {
+            Debug.Log("No permission set, returning None permission"); 
+            return PermissionType.None;
+        }
         return permission.GetPermissionType(clientID);
     }
 
     public bool checkPermission(PermissionType neededType, GameObject go, int clientID)
     {
+        Debug.Log("Checkpermission for gameobject with id: " + go.GetComponent<NetworkIdentity>().netId+"and client id " + clientID);
         PermissionType foundType = getPermissionType(go, clientID);
         return foundType.Equals(neededType);
+    }
+
+    public bool checkPermission(PermissionType neededType, NetworkIdentity goNetID, int clientID)
+    {
+        //Debug.Log("Checkpermission for gameobject with id: " +goNetID + "and client id " + clientID);
+        //PermissionType foundType = getPermissionType(goNetID.gameObject, clientID);
+        return checkPermission(neededType, goNetID.gameObject, clientID);
     }
 
     bool InitializeSingleton()

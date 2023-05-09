@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PermissionSet : MonoBehaviour
+public class PermissionSet
 {
     public GameObject go;
     public Dictionary<int, PermissionType> clientPermissionsDict = new Dictionary<int, PermissionType>();
@@ -20,6 +20,19 @@ public class PermissionSet : MonoBehaviour
             clientPermissionsDict.Remove(clientID);
         }
         clientPermissionsDict.Add(clientID, permissionType);
+    }
+    public PermissionType GetPermissionType(int clientID)
+    {
+        Debug.Log("getpermissiontype for gameobject with id: " + go.GetComponent<Mirror.NetworkIdentity>().netId + "and client id " + clientID);
+        if (clientPermissionsDict.ContainsKey(clientID))
+        {
+            return clientPermissionsDict[clientID];
+        }
+        else
+        {
+            Debug.Log("No permission for client ID " + clientID + " found in GameObject " + go);
+            return PermissionType.None;
+        }
     }
 
     public bool AllowsReadAccess(int clientID)
@@ -56,19 +69,6 @@ public class PermissionSet : MonoBehaviour
         else
         {
             return false;
-        }
-    }
-
-    public PermissionType GetPermissionType(int clientID)
-    {
-        if (clientPermissionsDict.ContainsKey(clientID))
-        {
-            return clientPermissionsDict[clientID];
-        }
-        else
-        {
-            Debug.Log("No permission for client ID " + clientID + " found in GameObject " + go);
-            return PermissionType.None;
         }
     }
 }
