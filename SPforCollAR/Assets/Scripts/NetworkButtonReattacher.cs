@@ -1,5 +1,6 @@
 using Microsoft.MixedReality.Toolkit.Experimental.UI;
 using Mirror;
+using Mirror.Discovery;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -39,7 +40,18 @@ public class NetworkButtonReattacher : MonoBehaviour
             });
             networkButtons.SetPlayerNameInput(playernameInputField);
             networkButtons.SetColourDropdown(colourDropdown);
+            Debug.Log("in reattach: buttoncontainer is: " + buttonContainer);
             networkButtons.SetButtonContainer(buttonContainer);
+        }
+
+        NetworkDiscovery networkDiscovery = FindObjectOfType<NetworkDiscovery>();
+        if (networkDiscovery != null)
+        {
+            Debug.Log("Reattaching OnServerFoundMethod");
+            networkDiscovery.OnServerFound.RemoveAllListeners();
+            networkDiscovery.OnServerFound.AddListener((ServerResponse info) => {
+                networkButtons.OnServerFound(info);
+            });
         }
     }
 }
