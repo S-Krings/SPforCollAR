@@ -10,10 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5410205761174606358}
   - component: {fileID: 5410205761174606359}
-  - component: {fileID: 5410205761174606355}
   - component: {fileID: 5410205761174606354}
-  - component: {fileID: 448571077}
   - component: {fileID: 448571078}
+  - component: {fileID: 1186461410}
   m_Layer: 0
   m_Name: NetworkManager
   m_TagString: Untagged
@@ -53,8 +52,8 @@ MonoBehaviour:
   autoStartServerBuild: 1
   autoConnectClientBuild: 0
   sendRate: 30
-  offlineScene: Assets/Scenes/MirrorLobby.unity
-  onlineScene: Assets/Scenes/MirrorTest.unity
+  offlineScene: 
+  onlineScene: 
   transport: {fileID: 5410205761174606354}
   networkAddress: localhost
   maxConnections: 100
@@ -69,21 +68,9 @@ MonoBehaviour:
   - {fileID: 799854964457771644, guid: c416565f30a27004c8137cb366f7c651, type: 3}
   - {fileID: 5841992293930907629, guid: dfcd7db21c1687d4a9bcde0f17b47f43, type: 3}
   - {fileID: 4452133098952095818, guid: 80da8dd7c03e01d4dae53f4f4d91fcb1, type: 3}
+  - {fileID: 5011702556003341189, guid: 98c2a5da6c363a0418f1b26b2b1d62d3, type: 3}
+  - {fileID: 2480822494969133169, guid: 0f83438cae0792748b5740f99da027eb, type: 3}
   timeInterpolationGui: 0
---- !u!114 &5410205761174606355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5410205761174606362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8f0c4ef4f885af64eb1da4680d667d35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tmPro: {fileID: 0}
-  menu: {fileID: 0}
 --- !u!114 &5410205761174606354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -97,7 +84,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   port: 9000
-  maxMessageSize: 16384
+  maxMessageSize: 32768
   handshakeMaxSize: 3000
   noDelay: 1
   sendTimeout: 5000
@@ -111,21 +98,6 @@ MonoBehaviour:
   sslCertJson: ./cert.json
   sslProtocols: 3072
   _logLevels: 2
---- !u!114 &448571077
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5410205761174606362}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e81f6c843130fd249893ab8d758a84bf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonPrefab: {fileID: 2620603018678684970, guid: 0be8f1a2659fbad4395fc30c6bc67f86, type: 3}
-  buttonContainer: {fileID: 0}
-  networkDiscovery: {fileID: 448571078}
 --- !u!114 &448571078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -147,7 +119,7 @@ MonoBehaviour:
   OnServerFound:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 448571077}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: NetworkButtons, Assembly-CSharp
         m_MethodName: OnServerFound
         m_Mode: 0
@@ -159,3 +131,17 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1186461410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5410205761174606362}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e65d55a00368b4f8cea4d8519d3018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visRange: 10
+  rebuildInterval: 1
