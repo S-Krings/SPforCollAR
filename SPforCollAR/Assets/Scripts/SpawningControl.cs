@@ -48,6 +48,7 @@ public class SpawningControl : NetworkBehaviour
 
     public void SpawnInDistance(int index)
     {
+        Debug.Log("Called SpawnInDistance for index " + index);
         Vector3 position = Camera.main.transform.position + Camera.main.transform.forward * 0.6f;
         Vector3 forwardDir = Camera.main.transform.forward;
         //Debug.Log("Authority: " + hasAuthority);

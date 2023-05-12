@@ -88,7 +88,7 @@ public class MovementUpdater : NetworkBehaviour
     {
         if (isClientOnly)
         { 
-            Debug.Log("RPC Update position");
+            //Debug.Log("RPC Update position");
             GameObject g = id.gameObject;
             //Debug.Log("RPC, new vector:" + g + "Coords: x=" + g.transform.position.x + " y: " + g.transform.position.y + " z: " + g.transform.position.z);
             //if (!this.player.Equals(player))
