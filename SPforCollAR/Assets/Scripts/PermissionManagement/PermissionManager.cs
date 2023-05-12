@@ -33,7 +33,7 @@ public class PermissionManager : MonoBehaviour
         List<int> playerNumbersList = new List<int>();
         foreach (PlayerScript player in playerList)
         {
-            int playerConnectionID = player.netIdentity.connectionToServer.connectionId;
+            int playerConnectionID = player.netIdentity.connectionToClient.connectionId;
             if (!permissionSettings.ContainsKey(playerConnectionID))
             {
                 permissionSettings.Add(playerConnectionID, PermissionType.None);
@@ -58,12 +58,12 @@ public class PermissionManager : MonoBehaviour
     public void setPermissionSettings(Dictionary<int, PermissionType> newSettings)
     {
         permissionSettings = newSettings;
-        Debug.Log(newSettings.Keys.Count+" new settings: " + newSettings);
+        //Debug.Log(newSettings.Keys.Count+" new settings: " + newSettings);
     }
 
     public void AddStandardPermissions(GameObject gameObject)
     {
-        Debug.Log("Adding Standard Permissions to " + gameObject + " with id " + gameObject.GetComponent<NetworkIdentity>().netId);
+        //Debug.Log("Adding Standard Permissions to " + gameObject + " with id " + gameObject.GetComponent<NetworkIdentity>().netId);
         NetworkIdentity networkIdentity = gameObject.GetComponent<NetworkIdentity>();
         if(networkIdentity != null)
         {
@@ -101,17 +101,17 @@ public class PermissionManager : MonoBehaviour
         {
             return permissionObjectsDict[(int)networkIdentity.netId];
         }
-        Debug.Log("Warning: There are no permissions saved for Object");
+        //Debug.Log("Warning: There are no permissions saved for Object");
         return null;
     }
 
     private PermissionType getPermissionType(GameObject go, int clientID)
     {
-        Debug.Log("getpermissiontype for gameobject with id: " + go.GetComponent<NetworkIdentity>().netId + "and client id " + clientID);
+        //Debug.Log("getpermissiontype for gameobject with id: " + go.GetComponent<NetworkIdentity>().netId + "and client id " + clientID);
         PermissionSet permission = getPermissionSet(go);
         if (permission == null)
         {
-            Debug.Log("No permission set, returning None permission"); 
+            //Debug.Log("No permission set, returning None permission"); 
             return PermissionType.None;
         }
         return permission.GetPermissionType(clientID);
@@ -119,7 +119,7 @@ public class PermissionManager : MonoBehaviour
 
     public bool checkPermission(PermissionType neededType, GameObject go, int clientID)
     {
-        Debug.Log("Checkpermission for gameobject with id: " + go.GetComponent<NetworkIdentity>().netId+"and client id " + clientID);
+        //Debug.Log("Checkpermission for gameobject with id: " + go.GetComponent<NetworkIdentity>().netId+"and client id " + clientID);
         PermissionType foundType = getPermissionType(go, clientID);
         return foundType.Equals(neededType);
     }

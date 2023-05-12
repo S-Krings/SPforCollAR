@@ -2966,6 +2966,7 @@ GameObject:
   - component: {fileID: 4872313356911660336}
   - component: {fileID: 667126645985668243}
   - component: {fileID: 8621826389766200331}
+  - component: {fileID: 1973204664979943765}
   m_Layer: 0
   m_Name: Person
   m_TagString: Untagged
@@ -3274,6 +3275,22 @@ MonoBehaviour:
   showGizmos: 0
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+--- !u!114 &1973204664979943765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7212978430420499159}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e4df82fc1f14d04880374a2d375f0b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  visRange: 20
 --- !u!1 &7401281720411074291
 GameObject:
   m_ObjectHideFlags: 0

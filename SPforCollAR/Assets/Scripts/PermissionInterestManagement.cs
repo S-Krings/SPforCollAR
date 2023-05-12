@@ -30,7 +30,11 @@ public class PermissionInterestManagement : InterestManagement
         {
             return true;
         }
-        return !PermissionManager.singleton.checkPermission(PermissionType.None, identity, (int)newObserver.identity.connectionToServer.connectionId);
+        //Debug.Log("Permission Manager: "+PermissionManager.singleton);
+        //Debug.Log("Identity: " + identity);
+        Debug.Log("Oncheckobserver New Observer id: " + newObserver.connectionId);
+        //Debug.Log("New observer conntoserver: " + newObserver.identity.connectionToServer);
+        return !PermissionManager.singleton.checkPermission(PermissionType.None, identity, (int)newObserver.connectionId);
         //return Vector3.Distance(identity.transform.position, newObserver.identity.transform.position) < range;
     }
 
@@ -53,13 +57,14 @@ public class PermissionInterestManagement : InterestManagement
             {
                 // check distance
                 //if (Vector3.Distance(conn.identity.transform.position, position) < range)
-                Debug.Log("Permieeion manager exists: " + PermissionManager.singleton);
-                Debug.Log("Permission manager usable? Perm settings: " + PermissionManager.singleton.getPermissionSettings());
-                Debug.Log("GO identity " + identity);
-                Debug.Log("Player identity " + conn.identity);
-                Debug.Log("Player netid " + conn.identity.netId);
+                //Debug.Log("Permieeion manager exists: " + PermissionManager.singleton);
+                //Debug.Log("Permission manager usable? Perm settings: " + PermissionManager.singleton.getPermissionSettings());
+                //Debug.Log("GO identity " + identity);
+                //Debug.Log("Player identity " + conn.identity);
+                //Debug.Log("Player netid " + conn.identity.netId);
+                //Debug.Log("Conn to server nr: " + /*conn.identity.connectionToServer.connectionId +*/ " conntoclient nr: " + conn.connectionId);
 
-                if ((PermissionManager.singleton != null && !PermissionManager.singleton.checkPermission(PermissionType.None, identity.gameObject, (int)conn.identity.connectionToServer.connectionId)) 
+                if ((PermissionManager.singleton != null && !PermissionManager.singleton.checkPermission(PermissionType.None, identity.gameObject, (int)conn./*identity.connectionToServer.*/connectionId)) 
                     || PermissionOverride(identity))
                 {
                     newObservers.Add(conn);
