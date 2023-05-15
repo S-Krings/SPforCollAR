@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class PermissionManager : MonoBehaviour
+public class PermissionManager : NetworkBehaviour
 {
     public static PermissionManager singleton { get; internal set; }
     public bool dontDestroyOnLoad = false;
     [SerializeField] private Dictionary<int, PermissionSet> permissionObjectsDict = new Dictionary<int, PermissionSet>();
-    [SerializeField] PermissionType preferredPermission;
+
+    [SerializeField] PermissionType basePermission;
 
     [SerializeField] private Dictionary<int, PermissionType> permissionSettings = new Dictionary<int, PermissionType>();
     [SerializeField] private PlayerScript[] playerList;
@@ -17,14 +18,15 @@ public class PermissionManager : MonoBehaviour
     {
         // Don't allow collision-destroyed second instance to continue.
         if (!InitializeSingleton()) return;
-        Debug.Log("PermissionManager singleton filled");
+        /*Debug.Log("PermissionManager singleton filled");
         playerList = FindObjectsOfType<PlayerScript>();
         foreach(PlayerScript player in playerList)
         {
             //set standard permissions to none as default
             Debug.Log("Adding to standard permissions: clientid: " + player.netIdentity.connectionToServer.connectionId);
-            permissionSettings.Add(player.netIdentity.connectionToServer.connectionId, PermissionType.Read);
-        }
+            permissionSettings.Add(player.netIdentity.connectionToServer.connectionId, basePermission);
+        }*/
+        UpdatePlayerList();
     }
 
     private void UpdatePlayerList()
@@ -36,7 +38,7 @@ public class PermissionManager : MonoBehaviour
             int playerConnectionID = player.netIdentity.connectionToClient.connectionId;
             if (!permissionSettings.ContainsKey(playerConnectionID))
             {
-                permissionSettings.Add(playerConnectionID, PermissionType.None);
+                permissionSettings.Add(playerConnectionID, basePermission);
             }
             playerNumbersList.Add(playerConnectionID);
         }
@@ -63,30 +65,74 @@ public class PermissionManager : MonoBehaviour
 
     public void AddStandardPermissions(GameObject gameObject)
     {
-        //Debug.Log("Adding Standard Permissions to " + gameObject + " with id " + gameObject.GetComponent<NetworkIdentity>().netId);
-        NetworkIdentity networkIdentity = gameObject.GetComponent<NetworkIdentity>();
-        if(networkIdentity != null)
+        Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
+        List<int> keys = new List<int>();
+        List<PermissionType> permissions = new List<PermissionType>();
+        foreach(int i in standardPermissions.Keys)
         {
-            if (!permissionObjectsDict.ContainsKey((int)networkIdentity.netId))
+            keys.Add(i);
+            permissions.Add(standardPermissions[i]);
+        }
+        CmdAddStandardPermissions((int)gameObject.GetComponent<NetworkIdentity>().netId, keys, permissions) ;
+    }
+
+     [Command (requiresAuthority = false)]
+     private void CmdAddStandardPermissions(int goNetID, List<int> keyList, List<PermissionType> permissionList)
+     {
+        //Debug.Log("Adding Standard Permissions to " + gameObject + " with id " + gameObject.GetComponent<NetworkIdentity>().netId);
+        //NetworkIdentity networkIdentity = gameObject.GetComponent<NetworkIdentity>();
+        //if (networkIdentity != null)
+        //{
+            if (!permissionObjectsDict.ContainsKey(goNetID))
             {
-                PermissionSet permission = new PermissionSet(gameObject);
-                Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
-                foreach(int key in standardPermissions.Keys)
+                PermissionSet permission = new PermissionSet(goNetID);
+                //Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
+                foreach (int key in keyList)
                 {
-                    permission.AddPermission(key, standardPermissions[key]);
-                    Debug.Log("Adding permission to permission set for:"+ (int)networkIdentity.netId + " key: " + key + " value: " + standardPermissions[key]);
+                    permission.AddPermission(key, permissionList[key]);
+                    Debug.Log("Adding permission to permission set for:" + goNetID + " key: " + key + " value: " + permissionList[key]);
                 }
-                permissionObjectsDict.Add((int)networkIdentity.netId, permission);
+                permissionObjectsDict.Add(goNetID, permission);
             }
             else
             {
-                Debug.LogError("The GameObject with networkIdentity " + (int)networkIdentity.netId + " already exists. Something went wrong.");
+                Debug.LogError("The GameObject with networkIdentity " + goNetID + " already exists. Something went wrong.");
             }
-        }
+        /*}
         else
         {
             Debug.LogError("The GameObject does not contain a network identity, it cannot be networked");
+        }*/
+        Debug.Log("CMD: Networkidentity var is: " + goNetID);
+        RPCAddStandardPermissions(goNetID, keyList, permissionList);
+    }
+
+    [ClientRpc]
+    private void RPCAddStandardPermissions(int goNetID, List<int> keyList, List<PermissionType> permissionList)
+    {
+        //if (networkIdentity != null)
+        //{
+        if (!permissionObjectsDict.ContainsKey(goNetID))
+        {
+            PermissionSet permission = new PermissionSet(goNetID);
+            //Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
+            foreach (int key in keyList)
+            {
+                permission.AddPermission(key, permissionList[key]);
+                Debug.Log("Adding permission to permission set for:" + goNetID + " key: " + key + " value: " + permissionList[key]);
+            }
+            permissionObjectsDict.Add(goNetID, permission);
         }
+        else
+        {
+            Debug.LogError("The GameObject with networkIdentity " + goNetID + " already exists. Something went wrong.");
+        }
+        /*}
+        else
+        {
+            Debug.LogError("The GameObject does not contain a network identity, it cannot be networked");
+        }*/
+        Debug.Log("RPC: Networkidentity var is: " + goNetID);
     }
 
     private PermissionSet getPermissionSet(GameObject go)

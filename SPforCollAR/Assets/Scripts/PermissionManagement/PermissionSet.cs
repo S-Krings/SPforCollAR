@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class PermissionSet
 {
-    public GameObject go;
+    public int goClientID;
     public Dictionary<int, PermissionType> clientPermissionsDict = new Dictionary<int, PermissionType>();
 
-    public PermissionSet(GameObject go)
+    /*public PermissionSet(GameObject go)
     {
-        this.go = go;
+        this.goClientID = (int) go.GetComponent<Mirror.NetworkIdentity>().netId;
+    }*/
+    public PermissionSet(int goClientID)
+    {
+        this.goClientID = goClientID;
     }
 
     public void AddPermission(int clientID, PermissionType permissionType)
@@ -23,14 +27,14 @@ public class PermissionSet
     }
     public PermissionType GetPermissionType(int clientID)
     {
-        Debug.Log("getpermissiontype for gameobject with id: " + go.GetComponent<Mirror.NetworkIdentity>().netId + "and client id " + clientID);
+        Debug.Log("getpermissiontype for gameobject with id: " + goClientID + "and client id " + clientID);
         if (clientPermissionsDict.ContainsKey(clientID))
         {
             return clientPermissionsDict[clientID];
         }
         else
         {
-            Debug.Log("No permission for client ID " + clientID + " found in GameObject " + go);
+            Debug.Log("No permission for client ID " + clientID + " found in GameObject " + goClientID);
             return PermissionType.None;
         }
     }

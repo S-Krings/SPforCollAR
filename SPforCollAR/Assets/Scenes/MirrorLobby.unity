@@ -3397,14 +3397,6 @@ PrefabInstance:
       propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 7066727905732653421}
-    - target: {fileID: 448571078, guid: 384156f91b97b994d8a820f3ea9b42fb, type: 3}
-      propertyPath: OnServerFound.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: OnServerFound
-      objectReference: {fileID: 0}
-    - target: {fileID: 1186461410, guid: 384156f91b97b994d8a820f3ea9b42fb, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5410205761174606358, guid: 384156f91b97b994d8a820f3ea9b42fb, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -3449,13 +3441,13 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5410205761174606359, guid: 384156f91b97b994d8a820f3ea9b42fb, type: 3}
-      propertyPath: offlineScene
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 5410205761174606362, guid: 384156f91b97b994d8a820f3ea9b42fb, type: 3}
       propertyPath: m_Name
       value: NetworkManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5410205761174606362, guid: 384156f91b97b994d8a820f3ea9b42fb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 384156f91b97b994d8a820f3ea9b42fb, type: 3}

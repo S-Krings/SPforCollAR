@@ -15,7 +15,7 @@ public class ColourRelay : NetworkBehaviour
     {
         try
         {
-            spawningControl = GameObject.Find("NetworkRelay").GetComponent<SpawningControl>();
+            spawningControl = FindObjectOfType<SpawningControl>();
         }
         catch (System.Exception e)
         {

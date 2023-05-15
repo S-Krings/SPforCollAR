@@ -14425,7 +14425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d196d74eaa2497b429163df9f5d171c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawningControl: {fileID: 0}
+  spawningControl: {fileID: 6333884677661023674}
   objToToggle: {fileID: 0}
 --- !u!1 &5122310590915038860
 GameObject:
@@ -16030,7 +16030,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d196d74eaa2497b429163df9f5d171c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawningControl: {fileID: 0}
+  spawningControl: {fileID: 6333884677661023674}
   objToToggle: {fileID: 0}
 --- !u!1 &5493207552108579376
 GameObject:
@@ -20810,7 +20810,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d196d74eaa2497b429163df9f5d171c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spawningControl: {fileID: 0}
+  spawningControl: {fileID: 6333884677661023674}
   objToToggle: {fileID: 0}
 --- !u!1 &6333884676392883831
 GameObject:
@@ -22436,7 +22436,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2802310927131104758}
         m_TargetAssemblyTypeName: ColourRelay, Assembly-CSharp
         m_MethodName: SetFillerColour
         m_Mode: 3
@@ -24841,7 +24841,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2802310927131104758}
         m_TargetAssemblyTypeName: ColourRelay, Assembly-CSharp
         m_MethodName: SetPenColour
         m_Mode: 3
@@ -27438,7 +27438,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2802310927131104758}
         m_TargetAssemblyTypeName: ColourRelay, Assembly-CSharp
         m_MethodName: SetFillerColour
         m_Mode: 3
@@ -28507,7 +28507,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2802310927131104758}
         m_TargetAssemblyTypeName: ColourRelay, Assembly-CSharp
         m_MethodName: SetPenColour
         m_Mode: 3
@@ -29032,7 +29032,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2802310927131104758}
         m_TargetAssemblyTypeName: ColourRelay, Assembly-CSharp
         m_MethodName: SetFillerColour
         m_Mode: 3
@@ -31663,7 +31663,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2802310927131104758}
         m_TargetAssemblyTypeName: ColourRelay, Assembly-CSharp
         m_MethodName: SetFillerColour
         m_Mode: 3
@@ -32773,7 +32773,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2802310927131104758}
         m_TargetAssemblyTypeName: ColourRelay, Assembly-CSharp
         m_MethodName: SetPenColour
         m_Mode: 3
@@ -33331,7 +33331,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 4303403862834604265}
         m_TargetAssemblyTypeName: ExitButton, Assembly-CSharp
         m_MethodName: ExitToLobby
         m_Mode: 1
@@ -35598,7 +35598,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2802310927131104758}
         m_TargetAssemblyTypeName: ColourRelay, Assembly-CSharp
         m_MethodName: SetFillerColour
         m_Mode: 3
@@ -38418,7 +38418,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2802310927131104758}
         m_TargetAssemblyTypeName: ColourRelay, Assembly-CSharp
         m_MethodName: SetPenColour
         m_Mode: 3
@@ -40220,6 +40220,8 @@ GameObject:
   - component: {fileID: 6333884677661023674}
   - component: {fileID: 6333884677661023675}
   - component: {fileID: 6333884677661023676}
+  - component: {fileID: 2802310927131104758}
+  - component: {fileID: 4303403862834604265}
   m_Layer: 5
   m_Name: HandMenu
   m_TagString: Untagged
@@ -40417,6 +40419,37 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   visRange: 20
+--- !u!114 &2802310927131104758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6333884678367762316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe2803d4cafa1724ca139ad27ba9c18d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+  spawningControl: {fileID: 6333884677661023674}
+--- !u!114 &4303403862834604265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6333884678367762316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1804cc028fb066a4eb16595ed83703f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1 &6333884678368764998
 GameObject:
   m_ObjectHideFlags: 0
@@ -40846,7 +40879,7 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2802310927131104758}
         m_TargetAssemblyTypeName: ColourRelay, Assembly-CSharp
         m_MethodName: SetPenColour
         m_Mode: 3
