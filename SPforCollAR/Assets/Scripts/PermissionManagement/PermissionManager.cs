@@ -132,7 +132,7 @@ public class PermissionManager : NetworkBehaviour
         {
             Debug.LogError("The GameObject does not contain a network identity, it cannot be networked");
         }*/
-        Debug.Log("RPC: Networkidentity var is: " + goNetID);
+        //Debug.Log("RPC: Networkidentity var is: " + goNetID);
     }
 
     private PermissionSet getPermissionSet(GameObject go)

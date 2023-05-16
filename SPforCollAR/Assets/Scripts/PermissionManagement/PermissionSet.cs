@@ -27,7 +27,7 @@ public class PermissionSet
     }
     public PermissionType GetPermissionType(int clientID)
     {
-        Debug.Log("getpermissiontype for gameobject with id: " + goClientID + "and client id " + clientID);
+        //Debug.Log("getpermissiontype for gameobject with id: " + goClientID + "and client id " + clientID);
         if (clientPermissionsDict.ContainsKey(clientID))
         {
             return clientPermissionsDict[clientID];

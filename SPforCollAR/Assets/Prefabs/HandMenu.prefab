@@ -17029,10 +17029,10 @@ MonoBehaviour:
   OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6333884677661023674}
-        m_TargetAssemblyTypeName: SpawningControl, Assembly-CSharp
-        m_MethodName: SpawnInDistance
-        m_Mode: 3
+      - m_Target: {fileID: 2609354396627634282}
+        m_TargetAssemblyTypeName: PrivacyShieldButton, Assembly-CSharp
+        m_MethodName: OnClick
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -40222,6 +40222,7 @@ GameObject:
   - component: {fileID: 6333884677661023676}
   - component: {fileID: 2802310927131104758}
   - component: {fileID: 4303403862834604265}
+  - component: {fileID: 2609354396627634282}
   m_Layer: 5
   m_Name: HandMenu
   m_TagString: Untagged
@@ -40361,8 +40362,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce741ec83bf5bc449a451fa271c0d585, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
   dontDestroyOnLoad: 0
-  preferredPermission: 0
+  basePermission: 0
   playerList: []
 --- !u!114 &6333884677661023674
 MonoBehaviour:
@@ -40445,6 +40449,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1804cc028fb066a4eb16595ed83703f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0.1
+--- !u!114 &2609354396627634282
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6333884678367762316}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b4552ecc7eead949bfadf6f917139c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncDirection: 0

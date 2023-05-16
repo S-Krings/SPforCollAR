@@ -7,18 +7,15 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: NearDissolveParamMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: ae0f4395127dab24d94a99cf054353f9, type: 3}
-  m_ValidKeywords:
-  - _BUILTIN_ALPHATEST_ON
-  - _BUILTIN_AlphaClip
+  m_Name: UnlitTestMaterial
+  m_Shader: {fileID: -6465566751694194690, guid: 0b3255c001a5f3345bb669da0f3f0add, type: 3}
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap:
-    RenderType: TransparentCutout
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -61,32 +58,17 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _BUILTIN_AlphaClip: 1
-    - _BUILTIN_Blend: 0
-    - _BUILTIN_CullMode: 0
-    - _BUILTIN_DstBlend: 0
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _BUILTIN_SrcBlend: 1
-    - _BUILTIN_Surface: 0
-    - _BUILTIN_ZTest: 4
-    - _BUILTIN_ZWrite: 1
-    - _BUILTIN_ZWriteControl: 0
-    - _BlendOutEndDistance: 0.2
-    - _BlendOutStartDistance: 0.6
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _CutoffLevel: 0
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EdgeWitdh: 0.05
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _Metallic: 0
     - _Mode: 0
-    - _NoiseLevel: 20
-    - _NoiseStrength: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SmoothnessTextureChannel: 0
@@ -96,12 +78,9 @@ Material:
     - _ZWrite: 1
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _CutoffLevelMinMax: {r: 1.8, g: -0.5, b: 0, a: 0}
-    - _EdgeColour: {r: 0.3679245, g: 0.3679245, b: 0.3679245, a: 0.9764706}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecularColor: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0}
   m_BuildTextureStacks: []
---- !u!114 &4301216680324860818
+--- !u!114 &3794046101513795944
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
