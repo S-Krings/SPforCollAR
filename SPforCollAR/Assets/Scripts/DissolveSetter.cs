@@ -51,7 +51,7 @@ public class DissolveSetter : MonoBehaviour
         //m.SetColor("_BaseColourParam", Color.green);
         //Debug.Log("Colour detection test "+m.GetColor("_Color"));//Material albedo
         //Debug.Log("Metallic detection test "+m.GetFloat("_Metallic"));//Material albedo
-        dissolveMaterial.SetColor("_Color", foundMaterial.GetColor("_Color"));
+        dissolveMaterial.SetColor("_Color", (foundMaterial.GetColor("_Color")*Color.gray));
         //Debug.Log("New colour is: " + dissolveMaterial.GetColor("_Color"));
         dissolveMaterial.SetTexture("_MainTex", foundMaterial.GetTexture("_MainTex"));
         //Debug.Log("New texture is: " + dissolveMaterial.GetTexture("_MainTex"));
