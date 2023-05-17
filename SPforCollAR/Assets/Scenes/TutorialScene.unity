@@ -1747,8 +1747,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: 30d693ff62c571241b431ef4e206b09a, type: 2}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3350,7 +3349,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &215543824
 Transform:
   m_ObjectHideFlags: 0
@@ -4738,8 +4737,7 @@ MeshRenderer:
   m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
-  m_Materials:
-  - {fileID: -6264578195049403651, guid: 14ea25aebc9215c419e78ff1cebab83c, type: 3}
+  m_Materials: []
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -41706,11 +41704,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8711077431055607348, guid: 9dcdab4c968a353459b2ff468fa40b0d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.269
       objectReference: {fileID: 0}
     - target: {fileID: 8711077431055607348, guid: 9dcdab4c968a353459b2ff468fa40b0d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.994
       objectReference: {fileID: 0}
     - target: {fileID: 8711077431055607348, guid: 9dcdab4c968a353459b2ff468fa40b0d, type: 3}
       propertyPath: m_LocalRotation.w

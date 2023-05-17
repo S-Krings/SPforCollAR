@@ -13,7 +13,6 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
     [SerializeField] private GameObject privacyShieldSettingPrefab;
 
     [SerializeField] private PrivacyShieldManager shieldManager;
-    [SerializeField] private GameObject owner;
 
     public void Initialize()
     {
@@ -23,12 +22,21 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
             Debug.Log("PermissionManager is: " + shieldManager);
             if (shieldManager == null) return;
         }
-        owner = shieldManager.getOwner();
 
         if (permissionToggleContainer == null) { Debug.Log("PermissionToggleContainer not set"); return; }
         if (privacyShieldSettingPrefab == null) { Debug.Log("PermissionSettingPrefab not set"); return; }
 
-        ownerTextField.text = ownerTextField.text + owner.GetComponent<PlayerScript>().name;
+        ownerTextField.text = ownerTextField.text + NetworkClient.localPlayer.gameObject.GetComponent<PlayerScript>().name;
+
+        updateUIList();
+    }
+
+    public void InitializeUI()
+    {
+        if (permissionToggleContainer == null) { Debug.Log("PermissionToggleContainer not set"); return; }
+        if (privacyShieldSettingPrefab == null) { Debug.Log("PermissionSettingPrefab not set"); return; }
+
+        ownerTextField.text = ownerTextField.text + NetworkClient.connection.identity.gameObject.GetComponent<PlayerScript>().name;
 
         updateUIList();
     }
@@ -45,11 +53,17 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
             if (child.GetComponentInChildren<Interactable>().IsToggled)
             {
                 int clientID = child.GetComponentInChildren<ClientIDStore>().clientID;
-                allowedList.Add(NetworkServer.connections[i].identity.gameObject);
+                //Debug.Log("networkserverconnections length" + NetworkServer.connections.Count+"..."+ NetworkServer.connections.Keys);
+                GameObject player = playerList.Find((GameObject go) => (int)go.GetComponent<NetworkIdentity>().netId == clientID);
+                allowedList.Add(player);
+                //allowedList.Add(NetworkServer.connections[i].identity.gameObject);
                     //child.GetComponentInChildren<ClientIDStore>().clientID);//playerList.Find((GameObject go) => go.GetComponent<PlayerScript>().name.Equals(child.name)));
             }
         }
         shieldManager.setAllowedPLayers(allowedList);
+        FindObjectOfType<PrivacyShieldManager>().enabled = true;
+        GameObject.Find("PermissionMenu").SetActive(false);
+        FindObjectOfType<PrivacyShieldButton>().StartSpawn();
     }
 
     public void ResetSettings()

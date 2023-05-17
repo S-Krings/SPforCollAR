@@ -6,6 +6,7 @@ using UnityEngine;
 public class PrivacyShieldManager : NetworkBehaviour
 {
     [SerializeField] private GameObject ownerPlayer;
+    [SerializeField] private AudioSource audioSource;
 
     [SyncVar]
     [SerializeField] private List<GameObject> allowedPlayers;
@@ -20,7 +21,7 @@ public class PrivacyShieldManager : NetworkBehaviour
         Invoke("RemoveMenu", 0.1f);
     }
 
-    public void Initialize(GameObject owner)
+/*    public void Initialize(GameObject owner)
     {
         ownerPlayer = owner;
         Debug.Log("Remove Menu?");
@@ -40,19 +41,18 @@ public class PrivacyShieldManager : NetworkBehaviour
         {
             Destroy(transform.GetChild(0).gameObject);
         }
-    }
+    }*/
 
     private void OnTriggerEnter(Collider other)
     {
         Debug.Log("TriggerEnter, go "+other.gameObject+" entered.");
-        if(other.gameObject != ownerPlayer)
+
+        if(!allowedPlayers.Contains(other.gameObject))
         {
-            Debug.Log("a visitor enteres the shield");
-            if(!allowedPlayers.Contains(other.gameObject))
-            {
-                Debug.Log("Intruder alert!!");
-            }
+            Debug.Log("Intruder alert!!");
+            audioSource.Play();
         }
+        
     }
 
     private void OnTriggerStay(Collider other)
@@ -62,6 +62,16 @@ public class PrivacyShieldManager : NetworkBehaviour
         {
             Debug.Log("Head in triggerstay");
         }*/
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+
+        if (!allowedPlayers.Contains(other.gameObject))
+        {
+            Debug.Log("Intruder alert!!");
+            audioSource.Stop();
+        }
     }
 
     public GameObject getOwner()
