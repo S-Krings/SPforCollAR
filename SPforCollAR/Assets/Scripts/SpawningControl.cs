@@ -41,7 +41,8 @@ public class SpawningControl : NetworkBehaviour
 
     public void Spawn(int index)
     {
-        CmdSpawnObject(index, Vector3.zero, Vector3.zero);
+
+        CmdSpawnObjectWithPermissions(index, Vector3.zero, Vector3.zero, PermissionManager.singleton.getPermissionSettingsArray()[0], PermissionManager.singleton.getPermissionSettingsArray()[1]);
         if (index == 4) Invoke("SetMyPen", 0.2f);
         if (index == 6) Invoke("SetMyFiller", 0.2f);
     }
@@ -51,8 +52,8 @@ public class SpawningControl : NetworkBehaviour
         Debug.Log("Called SpawnInDistance for index " + index);
         Vector3 position = Camera.main.transform.position + Camera.main.transform.forward * 0.6f;
         Vector3 forwardDir = Camera.main.transform.forward;
-        //Debug.Log("Authority: " + hasAuthority);
-        CmdSpawnObject(index, position, forwardDir);
+
+        CmdSpawnObjectWithPermissions(index, position, forwardDir, PermissionManager.singleton.getPermissionSettingsArray()[0], PermissionManager.singleton.getPermissionSettingsArray()[1]);
         if(index == 4) Invoke("SetMyPen", 0.2f);
         if(index == 6) Invoke("SetMyFiller", 0.2f);
     }
@@ -88,10 +89,10 @@ public class SpawningControl : NetworkBehaviour
         objToSpawn.transform.position = position;
         objToSpawn.transform.forward = forwardDir;
 
+        //PermissionManager.singleton.AddStandardPermissionsLocally(objToSpawn);
         NetworkServer.Spawn(objToSpawn);
 
-        Debug.Log("Adding Standard Permissions to " + objToSpawn + " with id " + objToSpawn.GetComponent<NetworkIdentity>().netId);
-        PermissionManager.singleton.AddStandardPermissions(objToSpawn);
+        //Debug.Log("Adding Standard Permissions to " + objToSpawn + " with id " + objToSpawn.GetComponent<NetworkIdentity>().netId);
         //Note:obj to spawn has id 8
         //Debug.Log("1.5Gameobject " + objToSpawn + " has id: " + objToSpawn.GetComponent<NetworkIdentity>().netId);
 
@@ -141,6 +142,52 @@ public class SpawningControl : NetworkBehaviour
         //obj.transform.SetParent(transform);
         Instantiate(obj, containerObject.transform);
 
+    }
+
+    [Command(requiresAuthority = false)]
+    public void CmdSpawnObjectWithPermissions(int index, Vector3 position, Vector3 forwardDir, int[] keys, int[] values)
+    {
+        GameObject obj = NetworkManager.singleton.GetComponent<NetworkManager>().spawnPrefabs[index];
+        GameObject objToSpawn = Instantiate(obj);
+        objToSpawn.transform.position = position;
+        objToSpawn.transform.forward = forwardDir;
+
+        NetworkServer.Spawn(objToSpawn);
+
+        /*int[][] permissionSet = new int[2][] { keys, values };
+        Dictionary<int, PermissionType> standardPermissions = new Dictionary<int, PermissionType>();
+
+        for (int i = 0; i < permissionSet.Length; i++)
+        {
+            standardPermissions.Add(permissionSet[0][i], (PermissionType)permissionSet[1][i]);
+        }*/
+        PermissionManager.singleton.AddStandardPermissions(objToSpawn, PermissionManager.singleton.rebuildPermissionSet(keys,values)); 
+
+        /*int[][] permissionsArray = permissionSet;
+        for (int i = 0; i < permissionsArray.Length; i++)
+        {
+            Debug.Log("in permissionsArray " + i);
+            for (int j = 0; j < permissionsArray[0].Length; j++)
+            {
+                Debug.Log("Value nr " + j + " is " + permissionsArray[i][j]);
+            }
+
+        }*/
+
+        if (index == 3)
+        {
+            lastDrawingSpawned = objToSpawn;
+        }
+        else if (index == 4)
+        {
+            lastSpawnedPen = objToSpawn;
+        }
+        else if (index == 6)
+        {
+            lastFillerSpawned = objToSpawn;
+        }
+        lastSpawned = objToSpawn;
+        Debug.Log("LastSpawned in cmd: " + lastSpawned);
     }
 
     [Command(requiresAuthority = false)]

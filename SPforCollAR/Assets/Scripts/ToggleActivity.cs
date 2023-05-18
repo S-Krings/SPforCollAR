@@ -25,6 +25,18 @@ public class ToggleActivity : MonoBehaviour
         }
     }
 
+    public void InstanciationRootToggle(GameObject prefabToInstanciate)
+    {
+        if (instantiatedPrefab == null)
+        {
+            instantiatedPrefab = Instantiate(prefabToInstanciate);
+        }
+        else
+        {
+            Destroy(instantiatedPrefab);
+        }
+    }
+
     public void DestroyInstance(GameObject instance)
     {
         Destroy(instance);

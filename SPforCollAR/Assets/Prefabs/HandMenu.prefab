@@ -40366,7 +40366,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   dontDestroyOnLoad: 0
-  basePermission: 0
+  basePermission: 1
   playerList: []
 --- !u!114 &6333884677661023674
 MonoBehaviour:

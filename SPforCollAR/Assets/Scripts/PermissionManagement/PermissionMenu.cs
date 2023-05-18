@@ -22,10 +22,20 @@ public class PermissionMenu : MonoBehaviour
         if (dropdownContainer == null) { Debug.Log("DropdownContainer not set"); return; }
         if (permissionSettingPrefab == null) { Debug.Log("PermissionSettingPrefab not set"); return; }
 
+        PlayerScript[] playerArray = FindObjectsOfType<PlayerScript>();
         Dictionary<int, PermissionType> permissionSettings = permissionManager.getPermissionSettings();
         foreach(int i in permissionSettings.Keys)
         {
-            string playerName = NetworkServer.connections[i].identity.gameObject.GetComponent<PlayerScript>().playerName;
+            string playerName = "";
+            foreach(PlayerScript playerScript in playerArray)
+            {
+                if(i == (int)playerScript.netId)
+                {
+                    playerName = playerScript.playerName;
+                    break;
+                }
+            }
+            //string playerName = NetworkServer.connections[i].identity.gameObject.GetComponent<PlayerScript>().playerName;
             GameObject permissionSetting = Instantiate(permissionSettingPrefab, dropdownContainer.transform);
             permissionSetting.GetComponentInChildren<TextMeshProUGUI>().text = playerName;
             permissionSetting.GetComponentInChildren<ClientIDStore>().clientID = i;
@@ -50,6 +60,14 @@ public class PermissionMenu : MonoBehaviour
             }
         }
         permissionManager.setPermissionSettings(permissionsDict);
+        foreach(int key in permissionsDict.Keys)
+        {
+            Debug.Log("New Permission set: key " + key + " value: " + permissionsDict[key]);
+        }
+        foreach(int key in permissionManager.getPermissionSettings().Keys)
+        {
+            Debug.Log("New Permission set: key " + key + " value: " + permissionManager.getPermissionSettings()[key]);
+        }
         Destroy(this.gameObject);
     }
 }

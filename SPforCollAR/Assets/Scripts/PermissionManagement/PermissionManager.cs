@@ -35,9 +35,11 @@ public class PermissionManager : NetworkBehaviour
         List<int> playerNumbersList = new List<int>();
         foreach (PlayerScript player in playerList)
         {
-            int playerConnectionID = player.netIdentity.connectionToClient.connectionId;
+            //int playerConnectionID = player.netIdentity.connectionToClient.connectionId;
+            int playerConnectionID = (int) player.netId;//TODO
             if (!permissionSettings.ContainsKey(playerConnectionID))
             {
+                Debug.Log("Player with id "+playerConnectionID+" is not in standard permissions, adding them with base permissions");
                 permissionSettings.Add(playerConnectionID, basePermission);
             }
             playerNumbersList.Add(playerConnectionID);
@@ -57,10 +59,59 @@ public class PermissionManager : NetworkBehaviour
         return permissionSettings;
     }
 
+    public int[][] getPermissionSettingsArray()
+    {
+        UpdatePlayerList();
+        int counter = 0;
+        int[] keys = new int[permissionSettings.Keys.Count];
+        int[] values = new int[permissionSettings.Keys.Count];
+        foreach(int i in permissionSettings.Keys)
+        {
+            keys[counter] = i;
+            values[counter] = (int)permissionSettings[i]; //can typecast permissiontype to int because it is an enum
+            counter++;
+        }
+        int[][] permissionsArray = new int[2][];
+        permissionsArray[0] = keys;
+        permissionsArray[1] = values;
+
+        return permissionsArray;
+    }
+
     public void setPermissionSettings(Dictionary<int, PermissionType> newSettings)
     {
         permissionSettings = newSettings;
         //Debug.Log(newSettings.Keys.Count+" new settings: " + newSettings);
+    }
+
+    public void AddStandardPermissionsLocally(int goNetID)
+    {
+        Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
+        List<int> keyList = new List<int>();
+        List<PermissionType> permissionList = new List<PermissionType>();
+        Debug.Log("Adding (Standard) permissions to go " + gameObject);
+        foreach (int i in standardPermissions.Keys)
+        {
+            Debug.Log("Adding Standard permissions: adding key " + i + " with value " + standardPermissions[i]);
+
+            keyList.Add(i);
+            permissionList.Add(standardPermissions[i]);
+        }
+        if (!permissionObjectsDict.ContainsKey(goNetID))
+        {
+            PermissionSet permission = new PermissionSet(goNetID);
+            //Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
+            //foreach (int key in keyList)
+            for (int i = 0; i < keyList.Count; i++)
+            {
+                permission.AddPermission(keyList[i], permissionList[i]);
+            }
+            permissionObjectsDict.Add(goNetID, permission);
+        }
+        else
+        {
+            Debug.LogError("RPC: The GameObject with networkIdentity " + goNetID + " already exists. Something went wrong.");
+        }
     }
 
     public void AddStandardPermissions(GameObject gameObject)
@@ -68,71 +119,105 @@ public class PermissionManager : NetworkBehaviour
         Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
         List<int> keys = new List<int>();
         List<PermissionType> permissions = new List<PermissionType>();
+        Debug.Log("Adding (Standard) permissions to go " + gameObject);
         foreach(int i in standardPermissions.Keys)
         {
+            Debug.Log("Adding Standard permissions: adding key " + i + " with value "+ standardPermissions[i]);
+
             keys.Add(i);
             permissions.Add(standardPermissions[i]);
         }
         CmdAddStandardPermissions((int)gameObject.GetComponent<NetworkIdentity>().netId, keys, permissions) ;
     }
 
-     [Command (requiresAuthority = false)]
+    public void AddStandardPermissions(GameObject gameObject, Dictionary<int, PermissionType> standardPermissions)
+    {
+        List<int> keys = new List<int>();
+        List<PermissionType> permissions = new List<PermissionType>();
+        Debug.Log("Adding (Standard) permissions to go " + gameObject);
+        foreach (int i in standardPermissions.Keys)
+        {
+            Debug.Log("Adding Standard permissions: adding key " + i + " with value " + standardPermissions[i]);
+
+            keys.Add(i);
+            permissions.Add(standardPermissions[i]);
+        }
+        CmdAddStandardPermissions((int)gameObject.GetComponent<NetworkIdentity>().netId, keys, permissions);
+    }
+
+    [Command (requiresAuthority = false)]
      private void CmdAddStandardPermissions(int goNetID, List<int> keyList, List<PermissionType> permissionList)
      {
-        //Debug.Log("Adding Standard Permissions to " + gameObject + " with id " + gameObject.GetComponent<NetworkIdentity>().netId);
-        //NetworkIdentity networkIdentity = gameObject.GetComponent<NetworkIdentity>();
-        //if (networkIdentity != null)
-        //{
-            if (!permissionObjectsDict.ContainsKey(goNetID))
+        PermissionSet permission = new PermissionSet(goNetID);
+        //Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
+        //foreach (int key in keyList)
+        for (int i = 0; i < keyList.Count; i++)
+        {
+            permission.AddPermission(keyList[i], permissionList[i]);
+        }
+        if (!permissionObjectsDict.ContainsKey(goNetID))
             {
-                PermissionSet permission = new PermissionSet(goNetID);
+                /*PermissionSet permission = new PermissionSet(goNetID);
                 //Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
-                foreach (int key in keyList)
+                //foreach (int key in keyList)
+                for (int i = 0; i<keyList.Count;i++)
                 {
-                    permission.AddPermission(key, permissionList[key]);
-                    Debug.Log("Adding permission to permission set for:" + goNetID + " key: " + key + " value: " + permissionList[key]);
-                }
+                    permission.AddPermission(keyList[i], permissionList[i]);
+                }*/
                 permissionObjectsDict.Add(goNetID, permission);
             }
             else
             {
-                Debug.LogError("The GameObject with networkIdentity " + goNetID + " already exists. Something went wrong.");
+                Debug.LogError("CMD: The GameObject with networkIdentity " + goNetID + " already exists");
+                permissionObjectsDict[goNetID] = permission;
             }
-        /*}
-        else
+        Debug.Log("Permissiondict now: ");
+        foreach (int key in permissionObjectsDict.Keys)
         {
-            Debug.LogError("The GameObject does not contain a network identity, it cannot be networked");
-        }*/
-        Debug.Log("CMD: Networkidentity var is: " + goNetID);
+            Debug.Log("Permissions for key " + key);
+            foreach (int key2 in permissionObjectsDict[key].clientPermissionsDict.Keys)
+            {
+                Debug.Log("permission for client :" + key2 + " is " + permissionObjectsDict[key].clientPermissionsDict[key2]);
+            }
+        }
         RPCAddStandardPermissions(goNetID, keyList, permissionList);
     }
 
     [ClientRpc]
     private void RPCAddStandardPermissions(int goNetID, List<int> keyList, List<PermissionType> permissionList)
     {
-        //if (networkIdentity != null)
-        //{
+        PermissionSet permission = new PermissionSet(goNetID);
+        //Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
+        //foreach (int key in keyList)
+        for (int i = 0; i < keyList.Count; i++)
+        {
+            permission.AddPermission(keyList[i], permissionList[i]);
+        }
         if (!permissionObjectsDict.ContainsKey(goNetID))
         {
-            PermissionSet permission = new PermissionSet(goNetID);
+            /*PermissionSet permission = new PermissionSet(goNetID);
             //Dictionary<int, PermissionType> standardPermissions = getPermissionSettings();
-            foreach (int key in keyList)
+            //foreach (int key in keyList)
+            for (int i = 0; i<keyList.Count;i++)
             {
-                permission.AddPermission(key, permissionList[key]);
-                Debug.Log("Adding permission to permission set for:" + goNetID + " key: " + key + " value: " + permissionList[key]);
-            }
+                permission.AddPermission(keyList[i], permissionList[i]);
+            }*/
             permissionObjectsDict.Add(goNetID, permission);
         }
         else
         {
-            Debug.LogError("The GameObject with networkIdentity " + goNetID + " already exists. Something went wrong.");
+            Debug.LogError("RPC: The GameObject with networkIdentity " + goNetID + " already exists");
+            permissionObjectsDict[goNetID] = permission;
         }
-        /*}
-        else
+        Debug.Log("Permissiondict now: ");
+        foreach(int key in permissionObjectsDict.Keys)
         {
-            Debug.LogError("The GameObject does not contain a network identity, it cannot be networked");
-        }*/
-        //Debug.Log("RPC: Networkidentity var is: " + goNetID);
+            Debug.Log("Permissions for key " + key);
+            foreach(int key2 in permissionObjectsDict[key].clientPermissionsDict.Keys)
+            {
+                Debug.Log("permission for client :" + key2 + " is " + permissionObjectsDict[key].clientPermissionsDict[key2]);
+            }
+        }
     }
 
     private PermissionSet getPermissionSet(GameObject go)
@@ -145,6 +230,7 @@ public class PermissionManager : NetworkBehaviour
         }
         if (permissionObjectsDict.ContainsKey((int)networkIdentity.netId))
         {
+            //Debug.Log("Permission set for go " + go + "first object is: " + permissionObjectsDict[(int)networkIdentity.netId].GetPermissionType(1));
             return permissionObjectsDict[(int)networkIdentity.netId];
         }
         //Debug.Log("Warning: There are no permissions saved for Object");
@@ -209,5 +295,16 @@ public class PermissionManager : NetworkBehaviour
         }
 
         return true;
+    }
+
+    public Dictionary<int, PermissionType> rebuildPermissionSet(int[] keys, int[] values)
+    {
+        Dictionary<int, PermissionType> standardPermissions = new Dictionary<int, PermissionType>();
+
+        for (int i = 0; i < keys.Length; i++)
+        {
+            standardPermissions.Add(keys[i], (PermissionType)values[i]);
+        }
+        return standardPermissions;
     }
 }

@@ -41,7 +41,8 @@ public class PermissionInterestManagement : InterestManagement
     public override void OnRebuildObservers(NetworkIdentity identity, HashSet<NetworkConnectionToClient> newObservers)
     {
         // cache range and .transform because both call GetComponent.
-        Vector3 position = identity.transform.position;
+        //Vector3 position = identity.transform.position;
+        PlayerScript[] players = FindObjectsOfType<PlayerScript>();
 
         // brute force distance check
         // -> only player connections can be observers, so it's enough if we
@@ -63,14 +64,22 @@ public class PermissionInterestManagement : InterestManagement
                 //Debug.Log("Player identity " + conn.identity);
                 //Debug.Log("Player netid " + conn.identity.netId);
                 //Debug.Log("Conn to server nr: " + /*conn.identity.connectionToServer.connectionId +*/ " conntoclient nr: " + conn.connectionId);
-
-                if ((PermissionManager.singleton != null && !PermissionManager.singleton.checkPermission(PermissionType.None, identity.gameObject, (int)conn./*identity.connectionToServer.*/connectionId)) 
+                //Debug.Log("in first if, player is "+ conn.identity.gameObject+" with id "+ (int)conn.identity.GetComponent<PlayerScript>().netId + " checking for go "+identity.gameObject);
+                if ((PermissionManager.singleton != null && !PermissionManager.singleton.checkPermission(PermissionType.None, identity.gameObject, (int)conn.identity.GetComponent<PlayerScript>().netId)) 
                     || PermissionOverride(identity))
                 {
+                    //Debug.Log("In second if, adding connection "+conn+", because permission was "+PermissionManager.singleton.getPermissionSettings()[(int)conn.identity.GetComponent<PlayerScript>().netId]);
                     newObservers.Add(conn);
                 }
             }
         }
+        /*foreach(PlayerScript player in players)
+        {
+            if (!PermissionManager.singleton.checkPermission(PermissionType.None, player.gameObject, (int)player.netId))
+            {
+                newObservers.Add(player.connectionToClient);
+            }
+        }*/
     }
 
     // internal so we can update from tests
