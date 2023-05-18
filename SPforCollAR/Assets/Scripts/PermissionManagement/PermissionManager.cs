@@ -168,7 +168,7 @@ public class PermissionManager : NetworkBehaviour
             }
             else
             {
-                Debug.LogError("CMD: The GameObject with networkIdentity " + goNetID + " already exists");
+                //Debug.LogError("CMD: The GameObject with networkIdentity " + goNetID + " already exists");
                 permissionObjectsDict[goNetID] = permission;
             }
         Debug.Log("Permissiondict now: ");
@@ -206,7 +206,7 @@ public class PermissionManager : NetworkBehaviour
         }
         else
         {
-            Debug.LogError("RPC: The GameObject with networkIdentity " + goNetID + " already exists");
+            //Debug.LogError("RPC: The GameObject with networkIdentity " + goNetID + " already exists");
             permissionObjectsDict[goNetID] = permission;
         }
         Debug.Log("Permissiondict now: ");
