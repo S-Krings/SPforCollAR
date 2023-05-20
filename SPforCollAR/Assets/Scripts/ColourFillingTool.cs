@@ -54,13 +54,29 @@ public class ColourFillingTool : NetworkBehaviour
     [Command(requiresAuthority = false)]
     void CmdSetObjectColour(GameObject obj, Color colour)
     {
-        obj.GetComponentInChildren<MeshRenderer>().materials[0].SetColor("_Color", colour);
+        Debug.Log("CmdSetObjectColour, obj is: " + obj);
+        if (obj != null && obj.GetComponentInChildren<MeshRenderer>() != null && obj.GetComponentInChildren<MeshRenderer>().materials[0] != null)
+        {
+            obj.GetComponentInChildren<MeshRenderer>().materials[0].SetColor("_Color", colour);
+        }
+        else
+        {
+            Debug.Log("WARNING: CmdSetObjectColour could not find gameobject, meshrenderer or material in GameObject " + obj);
+        }
         RPCSetObjectColour(obj, colour);
     }
 
     [ClientRpc]
     public void RPCSetObjectColour(GameObject obj, Color colour)
     {
-        obj.GetComponentInChildren<MeshRenderer>().materials[0].SetColor("_Color", colour);
+        Debug.Log("RPCSetObjectColour, obj is: " + obj);
+        if (obj != null && obj.GetComponentInChildren<MeshRenderer>() != null && obj.GetComponentInChildren<MeshRenderer>().materials[0] != null)
+        {
+            obj.GetComponentInChildren<MeshRenderer>().materials[0].SetColor("_Color", colour);
+        }
+        else
+        {
+            Debug.Log("WARNING: RPCSetObjectColour could not find gameobject, meshrenderer or material in GameObject " + obj);
+        }
     }
 }

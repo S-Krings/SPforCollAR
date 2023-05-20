@@ -152,7 +152,6 @@ public class SpawningControl : NetworkBehaviour
             }
 
         }*/
-        Debug.Log("in cmd Filler is " + FindObjectOfType<ColourFillingTool>() + " id: " + FindObjectOfType<ColourFillingTool>().GetComponent<NetworkIdentity>().netId);
 
         if (index == 3)
         {
