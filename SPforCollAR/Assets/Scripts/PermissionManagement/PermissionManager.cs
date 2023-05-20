@@ -209,15 +209,7 @@ public class PermissionManager : NetworkBehaviour
             //Debug.LogError("RPC: The GameObject with networkIdentity " + goNetID + " already exists");
             permissionObjectsDict[goNetID] = permission;
         }
-        Debug.Log("Permissiondict now: ");
-        foreach(int key in permissionObjectsDict.Keys)
-        {
-            Debug.Log("Permissions for key " + key);
-            foreach(int key2 in permissionObjectsDict[key].clientPermissionsDict.Keys)
-            {
-                Debug.Log("permission for client :" + key2 + " is " + permissionObjectsDict[key].clientPermissionsDict[key2]);
-            }
-        }
+
     }
 
     private PermissionSet getPermissionSet(GameObject go)

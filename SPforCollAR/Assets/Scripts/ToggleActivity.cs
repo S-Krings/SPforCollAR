@@ -8,13 +8,16 @@ public class ToggleActivity : MonoBehaviour
     [SerializeField] private GameObject objToToggle;
     private GameObject instantiatedPrefab;
 
+    [SerializeField] private bool isWaiting = false;
     public void ToggleGOActivity(GameObject gameObject)
     {
+        if (isWaiting) return;
         gameObject.SetActive(!gameObject.activeInHierarchy);
     }
 
     public void InstanciationToggle(GameObject prefabToInstanciate)
     {
+        if (isWaiting) return;
         if (instantiatedPrefab == null)
         {
             instantiatedPrefab = Instantiate(prefabToInstanciate, this.transform);
@@ -27,6 +30,7 @@ public class ToggleActivity : MonoBehaviour
 
     public void InstanciationRootToggle(GameObject prefabToInstanciate)
     {
+        if (isWaiting) return;
         if (instantiatedPrefab == null)
         {
             instantiatedPrefab = Instantiate(prefabToInstanciate);
@@ -44,19 +48,34 @@ public class ToggleActivity : MonoBehaviour
 
     public void SpawnDespawnToggle(int prefabNumber)
     {
+        if (isWaiting) return;
         if(objToToggle == null)
         {
             Debug.Log("Spawningcontrol instance in toggler: " + spawningControl);
             spawningControl.SpawnInDistance(prefabNumber);
             Invoke("SetToggleObject", 0.2f);
-            if (prefabNumber == 4) Invoke("SetTogglePen", 0.2f); 
-            if (prefabNumber == 6) Invoke("SetToggleFiller", 0.2f); 
+            if (prefabNumber == 6) StartCoroutine(WaitforFiller());
+            if (prefabNumber == 2) Invoke("SetPenFiller", 0.2f); 
+            //if (prefabNumber == 6) Invoke("SetToggleFiller", 0.2f); 
             }
         else
         {
             //spawningControl.Despawn(spawningControl.lastSphereSpawned);
             spawningControl.Despawn(objToToggle);
         }
+    }
+
+    public IEnumerator WaitforFiller()
+    {
+        isWaiting = true;
+        //yield return new WaitWhile(() => spawningControl.fillerDirty==true);
+        while(spawningControl.fillerDirty == true)
+        {
+            Debug.Log("fillerDirty, waiting");
+            yield return null;
+        }
+        isWaiting = false;
+        SetToggleFiller();
     }
 
     private void SetToggleObject()

@@ -16,6 +16,7 @@ public class SpawningControl : NetworkBehaviour
     [SyncVar(hook = nameof(SetLastFillerSpawned))]
     public GameObject lastFillerSpawned = null;
     public GameObject myFiller = null;
+    public bool fillerDirty = false;
 
     [SyncVar]
     public GameObject lastSpawned = null;
@@ -24,7 +25,27 @@ public class SpawningControl : NetworkBehaviour
 
     void SetLastFillerSpawned(GameObject oldValue, GameObject newValue)
     {
-        Debug.Log("Spawning Control: Last spawned filler changed");
+        /*if (isServer)
+        {
+            Debug.Log("In cmdspawn, calling rpc witth go: " + newValue);
+            Debug.Log("In cmdspawn, calling rpc witth go with id: " + newValue.GetComponent<NetworkIdentity>().netId);
+            foreach (int key in NetworkServer.spawned.Keys)
+            {
+                Debug.Log("Key: " + key);
+            }
+            RPCSetFiller(newValue.GetComponent<NetworkIdentity>().netId);
+        }
+        else
+        {
+            Debug.Log("Client, serlastfillerspawned: Filler is " + FindObjectOfType<ColourFillingTool>());// + " id: " + FindObjectOfType<ColourFillingTool>().GetComponent<NetworkIdentity>().netId);
+        }
+        Debug.Log("Spawning Control: Last spawned filler changed from "+oldValue+ " to: "+newValue);
+        if (fillerDirty)
+        {
+            myFiller = lastFillerSpawned;
+            fillerDirty = false;
+            Debug.Log("SetFiller Dirty false");
+        }*/
     }
 
     void SetLastPenSpawned(GameObject oldValue, GameObject newValue)
@@ -41,10 +62,10 @@ public class SpawningControl : NetworkBehaviour
 
     public void Spawn(int index)
     {
-
+        if (index == 6) { fillerDirty = true; Debug.Log("SetFiller Dirty in spawn"); };
         CmdSpawnObjectWithPermissions(index, Vector3.zero, Vector3.zero, PermissionManager.singleton.getPermissionSettingsArray()[0], PermissionManager.singleton.getPermissionSettingsArray()[1]);
-        if (index == 4) Invoke("SetMyPen", 0.2f);
-        if (index == 6) Invoke("SetMyFiller", 0.2f);
+        if (index == 4) Invoke("SetMyPen", 0.5f);
+        //if (index == 6) Invoke("SetMyFiller", 0.5f);
     }
 
     public void SpawnInDistance(int index)
@@ -52,20 +73,11 @@ public class SpawningControl : NetworkBehaviour
         Debug.Log("Called SpawnInDistance for index " + index);
         Vector3 position = Camera.main.transform.position + Camera.main.transform.forward * 0.6f;
         Vector3 forwardDir = Camera.main.transform.forward;
+        if (index == 6) { fillerDirty = true; Debug.Log("SetFiller Dirty"); };
 
         CmdSpawnObjectWithPermissions(index, position, forwardDir, PermissionManager.singleton.getPermissionSettingsArray()[0], PermissionManager.singleton.getPermissionSettingsArray()[1]);
-        if(index == 4) Invoke("SetMyPen", 0.2f);
-        if(index == 6) Invoke("SetMyFiller", 0.2f);
-    }
-
-    private void SetMyPen()
-    {
-        myPen = lastSpawnedPen;
-    }
-
-    private void SetMyFiller()
-    {
-        myFiller = lastFillerSpawned;
+        if(index == 4) Invoke("SetMyPen", 0.5f);
+        //if(index == 6) Invoke("SetMyFiller", 0.5f);
     }
 
     [Command(requiresAuthority = false)]
@@ -95,53 +107,20 @@ public class SpawningControl : NetworkBehaviour
         //Debug.Log("Adding Standard Permissions to " + objToSpawn + " with id " + objToSpawn.GetComponent<NetworkIdentity>().netId);
         //Note:obj to spawn has id 8
         //Debug.Log("1.5Gameobject " + objToSpawn + " has id: " + objToSpawn.GetComponent<NetworkIdentity>().netId);
-
         if (index == 3)
         {
-             lastDrawingSpawned = objToSpawn;
+            lastDrawingSpawned = objToSpawn;
         }
-        else if(index == 4)
+        else if (index == 4)
         {
             lastSpawnedPen = objToSpawn;
         }
-        else if(index == 6)
+        else if (index == 6)
         {
             lastFillerSpawned = objToSpawn;
         }
         lastSpawned = objToSpawn;
         Debug.Log("LastSpawned in cmd: " + lastSpawned);
-
-        /*NetworkIdentity[] ids = getClients();
-        Debug.Log("IDS: " + ids+ "ids length"+ids.Length);
-        //Debug.Log("2Gameobject " + objToSpawn + " has id: " + objToSpawn.GetComponent<NetworkIdentity>().netId);
-
-        foreach (NetworkIdentity id in ids)
-        {
-            //Debug.Log("3Gameobject " + objToSpawn + " has id: " + objToSpawn.GetComponent<NetworkIdentity>().netId);
-            Debug.Log("Check permission for obj: "+ objToSpawn+" with id "+ objToSpawn.GetComponent<NetworkIdentity>().netId + "and client id "+ id.netId);
-            if (!PermissionManager.singleton.checkPermission(PermissionType.None, objToSpawn, id.connectionToServer.connectionId))// connectionToServer.connectionId))
-            {
-                TargetAddActualGameObject(id.connectionToClient, index, objToSpawn);
-                Debug.Log("Called Targetrpc to add proper GO to object with permissions");
-            }
-            else
-            {
-                Debug.Log("No details added to GameObject since client has no permission");
-            }
-            //PermissionType permission = PermissionManager.singleton.getPermissionType(objToSpawn, key);
-        }*/
-    }
-
-    [TargetRpc]
-    public void TargetAddActualGameObject(NetworkConnection target, int index, GameObject containerObject)
-    {
-        Debug.Log("TargetAddActualGameObject called");
-        GameObject networkManager = GameObject.Find("NetworkManager");
-        GameObject obj = networkManager.GetComponent<NetworkManager>().spawnPrefabs[index];
-        //Destroy(obj.GetComponent<NetworkIdentity>());
-        //obj.transform.SetParent(transform);
-        Instantiate(obj, containerObject.transform);
-
     }
 
     [Command(requiresAuthority = false)]
@@ -161,7 +140,7 @@ public class SpawningControl : NetworkBehaviour
         {
             standardPermissions.Add(permissionSet[0][i], (PermissionType)permissionSet[1][i]);
         }*/
-        PermissionManager.singleton.AddStandardPermissions(objToSpawn, PermissionManager.singleton.rebuildPermissionSet(keys,values)); 
+        PermissionManager.singleton.AddStandardPermissions(objToSpawn, PermissionManager.singleton.rebuildPermissionSet(keys, values));
 
         /*int[][] permissionsArray = permissionSet;
         for (int i = 0; i < permissionsArray.Length; i++)
@@ -173,6 +152,7 @@ public class SpawningControl : NetworkBehaviour
             }
 
         }*/
+        Debug.Log("in cmd Filler is " + FindObjectOfType<ColourFillingTool>() + " id: " + FindObjectOfType<ColourFillingTool>().GetComponent<NetworkIdentity>().netId);
 
         if (index == 3)
         {
@@ -185,9 +165,74 @@ public class SpawningControl : NetworkBehaviour
         else if (index == 6)
         {
             lastFillerSpawned = objToSpawn;
+            RPCSetFiller(objToSpawn.GetComponent<NetworkIdentity>().netId);
         }
         lastSpawned = objToSpawn;
         Debug.Log("LastSpawned in cmd: " + lastSpawned);
+    }
+
+    private void SetMyPen()
+    {
+        myPen = lastSpawnedPen;
+    }
+
+    private void SetMyFiller()
+    {
+        Debug.Log("SetMyFiller called, is dirty: "+fillerDirty);
+
+        if (fillerDirty)
+        {
+            myFiller = lastFillerSpawned;
+            fillerDirty = false;
+            Debug.Log("SetFiller Dirty false");
+        }
+    }
+
+    [ClientRpc]
+    public void RPCSetFiller(uint goNetID)
+    {
+        //Debug.Log("RPC: Filler is " + FindObjectOfType<ColourFillingTool>() + " id: " + FindObjectOfType<ColourFillingTool>().GetComponent<NetworkIdentity>().netId);
+        Debug.Log("in RPCSetFiller");
+        foreach (int key in NetworkClient.spawned.Keys)
+        {
+            Debug.Log("Key: " + key);
+        }
+        StartCoroutine(SetFillerWhenReady(goNetID));
+    }
+
+    public IEnumerator SetFillerWhenReady(uint goNetID)
+    {
+        while (!NetworkClient.spawned.ContainsKey(goNetID))
+        {
+            Debug.Log("In enumerator waiting for id "+goNetID);
+            foreach (int key in NetworkClient.spawned.Keys)
+            {
+                Debug.Log("Key: " + key);
+            }
+            yield return null;
+        }
+        Debug.Log("In enumerator found id");
+        foreach (int key in NetworkClient.spawned.Keys)
+        {
+            Debug.Log("Key: " + key);
+        }
+        GameObject gameObject = NetworkClient.spawned[goNetID].gameObject;
+        Debug.Log("RPC setFiller, go is: " + gameObject);
+        lastFillerSpawned = gameObject;
+        Debug.Log("Calling setfiller, lastspawwnedfiller: " + lastFillerSpawned);
+        SetMyFiller();
+    }
+
+    [TargetRpc]
+    public void TargetAddActualGameObject(NetworkConnection target, int index, GameObject containerObject)
+    {
+        Debug.Log("TargetAddActualGameObject called");
+        GameObject networkManager = GameObject.Find("NetworkManager");
+        GameObject obj = networkManager.GetComponent<NetworkManager>().spawnPrefabs[index];
+        //Destroy(obj.GetComponent<NetworkIdentity>());
+        //obj.transform.SetParent(transform);
+        Instantiate(obj, containerObject.transform);
+
     }
 
     [Command(requiresAuthority = false)]

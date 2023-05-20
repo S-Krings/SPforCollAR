@@ -47,6 +47,24 @@ public class ColourRelay : NetworkBehaviour
 
     public void SetFillerColour(int colour)
     {
+        /*Debug.Log("Colours is: " + colours);
+        Debug.Log("Colour obj is: " + colours[colour]);
+        Debug.Log("spawningn control is: " + spawningControl);
+        Debug.Log("filler  is: " + spawningControl.myFiller);
+        Debug.Log("filler id  is: " + spawningControl.myFiller.GetComponent<NetworkIdentity>());*/
+        StartCoroutine(FillerColourCoroutine(colour));
+        //CmdFillerColour(colours[colour], spawningControl.myFiller.GetComponent<NetworkIdentity>());
+    }
+
+    public IEnumerator FillerColourCoroutine(int colour)
+    {
+        //yield return new WaitWhile(() => spawningControl.fillerDirty==true);
+        while(spawningControl.fillerDirty == true)
+        {
+            Debug.Log("fillerDirty, waiting");
+            yield return null;
+        }
+        Debug.Log("filler not Dirty anymore, getting value");
         CmdFillerColour(colours[colour], spawningControl.myFiller.GetComponent<NetworkIdentity>());
     }
 
