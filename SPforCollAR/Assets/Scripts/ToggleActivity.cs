@@ -6,7 +6,7 @@ public class ToggleActivity : MonoBehaviour
 {
     public SpawningControl spawningControl;
     [SerializeField] private GameObject objToToggle;
-    private GameObject instantiatedPrefab;
+    [SerializeField] private GameObject instantiatedPrefab;
 
     [SerializeField] private bool isWaiting = false;
     public void ToggleGOActivity(GameObject gameObject)
@@ -20,7 +20,6 @@ public class ToggleActivity : MonoBehaviour
         {
             yield return null;
         }
-        isWaiting = false;
         gameObject.SetActive(!gameObject.activeInHierarchy);
     }
 

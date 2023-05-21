@@ -38,7 +38,7 @@ public class ColourRelay : NetworkBehaviour
             yield return null;
         }
         Debug.Log("pen not Dirty anymore, getting value");
-        CmdPenColour(colours[colour], spawningControl.myFiller.GetComponent<NetworkIdentity>());
+        CmdPenColour(colours[colour], spawningControl.myPen.GetComponent<NetworkIdentity>());
     }
 
     [Command(requiresAuthority = false)]
