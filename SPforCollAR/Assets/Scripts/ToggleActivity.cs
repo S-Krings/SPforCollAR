@@ -11,7 +11,16 @@ public class ToggleActivity : MonoBehaviour
     [SerializeField] private bool isWaiting = false;
     public void ToggleGOActivity(GameObject gameObject)
     {
-        if (isWaiting) return;
+        StartCoroutine(ToggleGOWhenReady(gameObject));
+    }
+
+    public IEnumerator ToggleGOWhenReady(GameObject gameObject)
+    {
+        while (isWaiting == true)
+        {
+            yield return null;
+        }
+        isWaiting = false;
         gameObject.SetActive(!gameObject.activeInHierarchy);
     }
 
@@ -49,15 +58,16 @@ public class ToggleActivity : MonoBehaviour
     public void SpawnDespawnToggle(int prefabNumber)
     {
         if (isWaiting) return;
-        if(objToToggle == null)
+        if (objToToggle == null)
         {
             Debug.Log("Spawningcontrol instance in toggler: " + spawningControl);
             spawningControl.SpawnInDistance(prefabNumber);
             Invoke("SetToggleObject", 0.2f);
+            if (prefabNumber == 4) StartCoroutine(WaitforPen());
             if (prefabNumber == 6) StartCoroutine(WaitforFiller());
-            if (prefabNumber == 2) Invoke("SetPenFiller", 0.2f); 
-            //if (prefabNumber == 6) Invoke("SetToggleFiller", 0.2f); 
-            }
+            //if (prefabNumber == 2) Invoke("SetPenFiller", 0.2f);
+            //if (prefabNumber == 6) Invoke("SetToggleFiller", 0.2f);
+        }
         else
         {
             //spawningControl.Despawn(spawningControl.lastSphereSpawned);
@@ -69,13 +79,26 @@ public class ToggleActivity : MonoBehaviour
     {
         isWaiting = true;
         //yield return new WaitWhile(() => spawningControl.fillerDirty==true);
-        while(spawningControl.fillerDirty == true)
+        while (spawningControl.fillerDirty == true)
         {
             Debug.Log("fillerDirty, waiting");
             yield return null;
         }
         isWaiting = false;
         SetToggleFiller();
+    }
+
+    public IEnumerator WaitforPen()
+    {
+        isWaiting = true;
+        //yield return new WaitWhile(() => spawningControl.fillerDirty==true);
+        while (spawningControl.penDirty == true)
+        {
+            Debug.Log("penDirty, waiting");
+            yield return null;
+        }
+        isWaiting = false;
+        SetTogglePen();
     }
 
     private void SetToggleObject()
@@ -95,7 +118,7 @@ public class ToggleActivity : MonoBehaviour
 
     private void Start()
     {
-        if(spawningControl == null)
+        if (spawningControl == null)
         {
             try
             {
@@ -103,7 +126,7 @@ public class ToggleActivity : MonoBehaviour
             }
             catch (System.Exception e)
             {
-                Debug.LogError("ToggleActivity could not find Spawning control. Error: "+e);
+                Debug.LogError("ToggleActivity could not find Spawning control. Error: " + e);
             }
         }
     }

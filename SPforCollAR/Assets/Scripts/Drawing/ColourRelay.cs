@@ -17,15 +17,28 @@ public class ColourRelay : NetworkBehaviour
         {
             spawningControl = FindObjectOfType<SpawningControl>();
         }
-        catch (System.Exception e)
+        catch
         {
-            Debug.LogError("DrawingScript could not find Spawning control");
+            Debug.LogError("ColourRelay could not find Spawning control");
         }
     }
 
     public void SetPenColour(int colour)
     {
-        CmdPenColour(colours[colour], spawningControl.myPen.GetComponent<NetworkIdentity>());
+        //CmdPenColour(colours[colour], spawningControl.myPen.GetComponent<NetworkIdentity>());
+        StartCoroutine(PenColourCoroutine(colour));
+    }
+
+    public IEnumerator PenColourCoroutine(int colour)
+    {
+        //yield return new WaitWhile(() => spawningControl.fillerDirty==true);
+        while (spawningControl.penDirty == true)
+        {
+            Debug.Log("penDirty, waiting");
+            yield return null;
+        }
+        Debug.Log("pen not Dirty anymore, getting value");
+        CmdPenColour(colours[colour], spawningControl.myFiller.GetComponent<NetworkIdentity>());
     }
 
     [Command(requiresAuthority = false)]
@@ -59,7 +72,7 @@ public class ColourRelay : NetworkBehaviour
     public IEnumerator FillerColourCoroutine(int colour)
     {
         //yield return new WaitWhile(() => spawningControl.fillerDirty==true);
-        while(spawningControl.fillerDirty == true)
+        while (spawningControl.fillerDirty == true)
         {
             Debug.Log("fillerDirty, waiting");
             yield return null;
@@ -78,10 +91,7 @@ public class ColourRelay : NetworkBehaviour
     [ClientRpc]
     public void RPCFillerColour(Color colour, NetworkIdentity netID)
     {
-        Debug.Log("NetID is: " + netID);
-        Debug.Log("netID.gameObject: " + netID.gameObject);
-        Debug.Log("netID.gameObject.GetComponent<PenColourControl>(): " + netID.gameObject.GetComponent<PenColourControl>());
-        Debug.Log("Colour is: " + colour);
         netID.gameObject.GetComponent<ColourFillingTool>().SetColour(colour);
     }
 }
+
