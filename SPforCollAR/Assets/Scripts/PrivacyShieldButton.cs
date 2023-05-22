@@ -24,7 +24,7 @@ public class PrivacyShieldButton : NetworkBehaviour
     public void CmdSpawnPrivacyShield(uint ownerID, Vector3 position, Quaternion rotation)
     {
         GameObject obj = NetworkManager.singleton.GetComponent<NetworkManager>().spawnPrefabs[7];
-        objToSpawn = Instantiate(obj, new Vector3(position.x,0.9f,position.z), rotation);
+        objToSpawn = Instantiate(obj, new Vector3(position.x,-0.9f,position.z), rotation);
         objToSpawn.transform.up = Vector3.up;
         //objToSpawn.GetComponent<PrivacyShieldManager>().enabled = false;//setOwner(NetworkClient.localPlayer.gameObject);
         PrivacyShieldPermissionManager manager = objToSpawn.GetComponent<PrivacyShieldPermissionManager>();
@@ -33,6 +33,13 @@ public class PrivacyShieldButton : NetworkBehaviour
         manager.Initialize();
 
         NetworkServer.Spawn(objToSpawn);
+        RPCInitializeClientShields(objToSpawn, ownerID);
+    }
+
+    [ClientRpc]
+    public void RPCInitializeClientShields(GameObject objToSpawn, uint ownerID)
+    {
+        objToSpawn.GetComponent<PrivacyShieldPermissionManager>().Initialize(ownerID);
     }
     /*public void StartSpawn()
     {

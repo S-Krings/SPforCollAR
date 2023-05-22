@@ -117,6 +117,7 @@ public class PrivacyShieldManager : NetworkBehaviour
         allowedPlayers = newList;
         Debug.Log("CMD: List is: " + newList);
         Debug.Log("List first is: " + newList[0]);
+        this.gameObject.GetComponent<PrivacyShieldPermissionManager>().updateUIList();
         RPCSetAllowedPlayers(newList);
     }
 
@@ -126,5 +127,6 @@ public class PrivacyShieldManager : NetworkBehaviour
         allowedPlayers = newList;
         Debug.Log("RPC: List is: " + newList);
         Debug.Log("List first is: " + newList[0]);
+        this.gameObject.GetComponent<PrivacyShieldPermissionManager>().updateUIList();
     }
 }

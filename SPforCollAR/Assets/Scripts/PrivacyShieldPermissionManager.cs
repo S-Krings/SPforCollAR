@@ -54,7 +54,7 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
         owner = NetworkClient.spawned[ownerID].gameObject;
         if (owner == null) { Debug.LogError("Could not find owner go with netid " + ownerID); return; }
 
-        ownerTextField.text = ownerTextField.text + owner.GetComponent<PlayerScript>().name;
+        ownerTextField.text = "Owner: " + owner.GetComponent<PlayerScript>().playerName;
         shieldManager.setOwner(owner);
 
         updateUIList();
@@ -108,7 +108,7 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
         return playerList;
     }
 
-    private void updateUIList()
+    public void updateUIList()
     {
         /*for (int i = 0; i< permissionToggleContainer.transform.childCount; i++)
         {
