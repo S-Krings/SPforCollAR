@@ -849,7 +849,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 122.9, y: 60}
+  m_SizeDelta: {x: 130, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1525794856648586063
 CanvasRenderer:
@@ -1385,7 +1385,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Save and Exit
+  m_text: Save Settings
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: afc8299d5d5bbd440a0616c8ecbc7217, type: 2}
   m_sharedMaterial: {fileID: 21340371490990018, guid: afc8299d5d5bbd440a0616c8ecbc7217, type: 2}
@@ -2137,8 +2137,8 @@ MonoBehaviour:
   syncInterval: 0.1
   ownerPlayer: {fileID: 0}
   audioSource: {fileID: 9130456578556344216}
-  audioClip: {fileID: 0}
   allowedPlayers: []
+  illegallyInsidePlayers: []
 --- !u!114 &4263447770102340452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2155,6 +2155,7 @@ MonoBehaviour:
   permissionToggleContainer: {fileID: 4655795797245233678}
   privacyShieldSettingPrefab: {fileID: 9144835050423028011, guid: 25232ee18adcf3f44ad47f6031a63284, type: 3}
   shieldManager: {fileID: 2296370407940379707}
+  ownerID: 0
   owner: {fileID: 0}
 --- !u!82 &9130456578556344216
 AudioSource:
@@ -2433,7 +2434,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 122.9, y: 60}
+  m_SizeDelta: {x: 130, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &3078232941517240688
 CanvasRenderer:
@@ -2828,6 +2829,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 0}
   objToToggle: {fileID: 0}
+  instantiatedPrefab: {fileID: 0}
+  isWaiting: 0
 --- !u!1 &3078232941793005062
 GameObject:
   m_ObjectHideFlags: 0
@@ -2894,7 +2897,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit without Saving
+  m_text: Reload without Saving
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: afc8299d5d5bbd440a0616c8ecbc7217, type: 2}
   m_sharedMaterial: {fileID: 21340371490990018, guid: afc8299d5d5bbd440a0616c8ecbc7217, type: 2}
@@ -5157,6 +5160,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 0}
   objToToggle: {fileID: 0}
+  instantiatedPrefab: {fileID: 0}
+  isWaiting: 0
 --- !u!1 &4655795797116394518
 GameObject:
   m_ObjectHideFlags: 0

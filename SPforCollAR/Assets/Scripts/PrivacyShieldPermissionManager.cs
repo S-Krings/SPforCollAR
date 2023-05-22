@@ -13,6 +13,32 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
     [SerializeField] private GameObject privacyShieldSettingPrefab;
 
     [SerializeField] private PrivacyShieldManager shieldManager;
+    [SerializeField] private uint ownerID;
+    [SerializeField] private GameObject owner;
+
+
+    private void Start()
+    {
+        try
+        {
+            updateUIList();
+            Debug.Log("UpdatedUI");
+        }
+        catch 
+        {
+            Debug.Log("UI Update not possible");
+        }
+    }
+    public void SetOwnerID(uint ownerID)
+    {
+        this.ownerID = ownerID;
+    }
+
+    public void Initialize(uint ownerID)
+    {
+        SetOwnerID(ownerID);
+        Initialize();
+    }
 
     public void Initialize()
     {
@@ -22,21 +48,14 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
             Debug.Log("PermissionManager is: " + shieldManager);
             if (shieldManager == null) return;
         }
-
         if (permissionToggleContainer == null) { Debug.Log("PermissionToggleContainer not set"); return; }
         if (privacyShieldSettingPrefab == null) { Debug.Log("PermissionSettingPrefab not set"); return; }
 
-        ownerTextField.text = ownerTextField.text + NetworkClient.localPlayer.gameObject.GetComponent<PlayerScript>().name;
+        owner = NetworkClient.spawned[ownerID].gameObject;
+        if (owner == null) { Debug.LogError("Could not find owner go with netid " + ownerID); return; }
 
-        updateUIList();
-    }
-
-    public void InitializeUI()
-    {
-        if (permissionToggleContainer == null) { Debug.Log("PermissionToggleContainer not set"); return; }
-        if (privacyShieldSettingPrefab == null) { Debug.Log("PermissionSettingPrefab not set"); return; }
-
-        ownerTextField.text = ownerTextField.text + NetworkClient.connection.identity.gameObject.GetComponent<PlayerScript>().name;
+        ownerTextField.text = ownerTextField.text + owner.GetComponent<PlayerScript>().name;
+        shieldManager.setOwner(owner);
 
         updateUIList();
     }
@@ -44,7 +63,7 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
     public void SaveNewSettings()
     {
         List<GameObject> playerList = getPlayerList();
-        List<GameObject> allowedList = shieldManager.getAllowedPLayers();
+        List<GameObject> allowedList = shieldManager.getAllowedPlayers();
         allowedList.Clear();
         for (int i = 0; i < permissionToggleContainer.transform.childCount; i++)
         {
@@ -60,10 +79,15 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
                     //child.GetComponentInChildren<ClientIDStore>().clientID);//playerList.Find((GameObject go) => go.GetComponent<PlayerScript>().name.Equals(child.name)));
             }
         }
-        shieldManager.setAllowedPLayers(allowedList);
-        FindObjectOfType<PrivacyShieldManager>().enabled = true;
-        GameObject.Find("PermissionMenu").SetActive(false);
-        FindObjectOfType<PrivacyShieldButton>().StartSpawn();
+        if (!allowedList.Contains(owner))
+        {
+            Debug.Log("An Error occurred, the owner should always have permissions. Fixing that.");
+            allowedList.Add(owner);
+        }
+        shieldManager.setAllowedPlayers(allowedList);
+        //FindObjectOfType<PrivacyShieldManager>().enabled = true;
+        //GameObject.Find("PermissionMenu").SetActive(false);
+        //FindObjectOfType<PrivacyShieldButton>().StartSpawn();
     }
 
     public void ResetSettings()
@@ -86,9 +110,13 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
 
     private void updateUIList()
     {
-        for (int i = 0; i< permissionToggleContainer.transform.childCount; i++)
+        /*for (int i = 0; i< permissionToggleContainer.transform.childCount; i++)
         {
             Destroy(permissionToggleContainer.transform.GetChild(0).gameObject);
+        }*/
+        foreach (Transform child in permissionToggleContainer.transform)
+        {
+            Destroy(child.gameObject);
         }
         List<GameObject> playerList = getPlayerList();
         foreach (GameObject playerObj in playerList)
@@ -96,10 +124,17 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
             string playerName = playerObj.GetComponent<PlayerScript>().playerName;
             GameObject permissionSetting = Instantiate(privacyShieldSettingPrefab, permissionToggleContainer.transform);
             permissionSetting.gameObject.name = playerName;
-            permissionSetting.GetComponentInChildren<TextMeshProUGUI>().text = playerName;
+            if(playerObj == owner)
+            {
+                permissionSetting.GetComponentInChildren<TextMeshProUGUI>().text = playerName+ "(Shield Owner)";
+            }
+            else
+            {
+                permissionSetting.GetComponentInChildren<TextMeshProUGUI>().text = playerName;
+            }
             permissionSetting.GetComponentInChildren<ClientIDStore>().clientID = (int)playerObj.GetComponent<NetworkIdentity>().netId;
 
-            if (shieldManager.getAllowedPLayers().Contains(playerObj))
+            if (shieldManager.getAllowedPlayers().Contains(playerObj) || playerObj == owner)
             {
                 permissionSetting.GetComponentInChildren<Interactable>().IsToggled = true;
             }

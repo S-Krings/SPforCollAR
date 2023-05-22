@@ -221,6 +221,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9144835050423028004}
     m_Modifications:
+    - target: {fileID: 1491894523937538, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1850867357197028, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: m_Name
       value: ToggleSwitch

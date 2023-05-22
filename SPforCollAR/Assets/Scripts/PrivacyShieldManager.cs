@@ -11,37 +11,34 @@ public class PrivacyShieldManager : NetworkBehaviour
     [SyncVar]
     [SerializeField] private List<GameObject> allowedPlayers;
 
+    [SerializeField] private List<GameObject> illegallyInsidePlayers;
+
     /*private void Awake()
     {
         this.transform.up = Vector3.up;
     }*/
 
-    private void Start()
-    {
-        Invoke("RemoveMenu", 0.1f);
-    }
-
-/*    public void Initialize(GameObject owner)
-    {
-        ownerPlayer = owner;
-        Debug.Log("Remove Menu?");
-
-        if (NetworkClient.localPlayer.gameObject != owner)
+    /*    public void Initialize(GameObject owner)
         {
-            Debug.Log("Remove Menu");
-            Destroy(this.transform.GetChild(0).gameObject);
+            ownerPlayer = owner;
+            Debug.Log("Remove Menu?");
 
-            Invoke("RemoveMenu", 0.1f);
+            if (NetworkClient.localPlayer.gameObject != owner)
+            {
+                Debug.Log("Remove Menu");
+                Destroy(this.transform.GetChild(0).gameObject);
+
+                Invoke("RemoveMenu", 0.1f);
+            }
         }
-    }
 
-    private void RemoveMenu()
-    {
-        if (NetworkClient.localPlayer.gameObject != ownerPlayer)
+        private void RemoveMenu()
         {
-            Destroy(transform.GetChild(0).gameObject);
-        }
-    }*/
+            if (NetworkClient.localPlayer.gameObject != ownerPlayer)
+            {
+                Destroy(transform.GetChild(0).gameObject);
+            }
+        }*/
 
     private void OnTriggerEnter(Collider other)
     {
@@ -51,6 +48,11 @@ public class PrivacyShieldManager : NetworkBehaviour
         {
             Debug.Log("Intruder alert!!");
             audioSource.Play();
+            if(other.gameObject != ownerPlayer && other.gameObject == NetworkClient.localPlayer.gameObject)
+            {
+                illegallyInsidePlayers.Add(other.gameObject);
+                Debug.Log("Initiating kickout");
+            }
         }
         
     }
@@ -67,10 +69,11 @@ public class PrivacyShieldManager : NetworkBehaviour
     private void OnTriggerExit(Collider other)
     {
 
-        if (!allowedPlayers.Contains(other.gameObject))
+        if (other.gameObject.GetComponent<PlayerScript>() != null && !allowedPlayers.Contains(other.gameObject)) //illegallyInsidePlayers.Contains(other.gameObject))//other.gameObject.GetComponent<PlayerScript>() != null && !allowedPlayers.Contains(other.gameObject))
         {
-            Debug.Log("Intruder alert!!");
+            Debug.Log("Intruder alert ended");
             audioSource.Stop();
+            illegallyInsidePlayers.Remove(other.gameObject);
         }
     }
 
@@ -82,30 +85,38 @@ public class PrivacyShieldManager : NetworkBehaviour
     public void setOwner(GameObject owner)
     {
         ownerPlayer = owner;
+        if (!allowedPlayers.Contains(owner))
+        {
+            allowedPlayers.Add(owner);
+        }
     }
 
 
-    public List<GameObject> getAllowedPLayers()
+    public List<GameObject> getAllowedPlayers()
     { 
         return allowedPlayers;
     }
 
-    public void setAllowedPLayers(List<GameObject> newList)
+    public void setAllowedPlayers(List<GameObject> newList)
     {
-        if (this.gameObject != ownerPlayer)
-        {
-            CmdSetAllowedPlayers(newList);
-        }
+        Debug.Log("Setter: List is: " + newList);
+        Debug.Log("List first is: " + newList[0]);
+        //if (this.gameObject != ownerPlayer)
+        //{
+        CmdSetAllowedPlayers(newList);
+        /*}
         else 
         { 
             Debug.Log("Non local player should not have access to this PrivacyShieldManager.");
-        }
+        }*/
     }
 
     [Command(requiresAuthority = false)]
     private void CmdSetAllowedPlayers(List<GameObject> newList)
     {
         allowedPlayers = newList;
+        Debug.Log("CMD: List is: " + newList);
+        Debug.Log("List first is: " + newList[0]);
         RPCSetAllowedPlayers(newList);
     }
 
@@ -113,5 +124,7 @@ public class PrivacyShieldManager : NetworkBehaviour
     private void RPCSetAllowedPlayers(List<GameObject> newList)
     {
         allowedPlayers = newList;
+        Debug.Log("RPC: List is: " + newList);
+        Debug.Log("List first is: " + newList[0]);
     }
 }

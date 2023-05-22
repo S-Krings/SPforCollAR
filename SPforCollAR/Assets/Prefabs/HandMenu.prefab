@@ -2256,6 +2256,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 0}
   objToToggle: {fileID: 0}
+  instantiatedPrefab: {fileID: 0}
+  isWaiting: 0
 --- !u!1 &991671295934587073
 GameObject:
   m_ObjectHideFlags: 0
@@ -10855,6 +10857,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 0}
   objToToggle: {fileID: 0}
+  instantiatedPrefab: {fileID: 0}
+  isWaiting: 0
 --- !u!1 &4249659673697340243
 GameObject:
   m_ObjectHideFlags: 0
@@ -11351,6 +11355,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 0}
   objToToggle: {fileID: 0}
+  instantiatedPrefab: {fileID: 0}
+  isWaiting: 0
 --- !u!1 &4285695551354894195
 GameObject:
   m_ObjectHideFlags: 0
@@ -14427,6 +14433,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 6333884677661023674}
   objToToggle: {fileID: 0}
+  instantiatedPrefab: {fileID: 0}
+  isWaiting: 0
 --- !u!1 &5122310590915038860
 GameObject:
   m_ObjectHideFlags: 0
@@ -16032,6 +16040,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 6333884677661023674}
   objToToggle: {fileID: 0}
+  instantiatedPrefab: {fileID: 0}
+  isWaiting: 0
 --- !u!1 &5493207552108579376
 GameObject:
   m_ObjectHideFlags: 0
@@ -17031,7 +17041,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2609354396627634282}
         m_TargetAssemblyTypeName: PrivacyShieldButton, Assembly-CSharp
-        m_MethodName: OnClick
+        m_MethodName: OnClickSpawn
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -20812,6 +20822,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 6333884677661023674}
   objToToggle: {fileID: 0}
+  instantiatedPrefab: {fileID: 0}
+  isWaiting: 0
 --- !u!1 &6333884676392883831
 GameObject:
   m_ObjectHideFlags: 0
@@ -40384,10 +40396,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   lastDrawingSpawned: {fileID: 0}
-  lastSpawnedPen: {fileID: 0}
+  lastPenSpawned: {fileID: 0}
   myPen: {fileID: 0}
+  penDirty: 0
   lastFillerSpawned: {fileID: 0}
   myFiller: {fileID: 0}
+  fillerDirty: 0
   lastSpawned: {fileID: 0}
   drawing: {fileID: 0}
 --- !u!114 &6333884677661023675
