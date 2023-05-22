@@ -64,17 +64,25 @@ public class PrivacyShieldManager : NetworkBehaviour
         {
             Debug.Log("Head in triggerstay");
         }*/
+
     }
 
     private void OnTriggerExit(Collider other)
     {
-
-        if (other.gameObject.GetComponent<PlayerScript>() != null && !allowedPlayers.Contains(other.gameObject)) //illegallyInsidePlayers.Contains(other.gameObject))//other.gameObject.GetComponent<PlayerScript>() != null && !allowedPlayers.Contains(other.gameObject))
+        if (illegallyInsidePlayers.Contains(other.gameObject))
+        {
+            illegallyInsidePlayers.Remove(other.gameObject);
+        }
+        if(illegallyInsidePlayers.Count == 0)
+        {
+            audioSource.Stop();
+        }
+        /*if (other.gameObject.GetComponent<PlayerScript>() != null && !allowedPlayers.Contains(other.gameObject)) //illegallyInsidePlayers.Contains(other.gameObject))//other.gameObject.GetComponent<PlayerScript>() != null && !allowedPlayers.Contains(other.gameObject))
         {
             Debug.Log("Intruder alert ended");
             audioSource.Stop();
             illegallyInsidePlayers.Remove(other.gameObject);
-        }
+        }*/
     }
 
     public GameObject getOwner()

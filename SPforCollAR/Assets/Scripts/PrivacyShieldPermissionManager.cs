@@ -11,6 +11,7 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
     [SerializeField] private TMP_Text ownerTextField;
     [SerializeField] private GameObject permissionToggleContainer;
     [SerializeField] private GameObject privacyShieldSettingPrefab;
+    [SerializeField] private GameObject saveButton;
 
     [SerializeField] private PrivacyShieldManager shieldManager;
     [SerializeField] private uint ownerID;
@@ -50,12 +51,19 @@ public class PrivacyShieldPermissionManager : MonoBehaviour
         }
         if (permissionToggleContainer == null) { Debug.Log("PermissionToggleContainer not set"); return; }
         if (privacyShieldSettingPrefab == null) { Debug.Log("PermissionSettingPrefab not set"); return; }
+        if (saveButton == null) { Debug.Log("saveButton not set"); return; }
 
         owner = NetworkClient.spawned[ownerID].gameObject;
         if (owner == null) { Debug.LogError("Could not find owner go with netid " + ownerID); return; }
 
         ownerTextField.text = "Owner: " + owner.GetComponent<PlayerScript>().playerName;
         shieldManager.setOwner(owner);
+
+        if(NetworkClient.localPlayer.netId != ownerID)
+        {
+            Debug.Log("Found savebutton: "+saveButton);
+            saveButton.SetActive(false);
+        }
 
         updateUIList();
     }

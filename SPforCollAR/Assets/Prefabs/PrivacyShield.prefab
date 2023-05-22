@@ -2154,6 +2154,7 @@ MonoBehaviour:
   ownerTextField: {fileID: 5264535200131555813}
   permissionToggleContainer: {fileID: 4655795797245233678}
   privacyShieldSettingPrefab: {fileID: 9144835050423028011, guid: 25232ee18adcf3f44ad47f6031a63284, type: 3}
+  saveButton: {fileID: 1525794856648586053}
   shieldManager: {fileID: 2296370407940379707}
   ownerID: 0
   owner: {fileID: 0}
