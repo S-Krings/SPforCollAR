@@ -121,7 +121,7 @@ public class PrivacyShieldManager : NetworkBehaviour
     private IEnumerator KickoutCountdown(GameObject warningMessage)
     {
         TMP_Text countdownText = warningMessage.GetComponent<GameObjectReferenceHolder>().GetStoredObject().GetComponent<TMP_Text>();
-        int waitingTime = 3;
+        int waitingTime = 5;
         while (waitingTime > 0)
         {
             Debug.Log("Countdown:" + waitingTime);
