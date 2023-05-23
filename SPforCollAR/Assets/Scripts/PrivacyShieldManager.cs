@@ -2,16 +2,22 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PrivacyShieldManager : NetworkBehaviour
 {
     [SerializeField] private GameObject ownerPlayer;
     [SerializeField] private AudioSource audioSource;
+    [SerializeField] private GameObject warningPrefab;
 
     [SyncVar]
     [SerializeField] private List<GameObject> allowedPlayers;
 
     [SerializeField] private List<GameObject> illegallyInsidePlayers;
+
+    [SerializeField] private Coroutine kickoutCoroutine;
+    private int counter = 0;
 
     /*private void Awake()
     {
@@ -44,27 +50,49 @@ public class PrivacyShieldManager : NetworkBehaviour
     {
         Debug.Log("TriggerEnter, go "+other.gameObject+" entered.");
 
-        if(!allowedPlayers.Contains(other.gameObject))
+        if(!allowedPlayers.Contains(other.gameObject) && other.gameObject.layer != 5)
         {
             Debug.Log("Intruder alert!!");
             audioSource.Play();
-            if(other.gameObject != ownerPlayer && other.gameObject == NetworkClient.localPlayer.gameObject)
+            illegallyInsidePlayers.Add(other.gameObject);
+            if (other.gameObject != ownerPlayer && other.gameObject == NetworkClient.localPlayer.gameObject)
             {
-                illegallyInsidePlayers.Add(other.gameObject);
                 Debug.Log("Initiating kickout");
+                GameObject countdownMessageInstance = Instantiate(warningPrefab);
+                kickoutCoroutine = StartCoroutine(nameof(KickoutCountdown), countdownMessageInstance);
             }
         }
-        
     }
 
     private void OnTriggerStay(Collider other)
-    {
-       /* Debug.Log("TriggerStay");
-        if(other.gameObject.name.Contains("Person"))
+    {        
+        if (counter > 100)
         {
-            Debug.Log("Head in triggerstay");
-        }*/
-
+            if (!illegallyInsidePlayers.Contains(other.gameObject) && !allowedPlayers.Contains(other.gameObject) && other.gameObject.layer != 5)
+            {
+                Debug.Log("Intruder alert!!");
+                audioSource.Play();
+                illegallyInsidePlayers.Add(other.gameObject);
+                if (other.gameObject != ownerPlayer && other.gameObject == NetworkClient.localPlayer.gameObject)
+                {
+                    Debug.Log("Initiating kickout");
+                    GameObject countdownMessageInstance = Instantiate(warningPrefab);
+                    kickoutCoroutine = StartCoroutine(nameof(KickoutCountdown), countdownMessageInstance);
+                }
+            }
+            for(int i = 0; i < illegallyInsidePlayers.Count; i++)
+            {
+                if(illegallyInsidePlayers[i] == null)
+                {
+                    illegallyInsidePlayers.Remove(illegallyInsidePlayers[i]);
+                }
+            }
+            if(illegallyInsidePlayers.Count == 0)
+            {
+                audioSource.Stop();
+            }
+        }
+        counter++;
     }
 
     private void OnTriggerExit(Collider other)
@@ -77,12 +105,52 @@ public class PrivacyShieldManager : NetworkBehaviour
         {
             audioSource.Stop();
         }
+        if(other.gameObject != ownerPlayer && other.gameObject == NetworkClient.localPlayer.gameObject && kickoutCoroutine != null)
+        {
+            StopCoroutine(kickoutCoroutine);
+            kickoutCoroutine = null;
+        }
         /*if (other.gameObject.GetComponent<PlayerScript>() != null && !allowedPlayers.Contains(other.gameObject)) //illegallyInsidePlayers.Contains(other.gameObject))//other.gameObject.GetComponent<PlayerScript>() != null && !allowedPlayers.Contains(other.gameObject))
         {
             Debug.Log("Intruder alert ended");
             audioSource.Stop();
             illegallyInsidePlayers.Remove(other.gameObject);
         }*/
+    }
+
+    private IEnumerator KickoutCountdown(GameObject warningMessage)
+    {
+        TMP_Text countdownText = warningMessage.GetComponent<GameObjectReferenceHolder>().GetStoredObject().GetComponent<TMP_Text>();
+        int waitingTime = 3;
+        while (waitingTime > 0)
+        {
+            Debug.Log("Countdown:" + waitingTime);
+            countdownText.text = "" + waitingTime;
+            yield return new WaitForSeconds(1);
+            waitingTime--;
+        }
+        countdownText.text = "Disconnected";
+        Debug.Log("Countdown End");
+        DisconnectAndExit();
+    }
+
+    private void DisconnectAndExit()
+    {
+        if (isServerOnly)
+        {
+            NetworkManager.singleton.StopServer();
+        }
+        else if (isServer)
+        {
+            NetworkManager.singleton.StopHost();
+        }
+        else if (isClient)
+        {
+            NetworkManager.singleton.StopClient();
+        }
+        Debug.Log("Quit");
+        Application.Quit();
+
     }
 
     public GameObject getOwner()

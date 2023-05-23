@@ -2137,6 +2137,7 @@ MonoBehaviour:
   syncInterval: 0.1
   ownerPlayer: {fileID: 0}
   audioSource: {fileID: 9130456578556344216}
+  warningPrefab: {fileID: 6209354217911318102, guid: 11d8d612cba83004c98ee90cf4206fcf, type: 3}
   allowedPlayers: []
   illegallyInsidePlayers: []
 --- !u!114 &4263447770102340452
