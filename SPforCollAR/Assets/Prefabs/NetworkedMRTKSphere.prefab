@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 981558270800053988}
   m_Layer: 0
   m_Name: NetworkedMRTKSphere
-  m_TagString: Untagged
+  m_TagString: Dissolve
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

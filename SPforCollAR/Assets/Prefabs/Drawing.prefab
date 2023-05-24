@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 6728217962214668154}
   m_Layer: 0
   m_Name: Drawing
-  m_TagString: Untagged
+  m_TagString: Dissolve
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -231,3 +231,4 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   isManipulated: 0
+  targetRigidbody: {fileID: 0}

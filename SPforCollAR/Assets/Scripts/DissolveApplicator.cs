@@ -6,12 +6,21 @@ public class DissolveApplicator : MonoBehaviour
 {
     [SerializeField] private Material dissolveMaterial;
     [SerializeField] private bool isDissolveOn = false;
+    [SerializeField] private bool onlyTags = false;
+    [SerializeField] private string tagName = "Dissolve";
 
     public void ToggleDissolve()
     {
         if (!isDissolveOn)
         {
-            ApplyDissolveToAll();
+            if (onlyTags)
+            {
+                ApplyDissolveToAllTagged(tagName);
+            }
+            else
+            {
+                ApplyDissolveToAll();
+            }
         }
         else
         {
@@ -31,6 +40,19 @@ public class DissolveApplicator : MonoBehaviour
             }
         }
     }
+
+    private void ApplyDissolveToAllTagged(string tag)
+    {
+        foreach (MeshRenderer meshRenderer in FindObjectsOfType(typeof(MeshRenderer)))
+        {
+            if (meshRenderer.gameObject.tag == tag)
+            {
+                DissolveSetter dissolveSetter = meshRenderer.gameObject.AddComponent<DissolveSetter>();
+                dissolveSetter.SetDissolveMaterial(dissolveMaterial);
+            }
+        }
+    }
+
     private void RemoveDissolveFromAll()
     {
         foreach (MeshRenderer meshRenderer in FindObjectsOfType(typeof(MeshRenderer)))

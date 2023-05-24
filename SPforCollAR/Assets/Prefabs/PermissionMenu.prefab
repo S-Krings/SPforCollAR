@@ -2662,6 +2662,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 0}
   objToToggle: {fileID: 0}
+  instantiatedPrefab: {fileID: 0}
+  isWaiting: 0
 --- !u!1 &719299028203776145
 GameObject:
   m_ObjectHideFlags: 0
@@ -4303,7 +4305,7 @@ GameObject:
   - component: {fileID: 242303910117255791}
   m_Layer: 0
   m_Name: PermissionMenu
-  m_TagString: Untagged
+  m_TagString: Dissolve
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7979,6 +7981,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawningControl: {fileID: 0}
   objToToggle: {fileID: 0}
+  instantiatedPrefab: {fileID: 0}
+  isWaiting: 0
 --- !u!1 &7196707909245994885
 GameObject:
   m_ObjectHideFlags: 0
