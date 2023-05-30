@@ -1702,7 +1702,7 @@ GameObject:
   - component: {fileID: 2296370407940379707}
   - component: {fileID: 4263447770102340452}
   - component: {fileID: 9130456578556344216}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: PrivacyShield
   m_TagString: Untagged
   m_Icon: {fileID: 0}
