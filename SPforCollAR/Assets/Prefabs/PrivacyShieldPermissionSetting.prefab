@@ -327,15 +327,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 49359081721985469}
+    - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnHandPressCompleted
+      objectReference: {fileID: 0}
+    - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Microsoft.MixedReality.Toolkit.PhysicalPressEventRouter, Microsoft.MixedReality.Toolkit.SDK
+      objectReference: {fileID: 0}
+    - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1565874583813688473, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: bounds.x
@@ -363,7 +379,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4490521165903221456, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: maxPushDistance
-      value: -0.02
+      value: 0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490521165903221456, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: distanceSpaceMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490521165903221456, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: startPushDistance
+      value: -0.05
       objectReference: {fileID: 0}
     - target: {fileID: 4490521165903221456, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: releaseDistanceDelta
@@ -371,6 +395,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+--- !u!114 &49359081721985469 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8551643627639406017, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+  m_PrefabInstance: {fileID: 8503589122916975740}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 881d1ff8f009f5148b9f192e6ba31223, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &8508244020498695920 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4938574377845388, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
