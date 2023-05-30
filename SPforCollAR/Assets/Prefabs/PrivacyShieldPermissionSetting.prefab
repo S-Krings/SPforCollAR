@@ -229,6 +229,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ToggleSwitch
       objectReference: {fileID: 0}
+    - target: {fileID: 4303610339839266, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0211
+      objectReference: {fileID: 0}
     - target: {fileID: 4938574377845388, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -289,6 +293,30 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 65620022048249504, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: m_Size.x
+      value: 0.13298273
+      objectReference: {fileID: 0}
+    - target: {fileID: 65620022048249504, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: m_Size.y
+      value: 0.09532751
+      objectReference: {fileID: 0}
+    - target: {fileID: 65620022048249504, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: m_Size.z
+      value: 0.029220754
+      objectReference: {fileID: 0}
+    - target: {fileID: 65620022048249504, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: m_Center.x
+      value: 0.021521915
+      objectReference: {fileID: 0}
+    - target: {fileID: 65620022048249504, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: m_Center.y
+      value: 0.0007211581
+      objectReference: {fileID: 0}
+    - target: {fileID: 65620022048249504, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: m_Center.z
+      value: -0.0021103565
+      objectReference: {fileID: 0}
     - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: enabledOnStart
       value: 1
@@ -308,6 +336,38 @@ PrefabInstance:
     - target: {fileID: 114402419347283100, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
       propertyPath: OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1565874583813688473, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: bounds.x
+      value: 0.13298273
+      objectReference: {fileID: 0}
+    - target: {fileID: 1565874583813688473, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: bounds.y
+      value: 0.09532751
+      objectReference: {fileID: 0}
+    - target: {fileID: 1565874583813688473, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: localCenter.x
+      value: 0.021521915
+      objectReference: {fileID: 0}
+    - target: {fileID: 1565874583813688473, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: localCenter.y
+      value: 0.0007211581
+      objectReference: {fileID: 0}
+    - target: {fileID: 1565874583813688473, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: localCenter.z
+      value: -0.016720735
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490521165903221456, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: pressDistance
+      value: 0.005
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490521165903221456, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: maxPushDistance
+      value: -0.02
+      objectReference: {fileID: 0}
+    - target: {fileID: 4490521165903221456, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
+      propertyPath: releaseDistanceDelta
+      value: 0.015
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0dc4a34875700c4aba845405dc43a89, type: 3}
