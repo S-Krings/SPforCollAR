@@ -77,7 +77,8 @@ public class NetworkButtons : MonoBehaviour
         setValues();
         NetworkManager.singleton.StartHost();
         networkDiscovery.AdvertiseServer();
-        SceneManager.LoadScene("TutorialScene", LoadSceneMode.Additive);
+        SceneManager.LoadScene("TutorialNew", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("TutorialScene", LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync("MirrorLobby");
     }
 

@@ -10,7 +10,7 @@ public class SelectBasePosition : MonoBehaviour
     [SerializeField] private string previousObjectContainerName = "SceneObjects";
     [SerializeField] private GameObject groundPlane;
     [SerializeField] private string sceneZeroName = "SceneZero";
-    [SerializeField] private bool customSpawnContainer = true; //whether objects spawn at a custom container or in the MixedRealitySceneContent
+    [SerializeField] private bool customSpawnContainer = false; //whether objects spawn at a custom container or in the MixedRealitySceneContent
 
     public void SelectPosition()
     {

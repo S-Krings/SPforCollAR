@@ -1207,7 +1207,7 @@ MonoBehaviour:
   previousObjectContainerName: SceneObjects
   groundPlane: {fileID: 6229557386744886641, guid: 5c4fbbf0a52ca4d43826547d579b7e60, type: 3}
   sceneZeroName: SceneZero
-  customSpawnContainer: 1
+  customSpawnContainer: 0
 --- !u!65 &8711077431055607359
 BoxCollider:
   m_ObjectHideFlags: 0

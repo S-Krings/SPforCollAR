@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/Samples/Mixed Reality Toolkit Foundation/2.8.2/Scene System Resources/DefaultLightingScene.unity
     guid: 7e54e36c44f826c438c95da79f8de638
   - enabled: 1
+    path: Assets/Scenes/TutorialNew.unity
+    guid: 2ed586b5292c88a43a074b8c3a8a43b1
+  - enabled: 0
     path: Assets/Scenes/TutorialScene.unity
     guid: 5a4ff34f19ff3e846a23991f0d2d0046
   - enabled: 0
