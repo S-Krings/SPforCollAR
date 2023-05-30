@@ -228,6 +228,12 @@ public class SpawningControl : NetworkBehaviour
             myPen = lastPenSpawned;
             penDirty = false;
             Debug.Log("Set pen Dirty false");
+
+            try
+            {
+                myPen.GetComponent<TrailRenderer>().enabled = false; //set trailrenderer false because it keeps activating itself for some reason
+            }
+            catch (System.Exception) { }
         }
     }
 
