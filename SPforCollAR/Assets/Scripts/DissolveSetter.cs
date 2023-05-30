@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class DissolveSetter : MonoBehaviour
 {
@@ -35,7 +36,7 @@ public class DissolveSetter : MonoBehaviour
     public void Start()
     {
         //dissolveMaterial = Resources.Load("Shaders/Built-In/NearDissolveParamMaterial.mat", typeof(Material)) as Material; ;
-        thresholdDistance = dissolveMaterial.GetFloat("_BlendOutStartDistance") +this.transform.localScale.x/2;
+        thresholdDistance = dissolveMaterial.GetFloat("_BlendOutStartDistance") + this.transform.localScale.x;///2;
         Debug.Log("Distance found is: " + dissolveMaterial.GetFloat("_BlendOutStartDistance"));
     }
 
@@ -51,7 +52,7 @@ public class DissolveSetter : MonoBehaviour
         //m.SetColor("_BaseColourParam", Color.green);
         //Debug.Log("Colour detection test "+m.GetColor("_Color"));//Material albedo
         //Debug.Log("Metallic detection test "+m.GetFloat("_Metallic"));//Material albedo
-        dissolveMaterial.SetColor("_Color", (foundMaterial.GetColor("_Color")*Color.gray));
+        dissolveMaterial.SetColor("_Color", (foundMaterial.GetColor("_Color")*new Color(0.7f,0.7f,0.7f,1)));//make it a bit darker, because unlit ois usually lighter
         //Debug.Log("New colour is: " + dissolveMaterial.GetColor("_Color"));
         dissolveMaterial.SetTexture("_MainTex", foundMaterial.GetTexture("_MainTex"));
         //Debug.Log("New texture is: " + dissolveMaterial.GetTexture("_MainTex"));
@@ -81,6 +82,7 @@ public class DissolveSetter : MonoBehaviour
         dissolveMaterial.SetFloat("_SrcBlend", foundMaterial.GetFloat("_SrcBlend"));
         dissolveMaterial.SetFloat("_DstBlend", foundMaterial.GetFloat("_DstBlend"));
         dissolveMaterial.SetFloat("_ZWrite", foundMaterial.GetFloat("_ZWrite"));
+
         Debug.Log("Replaced with DissolveMaterial");
     }
 
