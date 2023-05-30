@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.22571328, b: 0.3069217, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1948,6 +1948,10 @@ PrefabInstance:
     - target: {fileID: 6333884678367762316, guid: 24dd09c7bb9f8444ab2b0671a8dd5b32, type: 3}
       propertyPath: m_Name
       value: HandMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 7012125057079413583, guid: 24dd09c7bb9f8444ab2b0671a8dd5b32, type: 3}
+      propertyPath: m_Name
+      value: NearDissonveButton
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24dd09c7bb9f8444ab2b0671a8dd5b32, type: 3}
