@@ -55,7 +55,10 @@ public class ColourRelay : NetworkBehaviour
     [ClientRpc]
     public void RPCPenColour(Color colour, NetworkIdentity netID)
     {
-        netID.gameObject.GetComponent<PenColourControl>().SetColour(colour);
+        if (netID.gameObject != null && netID.gameObject.GetComponent<PenColourControl>() != null)
+        {
+            netID.gameObject.GetComponent<PenColourControl>().SetColour(colour);
+        }
     }
 
     public void SetFillerColour(int colour)
