@@ -50,7 +50,7 @@ public class PrivacyShieldManager : NetworkBehaviour
     {
         Debug.Log("TriggerEnter, go "+other.gameObject+" entered.");
 
-        if(!allowedPlayers.Contains(other.gameObject) && other.gameObject.layer != 5)
+        if(!allowedPlayers.Contains(other.gameObject) && other.gameObject.layer != 5 && other.gameObject.GetComponent<PlayerScript>() != null)
         {
             Debug.Log("Intruder alert!!");
             audioSource.Play();
@@ -68,7 +68,7 @@ public class PrivacyShieldManager : NetworkBehaviour
     {        
         if (counter > 100)
         {
-            if (!illegallyInsidePlayers.Contains(other.gameObject) && !allowedPlayers.Contains(other.gameObject) && other.gameObject.layer != 5)
+            if (!illegallyInsidePlayers.Contains(other.gameObject) && !allowedPlayers.Contains(other.gameObject) && other.gameObject.layer != 5 && other.gameObject.GetComponent<PlayerScript>() != null)
             {
                 Debug.Log("Intruder alert!!");
                 audioSource.Play();
@@ -108,6 +108,7 @@ public class PrivacyShieldManager : NetworkBehaviour
         if(other.gameObject != ownerPlayer && other.gameObject == NetworkClient.localPlayer.gameObject && kickoutCoroutine != null)
         {
             StopCoroutine(kickoutCoroutine);
+            Destroy(GameObject.Find("KickCountdown(Clone)")); 
             kickoutCoroutine = null;
         }
         /*if (other.gameObject.GetComponent<PlayerScript>() != null && !allowedPlayers.Contains(other.gameObject)) //illegallyInsidePlayers.Contains(other.gameObject))//other.gameObject.GetComponent<PlayerScript>() != null && !allowedPlayers.Contains(other.gameObject))
