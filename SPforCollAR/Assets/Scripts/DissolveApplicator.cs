@@ -9,6 +9,8 @@ public class DissolveApplicator : MonoBehaviour
     [SerializeField] private bool onlyTags = false;
     [SerializeField] private string tagName = "Dissolve";
 
+    private Coroutine updateCoroutine = null;
+
     public void ToggleDissolve()
     {
         if (!isDissolveOn)
@@ -39,6 +41,7 @@ public class DissolveApplicator : MonoBehaviour
                 dissolveSetter.SetDissolveMaterial(dissolveMaterial);
             }
         }
+        updateCoroutine = StartCoroutine(UpdateNewObjects());
     }
 
     private void ApplyDissolveToAllTagged(string tag)
@@ -51,6 +54,7 @@ public class DissolveApplicator : MonoBehaviour
                 dissolveSetter.SetDissolveMaterial(dissolveMaterial);
             }
         }
+        updateCoroutine = StartCoroutine(UpdateNewObjects(tag));
     }
 
     private void RemoveDissolveFromAll()
@@ -58,6 +62,44 @@ public class DissolveApplicator : MonoBehaviour
         foreach (MeshRenderer meshRenderer in FindObjectsOfType(typeof(MeshRenderer)))
         {
             if(meshRenderer.gameObject.GetComponent<DissolveSetter>()!=null)meshRenderer.gameObject.GetComponent<DissolveSetter>().enabled = false;
+        }
+        /*if(updateCoroutine != null)
+        {
+            StopCoroutine(updateCoroutine);
+            updateCoroutine = null;
+        }*/
+        StopAllCoroutines();
+    }
+
+    private IEnumerator UpdateNewObjects(string tag)
+    {
+        while (true)
+        {
+            foreach (MeshRenderer meshRenderer in FindObjectsOfType(typeof(MeshRenderer)))
+            {
+                if (meshRenderer.gameObject.tag == tag && meshRenderer.gameObject.GetComponent<DissolveSetter>() == null)
+                {
+                    DissolveSetter dissolveSetter = meshRenderer.gameObject.AddComponent<DissolveSetter>();
+                    dissolveSetter.SetDissolveMaterial(dissolveMaterial);
+                }
+            }
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    private IEnumerator UpdateNewObjects()
+    {
+        while (true)
+        {
+            foreach (MeshRenderer meshRenderer in FindObjectsOfType(typeof(MeshRenderer)))
+            {
+                if (!(meshRenderer.gameObject.layer == 5) && meshRenderer.gameObject.GetComponent<DissolveSetter>() != null)
+                {
+                    DissolveSetter dissolveSetter = meshRenderer.gameObject.AddComponent<DissolveSetter>();
+                    dissolveSetter.SetDissolveMaterial(dissolveMaterial);
+                }
+            }
+            yield return new WaitForSeconds(1f);
         }
     }
 }

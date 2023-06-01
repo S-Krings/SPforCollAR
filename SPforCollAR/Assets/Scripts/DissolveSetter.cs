@@ -13,8 +13,9 @@ public class DissolveSetter : MonoBehaviour
 
     public void Update()
     {
+        thresholdDistance = this.transform.localScale.x*this.transform.localScale.x + 0.4f;
         //Debug.Log("Distance: " + Vector3.Distance(this.transform.position, Camera.main.transform.position)+" threschold: "+thresholdDistance);
-        if(!dissolveActive && Vector3.Distance(this.transform.position, Camera.main.transform.position) < thresholdDistance)
+        if (!dissolveActive && Vector3.Distance(this.transform.position, Camera.main.transform.position) < thresholdDistance)
         {
             try
             {
@@ -36,7 +37,8 @@ public class DissolveSetter : MonoBehaviour
     public void Start()
     {
         //dissolveMaterial = Resources.Load("Shaders/Built-In/NearDissolveParamMaterial.mat", typeof(Material)) as Material; ;
-        thresholdDistance = dissolveMaterial.GetFloat("_BlendOutStartDistance") + this.transform.localScale.x;///2;
+        //thresholdDistance = dissolveMaterial.GetFloat("_BlendOutStartDistance") + this.transform.localScale.x*1.5f;///2;
+        thresholdDistance = this.transform.localScale.x;///2;
         Debug.Log("Distance found is: " + dissolveMaterial.GetFloat("_BlendOutStartDistance"));
     }
 
@@ -52,7 +54,9 @@ public class DissolveSetter : MonoBehaviour
         //m.SetColor("_BaseColourParam", Color.green);
         //Debug.Log("Colour detection test "+m.GetColor("_Color"));//Material albedo
         //Debug.Log("Metallic detection test "+m.GetFloat("_Metallic"));//Material albedo
-        dissolveMaterial.SetColor("_Color", (foundMaterial.GetColor("_Color")*new Color(0.7f,0.7f,0.7f,1)));//make it a bit darker, because unlit ois usually lighter
+        //For unlit shaders:
+        //dissolveMaterial.SetColor("_Color", (foundMaterial.GetColor("_Color")*new Color(0.7f,0.7f,0.7f,1)));//make it a bit darker, because unlit ois usually lighter
+        dissolveMaterial.SetColor("_Color", foundMaterial.GetColor("_Color"));//make it a bit darker, because unlit ois usually lighter
         //Debug.Log("New colour is: " + dissolveMaterial.GetColor("_Color"));
         dissolveMaterial.SetTexture("_MainTex", foundMaterial.GetTexture("_MainTex"));
         //Debug.Log("New texture is: " + dissolveMaterial.GetTexture("_MainTex"));

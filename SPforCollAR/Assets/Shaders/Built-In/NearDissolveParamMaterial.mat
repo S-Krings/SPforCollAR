@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: NearDissolveParamMaterial
-  m_Shader: {fileID: -6465566751694194690, guid: ae0f4395127dab24d94a99cf054353f9, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: c9e34cc045b7f624fa598141cd79d8b1, type: 3}
   m_ValidKeywords:
   - _BUILTIN_ALPHATEST_ON
   - _BUILTIN_AlphaClip
@@ -76,10 +76,11 @@ Material:
     - _BlendOutStartDistance: 0.6
     - _BumpScale: 1
     - _Cutoff: 0.5
-    - _CutoffLevel: 0
+    - _CutoffLevel: 1.25
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EdgeWitdh: 0.05
+    - _Float: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
