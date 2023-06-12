@@ -19,6 +19,7 @@ public class NetworkButtons : MonoBehaviour
     const string playerPrefsNameKey = "PlayerName";
     const string playerPrefsColourKey = "PlayerColour";
 
+    [SerializeField] private string sharedSceneName = "MirrorTest";
     private void Start()
     {
         //set player prefs
@@ -48,7 +49,7 @@ public class NetworkButtons : MonoBehaviour
         setValues();
         NetworkManager.singleton.StartHost();
         networkDiscovery.AdvertiseServer();
-        SceneManager.LoadScene("MirrorTest", LoadSceneMode.Additive);
+        SceneManager.LoadScene(sharedSceneName, LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync("MirrorLobby");
     }
 
@@ -57,7 +58,7 @@ public class NetworkButtons : MonoBehaviour
         discoveredServers.Clear();
         NetworkManager.singleton.StartServer();
         networkDiscovery.AdvertiseServer();
-        SceneManager.LoadScene("MirrorTest", LoadSceneMode.Additive);
+        SceneManager.LoadScene(sharedSceneName, LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync("MirrorLobby");
     }
 
@@ -67,7 +68,7 @@ public class NetworkButtons : MonoBehaviour
         NetworkManager.singleton.networkAddress = info.EndPoint.Address.ToString();
         setValues();
         NetworkManager.singleton.StartClient(); //Connect(info);
-        SceneManager.LoadScene("MirrorTest", LoadSceneMode.Additive);
+        SceneManager.LoadScene(sharedSceneName, LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync("MirrorLobby");
     }
 
