@@ -123,7 +123,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1001 &549142129
+--- !u!1001 &1733057357
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -132,7 +132,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5239373923118443624, guid: f62c7b4fc5f91e0459a84a01c1080482, type: 3}
       propertyPath: sceneId
-      value: 3525910651
+      value: 3334453473
       objectReference: {fileID: 0}
     - target: {fileID: 5239373923552552531, guid: f62c7b4fc5f91e0459a84a01c1080482, type: 3}
       propertyPath: m_RootOrder
@@ -181,6 +181,14 @@ PrefabInstance:
     - target: {fileID: 5239373923552552543, guid: f62c7b4fc5f91e0459a84a01c1080482, type: 3}
       propertyPath: m_Name
       value: HandProtectionMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 5755464326710699366, guid: f62c7b4fc5f91e0459a84a01c1080482, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9080267071852952220, guid: f62c7b4fc5f91e0459a84a01c1080482, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f62c7b4fc5f91e0459a84a01c1080482, type: 3}
