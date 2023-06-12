@@ -22,7 +22,6 @@ public class PlanePlacer : MonoBehaviour
                     planeRigidbody.gameObject.transform.localScale *= 100;
                     planeRigidbody.isKinematic = true;
                     planeRigidbody.gameObject.transform.up = Vector3.up;
-                    this.enabled = false;
                 }
             }
             else
