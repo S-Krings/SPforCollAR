@@ -31,6 +31,7 @@ public class NetworkButtons : MonoBehaviour
             colourDropdown.value = PlayerPrefs.GetInt(playerPrefsColourKey);
         }
         networkDiscovery = NetworkManager.singleton.gameObject.GetComponent<NetworkDiscovery>();
+        FindServers();
     }
 
     public void FindServers()
@@ -67,6 +68,17 @@ public class NetworkButtons : MonoBehaviour
         setValues();
         NetworkManager.singleton.StartClient(); //Connect(info);
         SceneManager.LoadScene("MirrorTest", LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync("MirrorLobby");
+    }
+
+    public void StartTutorial()
+    {
+        discoveredServers.Clear();
+        setValues();
+        NetworkManager.singleton.StartHost();
+        networkDiscovery.AdvertiseServer();
+        SceneManager.LoadScene("TutorialNew", LoadSceneMode.Additive);
+        //SceneManager.LoadScene("TutorialScene", LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync("MirrorLobby");
     }
 

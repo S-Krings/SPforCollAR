@@ -1626,6 +1626,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   isManipulated: 0
+  targetRigidbody: {fileID: 0}
 --- !u!96 &3395413123162489460
 TrailRenderer:
   serializedVersion: 2
@@ -1769,7 +1770,7 @@ MonoBehaviour:
   buttonText: {fileID: 2925019372417112564}
   trailRenderer: {fileID: 3395413123162489460}
   spawningControl: {fileID: 0}
-  currentColour: 0
+  currentColour: {r: 0, g: 0, b: 0, a: 0}
   penOn: 0
 --- !u!1 &8979770803216162906
 GameObject:

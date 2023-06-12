@@ -231,3 +231,4 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   isManipulated: 0
+  targetRigidbody: {fileID: 0}

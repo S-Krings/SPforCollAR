@@ -17,10 +17,8 @@ public class PenColourControl : NetworkBehaviour
 
     public SpawningControl spawningControl;
 
-    public int currentColour;
+    public Color currentColour;
 
-    private Color[] colours = new Color[] { Color.white, new Color32(24, 229, 0, 255), new Color32(255, 221, 0, 255), new Color32(255, 150, 0, 255), new Color32(255, 0, 8, 255) };
-    
     [SyncVar (hook = nameof(PenOnToggled))] 
     public bool penOn = false;
 
@@ -36,7 +34,7 @@ public class PenColourControl : NetworkBehaviour
         {
             penMesh.mesh = penTipMesh;
             buttonSprite.sprite = spriteOn;
-            buttonSprite.color = colours[currentColour];
+            buttonSprite.color = currentColour;
             buttonText.text = "On";
             trailRenderer.Clear();
             trailRenderer.enabled = true;
@@ -51,33 +49,35 @@ public class PenColourControl : NetworkBehaviour
         }
     }
 
-    public void SetColour(int colour)
+    public void SetColour(Color colour)
     {
-        penRenderer.materials[0].SetColor("_Color", colours[colour]);
-        trailRenderer.startColor = colours[colour];
-        trailRenderer.endColor = colours[colour];
+        penRenderer.materials[0].SetColor("_Color", colour); // "_Color" is a property name, required by the method
+        trailRenderer.startColor = colour;
+        trailRenderer.endColor = colour;
         trailRenderer.Clear();
 
         if (penOn)
         {
-            buttonSprite.color = colours[colour];
+            buttonSprite.color = colour;
         }
+
+        currentColour = colour;
     }
 
-    public void SetTrailColour(int colour)
+    public void SetTrailColour(Color colour)
     {
         CmdTrailColour(colour, spawningControl.myPen.GetComponent<NetworkIdentity>());
     }
 
     [Command(requiresAuthority = false)]
-    public void CmdTrailColour(int colour, NetworkIdentity networkIdentity)
+    public void CmdTrailColour(Color colour, NetworkIdentity networkIdentity)
     {
         networkIdentity.gameObject.GetComponent<PenColourControl>().SetColour(colour);
         RPCTrailColour(colour, networkIdentity);
     }
 
     [ClientRpc]
-    public void RPCTrailColour(int colour, NetworkIdentity networkIdentity)
+    public void RPCTrailColour(Color colour, NetworkIdentity networkIdentity)
     {
         networkIdentity.gameObject.GetComponent<PenColourControl>().SetColour(colour);
     }
@@ -104,7 +104,7 @@ public class PenColourControl : NetworkBehaviour
     {
         try
         {
-            spawningControl = GameObject.Find("NetworkRelay").GetComponent<SpawningControl>();
+            spawningControl = FindObjectOfType<SpawningControl>();
         }
         catch (System.Exception e)
         {

@@ -96,14 +96,9 @@ public class DrawingScript : NetworkBehaviour
 
     private void Start()
     {
-        try
-        {
-            spawningControl = GameObject.Find("NetworkRelay").GetComponent<SpawningControl>();
-        }
-        catch (NullReferenceException e)
-        {
-            Debug.LogError("DrawingScript could not find Spawning control");
-        }
+        spawningControl = FindObjectOfType<SpawningControl>(); //GameObject.Find("HandMenu").GetComponent<SpawningControl>();
+        Debug.Log("DrawingScript:SpawningControl is: " + spawningControl);
+
     }
 
     public SerializedMesh SerializeMesh(Mesh m)
