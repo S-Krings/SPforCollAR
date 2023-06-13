@@ -3,22 +3,22 @@ using UnityEditor;
 
 public class SelectionWindow : EditorWindow
 {
-    [SerializeField] bool Users;
-    [SerializeField] bool UsedData;
-    [SerializeField] bool Bystanders;
-    
-    [SerializeField] bool OtherUsers;
-    [SerializeField] bool AppCreators;
-    [SerializeField] bool OutsideAttackers;
+    [SerializeField] bool Users = true;
+    [SerializeField] bool UsedData = true;
+    [SerializeField] bool Bystanders = true;
 
-    [SerializeField] bool StaticInformationDisclosure;
-    [SerializeField] bool SituationalInformationDisclosure;
-    [SerializeField] bool UnwantedInput;
+    [SerializeField] bool OtherUsers = true;
+    [SerializeField] bool AppCreators = true;
+    [SerializeField] bool OutsideAttackers = true;
 
-    [SerializeField] bool Occlusion;
-    [SerializeField] bool Distraction;
-    [SerializeField] bool Illusion;
-    [SerializeField] bool UnwantedContentPlacement;
+    [SerializeField] bool StaticInformationDisclosure = true;
+    [SerializeField] bool SituationalInformationDisclosure = true;
+    [SerializeField] bool UnwantedInput = true;
+
+    [SerializeField] bool Occlusion = true;
+    [SerializeField] bool Distraction = true;
+    [SerializeField] bool Illusion = true;
+    [SerializeField] bool UnwantedContentPlacement = true;
 
     [Tooltip("What happens between the application instances")] [SerializeField] bool InterApplication;
     [Tooltip("What happens in one application instance")] [SerializeField] bool InApplication;
@@ -27,6 +27,10 @@ public class SelectionWindow : EditorWindow
     private bool PrivacyShield;
     private bool PermissionMenu;
     private bool Dissolve;
+    private bool Outline;
+
+    private Vector2 scrollPos = Vector2.zero;
+    private Vector2 scrollPosHelps = Vector2.zero;
 
     [MenuItem("PrivacySecurityToolbox/Configuration Window")]
     public static void ShowWindow()
@@ -36,6 +40,8 @@ public class SelectionWindow : EditorWindow
 
     private void OnGUI()
     {
+        GUILayout.Label("Select your Protection Goals:", EditorStyles.boldLabel);
+        scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.ExpandHeight(true));
         GUILayout.Label("Protection Target", EditorStyles.boldLabel);
         Users = GUILayout.Toggle(Users, "Users");
         UsedData = GUILayout.Toggle(UsedData, "Used Data");
@@ -69,6 +75,7 @@ public class SelectionWindow : EditorWindow
         Distraction = GUILayout.Toggle(Distraction, "Distraction");
         Illusion = GUILayout.Toggle(Illusion, "Illusion");
         UnwantedContentPlacement = GUILayout.Toggle(UnwantedContentPlacement, "Unwanted Content Placement");
+        EditorGUILayout.EndScrollView();
 
         if (GUILayout.Button("Find Protection Features"))
         {
@@ -91,29 +98,44 @@ public class SelectionWindow : EditorWindow
             "UnwantedContentPlacement " + UnwantedContentPlacement);
             AddFeatures();
         }
-        if (PermissionMenu)
-        {
-            EditorGUILayout.HelpBox("Permission Manager Button Added - What to do now?\n" +
-            "  - Add the PermissionInterestManagement component to the GameObject your NetworkManager is on\n" +
-            "  - Add the PermissionInterestManagementOverride component to objects that should always appear\n" +
-            "  - Use the PermissionManager.singleton in your code:\n" +
-            "     - Use AddStandardPermissions when spawining new objects\n" +
-            "     - Use checkPermission when allowing actions that only authorized users should be able to do",
-            MessageType.None);
-        }
-        if (PrivacyShield)
-        {
-            EditorGUILayout.HelpBox("Protection Shield Button Added - What to do now?\n" +
-            "Nothing, you're done!",
-            MessageType.None);
-        }
-        if (Dissolve)
-        {
-            EditorGUILayout.HelpBox("Dissolve Button Added - What to do now?\n" +
-            "  - Add \"Dissolve\" tag to objects that should dissolve\n" +
-            "  - Do not forget the prefabs that can be spawned",
-            MessageType.None);
-        }
+        
+        scrollPosHelps = EditorGUILayout.BeginScrollView(scrollPosHelps, GUILayout.ExpandHeight(true));
+
+            if (PermissionMenu)
+            {
+                EditorGUILayout.HelpBox("Permission Manager Button Added - What to do now?\n" +
+                "  - Add the PermissionInterestManagement component to the GameObject your NetworkManager is on\n" +
+                "  - Add the PermissionInterestManagementOverride component to objects that should always appear\n" +
+                "  - Use the PermissionManager.singleton in your code:\n" +
+                "     - Use AddStandardPermissions when spawining new objects\n" +
+                "     - Use checkPermission when allowing actions that only authorized users should be able to do\n" +
+                "Now, the PermissionManager protects Users or Used Data from Other Users by preventing Static Information Disclosure and/or Situational Information Disclosure.",
+                MessageType.None);
+            }
+            if (PrivacyShield)
+            {
+                EditorGUILayout.HelpBox("Protection Shield Button Added - What to do now?\n" +
+                "Nothing, you're done!\n" +
+                "Now, the PrivacyShield protects Users from Other Users by preventing Situational Information Disclosure.",
+                MessageType.None);
+            }
+            if (Dissolve)
+            {
+                EditorGUILayout.HelpBox("Dissolve Button Added - What to do now?\n" +
+                "  - Add \"Dissolve\" tag to objects that should dissolve\n" +
+                "  - Do not forget the prefabs that can be spawned\n" +
+                "Now, the Dissolve feature protects Users from Other Users and/or Outside Attackers by preventing Occlusion.",
+                MessageType.None);
+            }
+            if (Outline)
+            {
+                EditorGUILayout.HelpBox("Outline Button Added - What to do now?\n" +
+                "  - Add \"Outline\" tag to objects that should become outlined\n" +
+                "  - Do not forget the prefabs that can be spawned\n" +
+                "Now, the Outline protects Users from OtherUsers and/or Outside Attackers by preventing Illusions.",
+                MessageType.None);
+            }
+        EditorGUILayout.EndScrollView();
     }
 
     private void AddFeatures()
@@ -121,6 +143,7 @@ public class SelectionWindow : EditorWindow
         GameObject menu = GameObject.Find("HandProtectionMenu");
         if (menu == null)
         {
+            Debug.Log("No ProtectionMenu in scene, adding new one");
             Object prefab = AssetDatabase.LoadAssetAtPath("Assets/PrivacySecurityToolkit/SharedAssets/Resources/HandProtectionMenu.prefab", typeof(GameObject));
             if (prefab == null)
             {
@@ -130,7 +153,7 @@ public class SelectionWindow : EditorWindow
             menu = (GameObject)PrefabUtility.InstantiatePrefab(prefab);
             Undo.RegisterCreatedObjectUndo(menu, "Create " + menu.name);
         }
-        GameObject permissionManagerButton = null, shieldButton = null, dissolveButton = null;
+        GameObject permissionManagerButton = null, shieldButton = null, dissolveButton = null, outlineButton = null;
         foreach (Transform child in menu.transform.GetChild(0).GetChild(0))
         {
             Debug.Log(child.name);
@@ -146,8 +169,12 @@ public class SelectionWindow : EditorWindow
             {
                 dissolveButton = child.gameObject;
             }
+            if(child.name == "OutlineButton")
+            {
+                outlineButton = child.gameObject;
+            }
         }
-        Debug.Log("Permission " + permissionManagerButton + " dheld: " + shieldButton + " dissolve: " + dissolveButton);
+        Debug.Log("Permission " + permissionManagerButton + " shield: " + shieldButton + " dissolve: " + dissolveButton + " outline: "+outlineButton);
 
         if (!((Users||UsedData)&&OtherUsers && (StaticInformationDisclosure||SituationalInformationDisclosure)))
         {
@@ -156,8 +183,10 @@ public class SelectionWindow : EditorWindow
         }
         else
         {
+            permissionManagerButton.SetActive(true);
             PermissionMenu = true;
         }
+
         if(!(Users && OtherUsers && SituationalInformationDisclosure))
         {
             shieldButton.SetActive(false);
@@ -165,8 +194,10 @@ public class SelectionWindow : EditorWindow
         }
         else
         {
+            shieldButton.SetActive(true);
             PrivacyShield = true;
         }
+
         if (!(Users && (OtherUsers||OutsideAttackers) && Occlusion))
         {
             dissolveButton.SetActive(false);
@@ -174,7 +205,19 @@ public class SelectionWindow : EditorWindow
         }
         else
         {
+            dissolveButton.SetActive(true);
             Dissolve = true;
+        }
+
+        if (!(Users && (OtherUsers||OutsideAttackers) && Illusion))
+        {
+            outlineButton.SetActive(false);
+            Outline = false;
+        }
+        else
+        {
+            outlineButton.SetActive(true);
+            Outline = true;
         }
     }
 }

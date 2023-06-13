@@ -7,6 +7,7 @@ public class OutlinesApplicator : MonoBehaviour
 {
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private int layerToOutline = -1;
+    [SerializeField] private string tagToOutline = "Outline";
     [SerializeField] private List<MeshRenderer> changedMeshRenderers = new List<MeshRenderer>();
     [SerializeField] private bool outlinesOn = false;
 
@@ -31,7 +32,7 @@ public class OutlinesApplicator : MonoBehaviour
         }
         else
         {
-            ApplyOutlinesToAll();
+            ApplyOutlinesToAllTagged();
         }
     }
 
@@ -55,6 +56,20 @@ public class OutlinesApplicator : MonoBehaviour
             changedMeshRenderers[0].materials = matList.ToArray();
             Debug.Log("Length of materialArray after removal: " + currentMeshRenderer.materials.Length);
             changedMeshRenderers.Remove(changedMeshRenderers[0]);
+        }
+    }
+
+    private void ApplyOutlinesToAllTagged()
+    {
+        foreach (MeshRenderer meshRenderer in FindObjectsOfType(typeof(MeshRenderer)))
+        {
+            if (meshRenderer.gameObject.tag == "Outline") //Apply to tagged objects only
+            {
+                List<Material> matList = meshRenderer.materials.ToList();
+                matList.Add(outlineMaterial);
+                meshRenderer.materials = matList.ToArray();
+                changedMeshRenderers.Add(meshRenderer);
+            }
         }
     }
 
