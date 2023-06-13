@@ -20,9 +20,9 @@ public class SelectionWindow : EditorWindow
     [SerializeField] bool Illusion = true;
     [SerializeField] bool UnwantedContentPlacement = true;
 
-    [Tooltip("What happens between the application instances")] [SerializeField] bool InterApplication;
-    [Tooltip("What happens in one application instance")] [SerializeField] bool InApplication;
-    [Tooltip("What happens in the real world")] [SerializeField] bool Physical;
+    [SerializeField] bool InterApplication = true;
+    [SerializeField] bool InApplication = true;
+    [SerializeField] bool Physical = true;
 
     private bool PrivacyShield;
     private bool PermissionMenu;
@@ -107,8 +107,8 @@ public class SelectionWindow : EditorWindow
                 "  - Add the PermissionInterestManagement component to the GameObject your NetworkManager is on\n" +
                 "  - Add the PermissionInterestManagementOverride component to objects that should always appear\n" +
                 "  - Use the PermissionManager.singleton in your code:\n" +
-                "     - Use AddStandardPermissions when spawining new objects\n" +
-                "     - Use checkPermission when allowing actions that only authorized users should be able to do\n" +
+                "       - Use AddStandardPermissions when spawining new objects\n" +
+                "       - Use checkPermission when allowing actions that only authorized users should be able to do\n" +
                 "Now, the PermissionManager protects Users or Used Data from Other Users by preventing Static Information Disclosure and/or Situational Information Disclosure.",
                 MessageType.None);
             }
@@ -122,7 +122,7 @@ public class SelectionWindow : EditorWindow
             if (Dissolve)
             {
                 EditorGUILayout.HelpBox("Dissolve Button Added - What to do now?\n" +
-                "  - Add \"Dissolve\" tag to objects that should dissolve\n" +
+                "  - Add \"Dissolve\" tag to objects that should dissolve (or \"DissolveAndOutline\" if you also use the outline)\n" +
                 "  - Do not forget the prefabs that can be spawned\n" +
                 "Now, the Dissolve feature protects Users from Other Users and/or Outside Attackers by preventing Occlusion.",
                 MessageType.None);
@@ -130,7 +130,7 @@ public class SelectionWindow : EditorWindow
             if (Outline)
             {
                 EditorGUILayout.HelpBox("Outline Button Added - What to do now?\n" +
-                "  - Add \"Outline\" tag to objects that should become outlined\n" +
+                "  - Add \"Outline\" tag to objects that should become outlined (or \"DissolveAndOutline\" if you also use dissolve)\n" +
                 "  - Do not forget the prefabs that can be spawned\n" +
                 "Now, the Outline protects Users from OtherUsers and/or Outside Attackers by preventing Illusions.",
                 MessageType.None);

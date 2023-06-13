@@ -8,6 +8,7 @@ public class DissolveApplicator : MonoBehaviour
     [SerializeField] private bool isDissolveOn = false;
     [SerializeField] private bool onlyTags = false;
     [SerializeField] private string tagName = "Dissolve";
+    [SerializeField] private string multiTagName = "DissolveAndOutline";
 
     private Coroutine updateCoroutine = null;
 
@@ -48,7 +49,13 @@ public class DissolveApplicator : MonoBehaviour
     {
         foreach (MeshRenderer meshRenderer in FindObjectsOfType(typeof(MeshRenderer)))
         {
-            if (meshRenderer.gameObject.tag == tag)
+            if (meshRenderer.gameObject.GetComponent<DissolveSetter>() != null) 
+            { 
+                meshRenderer.gameObject.GetComponent<DissolveSetter>().enabled = true;
+                break;
+            }
+
+            if (meshRenderer.gameObject.CompareTag(tag)|| meshRenderer.gameObject.tag == multiTagName)
             {
                 DissolveSetter dissolveSetter = meshRenderer.gameObject.AddComponent<DissolveSetter>();
                 dissolveSetter.SetDissolveMaterial(dissolveMaterial);
@@ -77,7 +84,7 @@ public class DissolveApplicator : MonoBehaviour
         {
             foreach (MeshRenderer meshRenderer in FindObjectsOfType(typeof(MeshRenderer)))
             {
-                if (meshRenderer.gameObject.tag == tag && meshRenderer.gameObject.GetComponent<DissolveSetter>() == null)
+                if ((meshRenderer.gameObject.tag == tag || meshRenderer.gameObject.tag == multiTagName) && meshRenderer.gameObject.GetComponent<DissolveSetter>() == null)
                 {
                     DissolveSetter dissolveSetter = meshRenderer.gameObject.AddComponent<DissolveSetter>();
                     dissolveSetter.SetDissolveMaterial(dissolveMaterial);

@@ -12092,7 +12092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4003580549761097136
 Transform:
   m_ObjectHideFlags: 0
@@ -12609,6 +12609,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   outlineMaterial: {fileID: 2100000, guid: 2b13df3f167bb324ab2310f74a3cfd6a, type: 2}
   layerToOutline: -1
+  tagToOutline: Outline
   changedMeshRenderers: []
   outlinesOn: 0
 --- !u!1 &4468241690568185716
@@ -46203,7 +46204,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3064746084940438215
 Transform:
   m_ObjectHideFlags: 0

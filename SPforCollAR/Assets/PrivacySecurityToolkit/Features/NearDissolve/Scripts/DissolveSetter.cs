@@ -49,7 +49,7 @@ public class DissolveSetter : MonoBehaviour
         if (foundMaterial.name.Contains("Light (Instance)")) return; //we do not want to fiddle with the lighting
         if (foundMaterial.name.Contains("NearDissolveParamMaterial (Instance)")) return; //to prevent errors from test objects
         removedMaterials = meshRenderer.materials;
-        meshRenderer.material = dissolveMaterial;
+        meshRenderer.materials = new Material[] { dissolveMaterial };
         dissolveMaterial = meshRenderer.material;
         //m.SetColor("_BaseColourParam", Color.green);
         //Debug.Log("Colour detection test "+m.GetColor("_Color"));//Material albedo
@@ -93,7 +93,10 @@ public class DissolveSetter : MonoBehaviour
     private void DeactivateDissolveMaterial()
     {
         MeshRenderer meshRenderer = this.GetComponent<MeshRenderer>();
-        meshRenderer.materials = removedMaterials;
+        if (meshRenderer != null)
+        {
+            meshRenderer.materials = removedMaterials;
+        }
     }
 
     public void SetDissolveMaterial(Material dissolveMaterial)

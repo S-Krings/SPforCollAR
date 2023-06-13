@@ -8,6 +8,7 @@ public class OutlinesApplicator : MonoBehaviour
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private int layerToOutline = -1;
     [SerializeField] private string tagToOutline = "Outline";
+    [SerializeField] private string multiTag = "DissolveAndOutline";
     [SerializeField] private List<MeshRenderer> changedMeshRenderers = new List<MeshRenderer>();
     [SerializeField] private bool outlinesOn = false;
 
@@ -26,6 +27,7 @@ public class OutlinesApplicator : MonoBehaviour
 
     public void ApplyOutlines()
     {
+        Debug.Log("Applying Outlines");
         if(layerToOutline >= 0)
         {
             ApplyOutlinesToLayer(layerToOutline);
@@ -63,7 +65,8 @@ public class OutlinesApplicator : MonoBehaviour
     {
         foreach (MeshRenderer meshRenderer in FindObjectsOfType(typeof(MeshRenderer)))
         {
-            if (meshRenderer.gameObject.tag == "Outline") //Apply to tagged objects only
+            Debug.Log("MeshRenderer in: " + meshRenderer.gameObject + " has outlinetag?" + meshRenderer.gameObject.CompareTag("Outline"));
+            if (meshRenderer.gameObject.CompareTag(tagToOutline)|| meshRenderer.gameObject.CompareTag(multiTag)) //Apply to tagged objects only
             {
                 List<Material> matList = meshRenderer.materials.ToList();
                 matList.Add(outlineMaterial);
