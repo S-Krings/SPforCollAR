@@ -32,52 +32,81 @@ public class SelectionWindow : EditorWindow
     private Vector2 scrollPos = Vector2.zero;
     private Vector2 scrollPosHelps = Vector2.zero;
 
-    [MenuItem("PrivacySecurityToolbox/Configuration Window")]
+    [MenuItem("PrivacySecurityToolbox/Open Protection Configurator Window")]
     public static void ShowWindow()
     {
-        GetWindow<SelectionWindow>("Configuration");
+        GetWindow<SelectionWindow>("Protection Configurator");
     }
 
     private void OnGUI()
     {
-        GUILayout.Label("Select your Protection Goals:", EditorStyles.boldLabel);
+        GUIStyle titlestyle = new GUIStyle();
+        titlestyle.richText = true;
+        titlestyle.wordWrap = true;
+        titlestyle.normal.textColor = new Color32(0xc0, 0xc0, 0xc0, 0xff);//(192, 192, 192, 255);
+        titlestyle.fontStyle = FontStyle.Bold;
+
+
+        GUIStyle textstyle = GUI.skin.toggle;
+        textstyle.richText = true;
+        textstyle.wordWrap = true;
+        textstyle.normal.textColor = new Color32(0xc0, 0xc0, 0xc0, 0xff);//(192, 192, 192, 255);
+
+        GUILayout.Label("<size=16>Select your Protection Goals:</size>", titlestyle);
+        GUILayout.Space(5);
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Space(5);
+        EditorGUILayout.BeginVertical();
         scrollPos = EditorGUILayout.BeginScrollView(scrollPos, GUILayout.ExpandHeight(true));
-        GUILayout.Label("Protection Target", EditorStyles.boldLabel);
-        Users = GUILayout.Toggle(Users, "Users");
-        UsedData = GUILayout.Toggle(UsedData, "Used Data");
-        Bystanders = GUILayout.Toggle(Bystanders, "Bystanders");
+
+        GUILayout.Label("Who or what do you want to protect?", titlestyle);
+        Users = GUILayout.Toggle(Users, "Users", textstyle);
+        UsedData = GUILayout.Toggle(UsedData, "Used Data", textstyle);
+        Bystanders = GUILayout.Toggle(Bystanders, "Bystanders", textstyle);
 
         GUILayout.Space(10);
 
-        GUILayout.Label("Adversary", EditorStyles.boldLabel);
-        OtherUsers = GUILayout.Toggle(OtherUsers, "Other Users");
-        AppCreators = GUILayout.Toggle(AppCreators, "App Creators");
-        OutsideAttackers = GUILayout.Toggle(OutsideAttackers, "Outside Attackers");
+        GUILayout.Label("From whom do you want to protect?", titlestyle);
+        OtherUsers = GUILayout.Toggle(OtherUsers, "Other Users", textstyle);
+        AppCreators = GUILayout.Toggle(AppCreators, "App Creators", textstyle);
+        OutsideAttackers = GUILayout.Toggle(OutsideAttackers, "Outside Attackers", textstyle);
+
+        /*GUILayout.Space(10);
+
+        GUILayout.Label("Protection Layer", titlestyle);
+        InterApplication = GUILayout.Toggle(InterApplication, "Inter-Application", textstyle);
+        InApplication = GUILayout.Toggle(InApplication, "In-Application", textstyle);
+        Physical = GUILayout.Toggle(Physical, "Physical", textstyle);*/
 
         GUILayout.Space(10);
+        GUILayout.Label("What risks do you want to prevent?", titlestyle);
 
-        GUILayout.Label("Protection Layer", EditorStyles.boldLabel);
-        StaticInformationDisclosure = GUILayout.Toggle(StaticInformationDisclosure, "Static Information Disclosure");
-        SituationalInformationDisclosure = GUILayout.Toggle(SituationalInformationDisclosure, "Situational Information Disclosure");
-        UnwantedInput = GUILayout.Toggle(UnwantedInput, "Unwanted Input");
+        EditorGUILayout.BeginHorizontal();
+        GUILayout.Space(15);
+        EditorGUILayout.BeginVertical();
 
-        GUILayout.Space(10);
-
-        GUILayout.Label("Input Protection Risks", EditorStyles.boldLabel);
-        InterApplication = GUILayout.Toggle(InterApplication, "Inter-Application");
-        InApplication = GUILayout.Toggle(InApplication, "In-Application");
-        Physical = GUILayout.Toggle(Physical, "Physical");
+        GUILayout.Space(5);
+        GUILayout.Label("What information going into the application do you want to protect?", titlestyle);
+        StaticInformationDisclosure = GUILayout.Toggle(StaticInformationDisclosure, "Static Information (3D Objects, Documents, ...)", textstyle);
+        SituationalInformationDisclosure = GUILayout.Toggle(SituationalInformationDisclosure, "Situational Information (User Movements, Camera View, ...)", textstyle);
+        UnwantedInput = GUILayout.Toggle(UnwantedInput, "Prevent Unwanted Inputs", textstyle);
 
         GUILayout.Space(5);
 
-        GUILayout.Label("Output Protection Risks", EditorStyles.boldLabel);
-        Occlusion = GUILayout.Toggle(Occlusion, "Occlusion");
-        Distraction = GUILayout.Toggle(Distraction, "Distraction");
-        Illusion = GUILayout.Toggle(Illusion, "Illusion");
-        UnwantedContentPlacement = GUILayout.Toggle(UnwantedContentPlacement, "Unwanted Content Placement");
+        GUILayout.Label("From what things display/output issues do you want to protect?", titlestyle);
+        Occlusion = GUILayout.Toggle(Occlusion, "Occlusion", textstyle);
+        Distraction = GUILayout.Toggle(Distraction, "Distraction", textstyle);
+        Illusion = GUILayout.Toggle(Illusion, "Illusion", textstyle);
+        UnwantedContentPlacement = GUILayout.Toggle(UnwantedContentPlacement, "Unwanted Content Placement", textstyle);
+
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
         EditorGUILayout.EndScrollView();
 
-        if (GUILayout.Button("Find Protection Features"))
+        EditorGUILayout.EndVertical();
+        EditorGUILayout.EndHorizontal();
+
+        if (GUILayout.Button("Apply Protection Features"))
         {
             Debug.Log("Selection: \n"+
             "Users "+ Users+"\n"+
@@ -122,17 +151,17 @@ public class SelectionWindow : EditorWindow
             if (Dissolve)
             {
                 EditorGUILayout.HelpBox("Dissolve Button Added - What to do now?\n" +
-                "  - Add \"Dissolve\" tag to objects that should dissolve (or \"DissolveAndOutline\" if you also use the outline)\n" +
-                "  - Do not forget the prefabs that can be spawned\n" +
+                "  - Add Tag \"Dissolve\" to objects that should dissolve (or \"DissolveAndOutline\" if you also use the outline)\n" +
+                "  - Do not forget to tag your prefabs\n" +
                 "Now, the Dissolve feature protects Users from Other Users and/or Outside Attackers by preventing Occlusion.",
                 MessageType.None);
             }
             if (Outline)
             {
                 EditorGUILayout.HelpBox("Outline Button Added - What to do now?\n" +
-                "  - Add \"Outline\" tag to objects that should become outlined (or \"DissolveAndOutline\" if you also use dissolve)\n" +
-                "  - Do not forget the prefabs that can be spawned\n" +
-                "Now, the Outline protects Users from OtherUsers and/or Outside Attackers by preventing Illusions.",
+                "  - Add Tag \"Outline\" to objects that should become outlined (or \"DissolveAndOutline\" if you also use dissolve)\n" +
+                "  - Do not forget to tag your prefabs\n" +
+                "Now, the Outline protects Users from Other Users and/or Outside Attackers by preventing Illusions.",
                 MessageType.None);
             }
         EditorGUILayout.EndScrollView();
