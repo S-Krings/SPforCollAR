@@ -10151,7 +10151,7 @@ MonoBehaviour:
   networkDiscovery: {fileID: 1186461408}
   playernameInputField: {fileID: 149592554}
   colourDropdown: {fileID: 1191208278}
-  sharedSceneName: FrameworkTestScene
+  sharedSceneName: MirrorTest
 --- !u!223 &7197236620722245240
 Canvas:
   m_ObjectHideFlags: 0
