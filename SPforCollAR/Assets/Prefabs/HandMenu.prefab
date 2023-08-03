@@ -12610,6 +12610,7 @@ MonoBehaviour:
   outlineMaterial: {fileID: 2100000, guid: 2b13df3f167bb324ab2310f74a3cfd6a, type: 2}
   layerToOutline: -1
   tagToOutline: Outline
+  multiTag: DissolveAndOutline
   changedMeshRenderers: []
   outlinesOn: 0
 --- !u!1 &4468241690568185716
@@ -43592,6 +43593,7 @@ MonoBehaviour:
   isDissolveOn: 0
   onlyTags: 1
   tagName: Dissolve
+  multiTagName: DissolveAndOutline
 --- !u!1 &7052745243786210299
 GameObject:
   m_ObjectHideFlags: 0
@@ -46809,7 +46811,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &57832505688175431
 Transform:
   m_ObjectHideFlags: 0
