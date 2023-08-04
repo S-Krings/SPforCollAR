@@ -15,7 +15,7 @@ public class MovementUpdater : NetworkBehaviour
 
     private void Start()
     {
-        if (isServer && targetRigidbody != null)
+        if (isServer && targetRigidbody != null && targetRigidbody.useGravity)
         {
             targetRigidbody.isKinematic = false;
         }

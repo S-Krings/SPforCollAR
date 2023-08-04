@@ -16,6 +16,13 @@ public class SliderAnimationConnector : MonoBehaviour
 
     public void onValueUpdated(SliderEventData sliderEventData)
     {
-        animator.SetFloat("slidervalue", sliderEventData.NewValue);
+        if(sliderEventData.NewValue == 1)
+        {
+            animator.SetFloat("slidervalue", 0.99f);
+        }
+        else
+        {
+            animator.SetFloat("slidervalue", sliderEventData.NewValue);
+        }
     }
 }
