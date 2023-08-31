@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using System;
 
 public class MovementUpdater : NetworkBehaviour
 {
@@ -25,7 +26,7 @@ public class MovementUpdater : NetworkBehaviour
     {
         if (isManipulated)
         {
-            if (targetRigidbody != null&& targetRigidbody.isKinematic) targetRigidbody.isKinematic = false;
+            if (targetRigidbody != null && targetRigidbody.isKinematic) targetRigidbody.isKinematic = false;
             CmdUpdatePosition(this.gameObject.transform.position, this.gameObject.transform.rotation, this.gameObject.transform.localScale, this.netIdentity);//, player);
         }
         else
@@ -133,6 +134,7 @@ public class MovementUpdater : NetworkBehaviour
     void CmdToggleKinematic(bool rigidbodyKinematic)//, PlayerScript player)
     {
         if(targetRigidbody != null) targetRigidbody.isKinematic = rigidbodyKinematic;
+        if (targetRigidbody != null && targetRigidbody.name.Contains("3Dprinter_MaxG_37509_animated")) targetRigidbody.isKinematic = true; // 3d printer should have no physics
     }
 
     private bool isDifferentVector3(Vector3 v1, Vector3 v2, int decimalPoint)

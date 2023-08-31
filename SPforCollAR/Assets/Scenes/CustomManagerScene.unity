@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.12731704, g: 0.13414727, b: 0.121078536, a: 1}
+  m_IndirectSpecularColor: {r: 0.12731749, g: 0.13414757, b: 0.1210787, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -475,7 +475,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5410205761174606359, guid: 384156f91b97b994d8a820f3ea9b42fb, type: 3}
       propertyPath: spawnPrefabs.Array.size
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 5410205761174606359, guid: 384156f91b97b994d8a820f3ea9b42fb, type: 3}
       propertyPath: spawnPrefabs.Array.data[8]
@@ -485,6 +485,10 @@ PrefabInstance:
       propertyPath: spawnPrefabs.Array.data[9]
       value: 
       objectReference: {fileID: 4138532680102711116, guid: e8d1037de55123541a5f6e54df39b1ea, type: 3}
+    - target: {fileID: 5410205761174606359, guid: 384156f91b97b994d8a820f3ea9b42fb, type: 3}
+      propertyPath: spawnPrefabs.Array.data[10]
+      value: 
+      objectReference: {fileID: 4452133098952095818, guid: 289ccbd077cf8db4d93362f6c7999ebc, type: 3}
     - target: {fileID: 5410205761174606362, guid: 384156f91b97b994d8a820f3ea9b42fb, type: 3}
       propertyPath: m_Name
       value: NetworkManager
