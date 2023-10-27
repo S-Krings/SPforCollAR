@@ -32,7 +32,7 @@ public class SelectionWindow : EditorWindow
     private Vector2 scrollPos = Vector2.zero;
     private Vector2 scrollPosHelps = Vector2.zero;
 
-    [MenuItem("PrivacySecurityToolbox/Open Protection Configurator Window")]
+    [MenuItem("TARPS/Open Protection Configurator Window")]
     public static void ShowWindow()
     {
         GetWindow<SelectionWindow>("Protection Configurator");
@@ -93,7 +93,7 @@ public class SelectionWindow : EditorWindow
 
         GUILayout.Space(5);
 
-        GUILayout.Label("From what things display/output issues do you want to protect?", titlestyle);
+        GUILayout.Label("From what display/output issues do you want to protect?", titlestyle);
         Occlusion = GUILayout.Toggle(Occlusion, "Occlusion", textstyle);
         Distraction = GUILayout.Toggle(Distraction, "Distraction", textstyle);
         Illusion = GUILayout.Toggle(Illusion, "Illusion", textstyle);
