@@ -20,11 +20,9 @@ TARPS works on two levels: in Unity, it offers a developer UI for choosing and a
 
 The following video shows the UI and features in more detail:
 
-
-
 https://github.com/S-Krings/TARPS/assets/61807632/b61046b6-7805-497c-8b12-1874b535f200
 
-A version with higher resolution can be found in the [Documentation](/Supplementary_Material/Documentation/Figures) folder.
+A video version with higher resolution can be found in the [Documentation](/Supplementary_Material/Documentation/Figures) folder.
 
 
 ## Instructions
