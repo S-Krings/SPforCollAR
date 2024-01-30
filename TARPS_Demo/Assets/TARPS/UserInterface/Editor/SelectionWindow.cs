@@ -5,20 +5,20 @@ public class SelectionWindow : EditorWindow
 {
     [SerializeField] bool Users = true;
     [SerializeField] bool UsedData = true;
-    [SerializeField] bool Bystanders = true;
+    [SerializeField] bool Bystanders = false;
 
     [SerializeField] bool OtherUsers = true;
-    [SerializeField] bool AppCreators = true;
+    [SerializeField] bool AppCreators = false;
     [SerializeField] bool OutsideAttackers = true;
 
     [SerializeField] bool StaticInformationDisclosure = true;
     [SerializeField] bool SituationalInformationDisclosure = true;
-    [SerializeField] bool UnwantedInput = true;
+    [SerializeField] bool UnwantedInput = false;
 
     [SerializeField] bool Occlusion = true;
-    [SerializeField] bool Distraction = true;
-    [SerializeField] bool Illusion = true;
-    [SerializeField] bool UnwantedContentPlacement = true;
+    [SerializeField] bool Distraction = false;
+    [SerializeField] bool Illusion = false;
+    [SerializeField] bool UnwantedContentPlacement = false;
 
     [SerializeField] bool InterApplication = true;
     [SerializeField] bool InApplication = true;
@@ -61,14 +61,18 @@ public class SelectionWindow : EditorWindow
 
         GUILayout.Label("Who or what do you want to protect?", titlestyle);
         Users = GUILayout.Toggle(Users, "Users", textstyle);
+        GUI.enabled = false;
         UsedData = GUILayout.Toggle(UsedData, "Used Data", textstyle);
+        GUI.enabled = true;
         Bystanders = GUILayout.Toggle(Bystanders, "Bystanders", textstyle);
 
         GUILayout.Space(10);
 
         GUILayout.Label("From whom do you want to protect?", titlestyle);
         OtherUsers = GUILayout.Toggle(OtherUsers, "Other Users", textstyle);
+        GUI.enabled = false;
         AppCreators = GUILayout.Toggle(AppCreators, "App Creators", textstyle);
+        GUI.enabled = true;
         OutsideAttackers = GUILayout.Toggle(OutsideAttackers, "Outside Attackers", textstyle);
 
         /*GUILayout.Space(10);
@@ -89,15 +93,19 @@ public class SelectionWindow : EditorWindow
         GUILayout.Label("What information going into the application do you want to protect?", titlestyle);
         StaticInformationDisclosure = GUILayout.Toggle(StaticInformationDisclosure, "Static Information (3D Objects, Documents, ...)", textstyle);
         SituationalInformationDisclosure = GUILayout.Toggle(SituationalInformationDisclosure, "Situational Information (User Movements, Camera View, ...)", textstyle);
+        GUI.enabled = false;
         UnwantedInput = GUILayout.Toggle(UnwantedInput, "Prevent Unwanted Inputs", textstyle);
+        GUI.enabled = true;
 
         GUILayout.Space(5);
 
         GUILayout.Label("From what display/output issues do you want to protect?", titlestyle);
         Occlusion = GUILayout.Toggle(Occlusion, "Occlusion", textstyle);
+        GUI.enabled = false;
         Distraction = GUILayout.Toggle(Distraction, "Distraction", textstyle);
         Illusion = GUILayout.Toggle(Illusion, "Illusion", textstyle);
         UnwantedContentPlacement = GUILayout.Toggle(UnwantedContentPlacement, "Unwanted Content Placement", textstyle);
+        GUI.enabled = true;
 
         EditorGUILayout.EndVertical();
         EditorGUILayout.EndHorizontal();
