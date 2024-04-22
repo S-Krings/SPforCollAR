@@ -14,6 +14,7 @@ public class SelectBasePosition : MonoBehaviour
 
     public void SelectPosition()
     {
+        Debug.Log("Selecting Position!");
         GameObject content = GameObject.FindObjectOfType<MixedRealitySceneContent>().gameObject;
 
         containerObject = (customSpawnContainer) ? GameObject.Find(sceneZeroName) : content;

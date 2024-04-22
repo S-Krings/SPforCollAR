@@ -154,8 +154,6 @@ PlayerSettings:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  - {fileID: 8597161660205286695, guid: 2ed7ea88c7bfe9c46ad180c137791d87, type: 2}
-  - {fileID: -200614662247351765, guid: 34ece94ddaa2ed748bc7e4a0a5190694, type: 2}
   metroInputSource: 0
   wsaTransparentSwapchain: 0
   m_HolographicPauseOnTrackingLoss: 1
@@ -764,11 +762,11 @@ PlayerSettings:
   m_MobileRenderingPath: 1
   metroPackageName: SPCollAR
   metroPackageVersion: 1.0.0.0
-  metroCertificatePath: Assets\WSATestCertificate.pfx
+  metroCertificatePath: Assets/WSATestCertificate.pfx
   metroCertificatePassword: 
   metroCertificateSubject: DefaultCompany
   metroCertificateIssuer: DefaultCompany
-  metroCertificateNotAfter: 00ea7a413917da01
+  metroCertificateNotAfter: 80670e33f077db01
   metroApplicationDescription: Template_3D
   wsaImages: {}
   metroTileShortName: SPforCollARBuiltIn
@@ -792,7 +790,8 @@ PlayerSettings:
       InternetClient: True
       WebCam: True
       Microphone: True
-  metroTargetDeviceFamilies: {}
+  metroTargetDeviceFamilies:
+    Holographic: True
   metroFTAName: 
   metroFTAFileTypes: []
   metroProtocolName: 

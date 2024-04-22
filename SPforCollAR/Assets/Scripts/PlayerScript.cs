@@ -85,6 +85,7 @@ public class PlayerScript : NetworkBehaviour
 
     public void setPlayerColour(Color colour)
     {
+        Debug.Log("Setting Player Material Colour");
         playerMaterial.color = colour;
     }
 }
