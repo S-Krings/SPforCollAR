@@ -1473,9 +1473,9 @@ MonoBehaviour:
     m_Options:
     - m_Text: None
       m_Image: {fileID: 0}
-    - m_Text: View
+    - m_Text: See
       m_Image: {fileID: 0}
-    - m_Text: Edit
+    - m_Text: Change
       m_Image: {fileID: 0}
     - m_Text: Delete
       m_Image: {fileID: 0}
